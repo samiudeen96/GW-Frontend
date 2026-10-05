@@ -11,7 +11,7 @@ Status: ✅ done · 🚧 in progress · ⏸ waiting on input
 | 0   | Docs & repo                                    | ✅                                             |
 | 1   | Baseline commit + `astro-migration` branch     | ✅                                             |
 | 2   | Astro scaffold + remove backend/admin/TanStack | ✅                                             |
-| 3   | CI workflow                                    | ⏸                                              |
+| 3   | CI workflow                                    | ✅                                             |
 | 4   | API layer                                      | ⏸ waiting on Swagger JSON / Postman collection |
 | 5   | Layouts & common components                    | ⏸                                              |
 | 6   | Pages                                          | ⏸                                              |
@@ -20,6 +20,13 @@ Status: ✅ done · 🚧 in progress · ⏸ waiting on input
 | 9   | Deploy                                         | ⏸ waiting on server details                    |
 
 ---
+
+## 2026-10-05 — Phase 3: CI workflow ✅
+
+- Added `.github/workflows/ci.yml`: runs on pushes to `main`/`astro-migration` and PRs to `main`.
+- Steps: `npm ci` → Prettier check → ESLint → `astro check` → `astro build`, on Node from `.nvmrc`, with npm cache.
+- Read-only permissions; a newer run cancels an older one on the same branch. No secrets needed (build doesn't require `.env`).
+- Deploy step comes in Phase 9, once the server details are known.
 
 ## 2026-10-05 — Phase 2: Astro scaffold ✅
 
