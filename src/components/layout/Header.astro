@@ -1,0 +1,221 @@
+---
+/**
+ * Site header: announcement bar, grid-locked forest bar with centred wordmark,
+ * desktop navigation and a full-screen mobile menu (vanilla script below).
+ * Islands: cart button (count) and currency select.
+ */
+import CartButton from "@/components/islands/CartButton";
+import CurrencySelect from "@/components/islands/CurrencySelect";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const navLeft = [
+  { to: "/shop", label: "Shop", key: "nav.shop" },
+  { to: "/ingredients", label: "Ingredients", key: "nav.ingredients" },
+  { to: "/hair-science", label: "Hair Science", key: "nav.hairScience" },
+  { to: "/verify", label: "Authenticity", key: "nav.authenticity" },
+];
+
+const navRight = [
+  { to: "/reviews", label: "Reviews", key: "nav.reviews" },
+  { to: "/faq", label: "FAQ", key: "nav.faq" },
+  { to: "/blogs", label: "Journal", key: "nav.journal" },
+  { to: "/about", label: "About", key: "nav.about" },
+  { to: "/wholesale", label: "Wholesale", key: "nav.wholesale" },
+];
+
+const { locale, pathname, currency } = Astro.locals;
+const t = createT(locale);
+const href = (to: string) => withLocalePrefix(to, locale);
+const isActive = (to: string) => pathname === to || pathname.startsWith(`${to}/`);
+
+const linkClass =
+  "whitespace-nowrap text-paper/80 text-[11px] font-mono uppercase tracking-[0.18em] border-b border-transparent pb-0.5 hover:text-brass hover:border-brass transition-colors";
+const logoAlt = t(
+  "img.logoAlt",
+  "Green Wealth — authentic Neo Hair Lotion, Shampoo and Ghori hair care",
+);
+const announce = t("header.announce", "Worldwide delivery · Verify every product");
+---
+
+<div class="bg-brass text-forest text-[10px] tracking-[0.24em] uppercase">
+  <div class="container-editorial flex items-center justify-center py-2 text-center">
+    <span>{announce}</span>
+  </div>
+</div>
+
+<header class="bg-forest border-brass/50 sticky top-0 z-40 border-b">
+  <div class="grid h-14 grid-cols-[1fr_auto_1fr] items-stretch md:h-16">
+    <div class="border-brass/30 flex items-center justify-start gap-6 border-e px-4 md:px-8">
+      <button
+        type="button"
+        class="text-paper font-mono text-[11px] tracking-[0.2em] uppercase lg:hidden"
+        data-mobile-menu-open
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        {t("header.menu", "Menu")}
+      </button>
+      <nav class="hidden items-center gap-7 lg:flex">
+        {navLeft.map((n) => (
+          <a
+            href={href(n.to)}
+            class:list={[linkClass, isActive(n.to) && "text-brass border-brass"]}
+            aria-current={isActive(n.to) ? "page" : undefined}
+          >
+            {t(n.key, n.label)}
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <a
+      href={href("/")}
+      class="flex min-w-0 items-center justify-center px-6 md:px-12"
+      aria-label={t("img.logoHome", "Green Wealth home")}
+    >
+      <img
+        src="/brand-logo.svg"
+        alt={logoAlt}
+        title={t("brand.name", "Green Wealth")}
+        width="160"
+        height="56"
+        class="h-12 w-auto max-w-full scale-[1.45] md:h-14 md:scale-[1.6]"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+
+    <div class="border-brass/30 flex items-center justify-end gap-4 border-s px-4 md:gap-6 md:px-8">
+      <nav class="hidden items-center gap-7 lg:flex">
+        {navRight.map((n) => (
+          <a
+            href={href(n.to)}
+            class:list={[linkClass, isActive(n.to) && "text-brass border-brass"]}
+            aria-current={isActive(n.to) ? "page" : undefined}
+          >
+            {t(n.key, n.label)}
+          </a>
+        ))}
+      </nav>
+      <LanguageSwitcher class="text-paper hidden lg:inline-block" />
+      <a
+        href={href("/account")}
+        class="text-paper/80 hover:text-brass hidden font-mono text-[11px] tracking-[0.18em] uppercase transition-colors sm:inline"
+      >
+        {t("header.account", "Account")}
+      </a>
+      <CartButton client:load label={t("header.bag", "Cart")} />
+    </div>
+  </div>
+</header>
+
+<div
+  id="mobile-menu"
+  class="bg-forest text-paper fixed inset-0 z-50 flex flex-col lg:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t("header.menu", "Menu")}
+  hidden
+>
+  <div class="container-editorial border-brass/40 flex h-16 items-center justify-between gap-4 border-b">
+    <span class="flex items-center px-4 py-1">
+      <img
+        src="/brand-logo.svg"
+        alt={logoAlt}
+        width="120"
+        height="40"
+        class="h-10 w-auto scale-[1.4]"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+    <button
+      type="button"
+      class="text-brass shrink-0 px-2 py-2 font-mono text-[11px] tracking-[0.24em] uppercase"
+      data-mobile-menu-close
+    >
+      {t("header.close", "Close")}
+    </button>
+  </div>
+
+  <div class="container-editorial border-brass/20 border-b py-3">
+    <div class="grid grid-cols-2 gap-2">
+      <a
+        href={href("/account")}
+        class="group border-brass/30 bg-forest-dark/20 hover:border-brass/60 hover:bg-forest-dark/30 flex min-h-[62px] flex-col justify-between border p-3 transition-colors"
+      >
+        <span class="text-brass font-mono text-[9px] tracking-[0.24em] uppercase">
+          {t("header.account", "Account")}
+        </span>
+        <span class="text-paper/90 text-[13px] leading-tight">
+          {t("account.title", "Profile & orders")}
+        </span>
+      </a>
+      <CartButton
+        client:idle
+        variant="tile"
+        label={t("header.bag", "Cart")}
+        hint={t("cart.view", "View bag")}
+      />
+      <div class="border-brass/30 bg-forest-dark/20 flex min-h-[62px] flex-col justify-between gap-1 border p-3">
+        <span class="text-brass font-mono text-[9px] tracking-[0.24em] uppercase">
+          {t("commerce.currency.label", "Currency")}
+        </span>
+        <CurrencySelect
+          client:idle
+          currency={currency}
+          tone="light"
+          className="w-full"
+          label={t("commerce.currency.label", "Currency")}
+          ariaLabel={t("commerce.currency.selectAria", "Select currency")}
+        />
+      </div>
+      <div class="border-brass/30 bg-forest-dark/20 flex min-h-[62px] flex-col justify-between border p-3">
+        <LanguageSwitcher variant="block" tone="dark" />
+      </div>
+    </div>
+  </div>
+
+  <nav class="container-editorial flex flex-1 flex-col gap-0 overflow-y-auto py-5">
+    {[...navLeft, ...navRight].map((n) => (
+      <a
+        href={href(n.to)}
+        class:list={[
+          "group border-brass/20 flex items-baseline border-b py-3",
+          isActive(n.to) && "text-brass",
+        ]}
+      >
+        <span class="font-serif text-2xl leading-none uppercase">{t(n.key, n.label)}</span>
+      </a>
+    ))}
+  </nav>
+
+  <div class="container-editorial border-brass/30 text-paper/50 border-t py-4 font-mono text-[10px] tracking-[0.2em] uppercase">
+    {announce}
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById("mobile-menu");
+  const openBtn = document.querySelector<HTMLButtonElement>("[data-mobile-menu-open]");
+
+  function setOpen(open: boolean) {
+    if (!menu) return;
+    menu.hidden = !open;
+    openBtn?.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  openBtn?.addEventListener("click", () => setOpen(true));
+  document
+    .querySelector("[data-mobile-menu-close]")
+    ?.addEventListener("click", () => setOpen(false));
+  window.addEventListener("mobile-menu:close", () => setOpen(false));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu && !menu.hidden) setOpen(false);
+  });
+  window
+    .matchMedia("(min-width: 1024px)")
+    .addEventListener("change", (e) => e.matches && setOpen(false));
+</script>

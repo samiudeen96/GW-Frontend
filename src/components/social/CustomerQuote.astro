@@ -1,0 +1,35 @@
+---
+/** Single pull-quote for tight surfaces (checkout sidebar, hair-science, verify). */
+import Stars from "@/components/common/Stars.astro";
+import { reviews, type Review } from "@/data/reviews";
+import { createT } from "@/lib/i18n";
+import { featuredReviews } from "@/lib/reviews";
+
+export interface Props {
+  product?: Review["product"];
+  compact?: boolean;
+}
+
+const { product = "Neo Hair Lotion", compact = false } = Astro.props;
+const t = createT(Astro.locals.locale);
+const r = featuredReviews(product, 1)[0] ?? reviews[0];
+const idx = reviews.indexOf(r);
+---
+
+<figure class:list={["border-ink/10 bg-ivory border", compact ? "p-4" : "p-5 md:p-6"]}>
+  <div class="flex items-center gap-2">
+    <Stars n={r.rating} size="sm" />
+    <span class="text-forest text-[10px] font-semibold tracking-[0.18em] uppercase">
+      {t("product.quote.verifiedBuyer", "Verified buyer")}
+    </span>
+  </div>
+  <blockquote
+    class:list={["text-ink/85 mt-2 leading-relaxed", compact ? "text-[13px]" : "text-sm"]}
+  >
+    “{t(`review.${idx}.body`, r.body)}”
+  </blockquote>
+  <figcaption class="text-muted-foreground mt-3 text-[11px] tracking-[0.15em] uppercase">
+    <span class="text-ink font-semibold">{t(`review.person.${r.name}`, r.name)}</span>
+    {r.country && <> · {t(`review.country.${r.country}`, r.country)}</>}
+  </figcaption>
+</figure>

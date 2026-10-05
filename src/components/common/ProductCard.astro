@@ -1,0 +1,68 @@
+---
+import { Star } from "@lucide/astro";
+
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { productStats } from "@/data/reviews";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+
+export interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const price = getBasePrice(product.slug, currency);
+const stats = productStats.find((s) => s.slug === product.slug);
+const filledStars = stats ? Math.round(stats.rating) : 0;
+---
+
+<a
+  href={withLocalePrefix(`/product/${product.slug}`, locale)}
+  class="group bg-paper border-ink/10 block border"
+>
+  <div class="aspect-square overflow-hidden bg-white">
+    <ResponsiveImage
+      src={product.image}
+      alt={t(
+        `product.${product.slug}.imageAlts.0`,
+        product.imageAlts?.[0] ?? `${product.name} — ${product.size} product photograph`,
+      )}
+      sizes="(min-width: 1024px) 320px, 50vw"
+      class="h-full w-full object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.03]"
+    />
+  </div>
+  <div class="px-[3px] pt-2 pb-2 md:pt-3">
+    <div class="flex items-start justify-between gap-2">
+      <div class="min-w-0">
+        <div class="eyebrow text-muted-foreground mb-0.5 text-[10px]">
+          {t(`product.category.${product.category}`, product.category)}
+        </div>
+        <div class="text-ink text-sm leading-snug font-medium">
+          {t(`product.${product.slug}.name`, product.name)}
+        </div>
+      </div>
+      <div class="text-ink mt-3 text-sm font-semibold whitespace-nowrap" data-ltr>
+        {formatMoney(price, currency)}
+      </div>
+    </div>
+    {stats && (
+      <div class="text-muted-foreground mt-1.5 flex items-center gap-1 text-xs">
+        <span class="flex items-center gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              class={`h-3 w-3 ${i < filledStars ? "fill-gold text-gold" : "fill-paper text-ink/20"}`}
+            />
+          ))}
+        </span>
+        <span class="text-ink font-semibold">{stats.rating.toFixed(1)}</span>
+        <span>·</span>
+        <span>
+          {stats.count.toLocaleString()} {t("shop.reviews", "reviews")}
+        </span>
+      </div>
+    )}
+  </div>
+</a>

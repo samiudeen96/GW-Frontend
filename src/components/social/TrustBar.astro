@@ -1,0 +1,46 @@
+---
+/** Full-width trust ribbon: rating · customers · countries · verified. Use once per page. */
+import Stars from "@/components/common/Stars.astro";
+import { stats } from "@/data/reviews";
+import { createT } from "@/lib/i18n";
+
+export interface Props {
+  variant?: "paper" | "forest" | "ivory";
+}
+
+const { variant = "paper" } = Astro.props;
+const t = createT(Astro.locals.locale);
+const bg =
+  variant === "forest" ? "bg-forest text-paper" : variant === "ivory" ? "bg-ivory" : "bg-paper";
+const border = variant === "forest" ? "border-paper/15" : "border-ink/10";
+const muted = variant === "forest" ? "text-paper/70" : "text-muted-foreground";
+const label = `text-[10px] md:text-[11px] uppercase tracking-[0.18em] mt-1.5 ${muted}`;
+const cell = "px-4 md:px-6 py-3 md:py-0 flex flex-col justify-center";
+---
+
+<section class:list={["border-y", border, bg]}>
+  <div class="container-editorial divide-current/10 grid grid-cols-2 divide-x divide-y py-6 md:grid-cols-4 md:divide-y-0 md:py-7">
+    <div class="flex flex-col items-start px-4 py-3 md:px-6 md:py-0">
+      <div class="flex items-center gap-2">
+        <span class="font-serif text-2xl leading-none md:text-3xl">{stats.rating}</span>
+        <Stars n={5} size="md" />
+      </div>
+      <div class={label}>
+        {stats.count.toLocaleString()}
+        {t("product.trustbar.verifiedRatings", "verified ratings")}
+      </div>
+    </div>
+    <div class={cell}>
+      <div class="font-serif text-2xl leading-none md:text-3xl">{stats.customers}</div>
+      <div class={label}>{t("product.trustbar.customersWorldwide", "Customers worldwide")}</div>
+    </div>
+    <div class={cell}>
+      <div class="font-serif text-2xl leading-none md:text-3xl">{stats.countries}+</div>
+      <div class={label}>{t("product.trustbar.countriesShipped", "Countries shipped")}</div>
+    </div>
+    <div class={cell}>
+      <div class="font-serif text-2xl leading-none md:text-3xl">{stats.verified}%</div>
+      <div class={label}>{t("product.trustbar.scratchVerified", "Scratch-verified")}</div>
+    </div>
+  </div>
+</section>

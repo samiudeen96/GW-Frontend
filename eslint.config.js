@@ -12,6 +12,14 @@ export default defineConfig(
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
   {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+    },
+  },
+  {
     files: ["**/*.tsx"],
     languageOptions: { globals: globals.browser },
     plugins: { "react-hooks": reactHooks },

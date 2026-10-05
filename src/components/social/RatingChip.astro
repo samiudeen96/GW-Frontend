@@ -1,0 +1,28 @@
+---
+/** Inline rating chip for PDP titles, sticky bars and cards. */
+import Stars from "@/components/common/Stars.astro";
+import { productStats } from "@/data/reviews";
+import { withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  slug: string;
+  class?: string;
+}
+
+const { slug, class: className } = Astro.props;
+const s = productStats.find((p) => p.slug === slug);
+---
+
+{s && (
+  <a
+    href={withLocalePrefix("/reviews", Astro.locals.locale)}
+    class:list={[
+      "text-muted-foreground hover:text-forest inline-flex items-center gap-1.5 text-[11px]",
+      className,
+    ]}
+  >
+    <Stars n={Math.round(s.rating)} size="sm" />
+    <span class="text-ink font-semibold tabular-nums">{s.rating.toFixed(1)}</span>
+    <span class="tabular-nums">({s.count.toLocaleString()})</span>
+  </a>
+)}

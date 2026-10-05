@@ -1,0 +1,30 @@
+---
+/**
+ * Scroll-triggered reveal wrapper. Content ships visible; `src/scripts/reveal.ts`
+ * arms the hidden state before first paint, so crawlers and no-JS visitors see
+ * everything. Styles live in global.css (`.reveal`).
+ */
+import type { HTMLTag } from "astro/types";
+
+export interface Props {
+  /** Stagger in ms applied as a transition delay. */
+  delay?: number;
+  variant?: "rise" | "fade" | "rule";
+  as?: HTMLTag;
+  class?: string;
+  id?: string;
+}
+
+const { delay = 0, variant = "rise", as: Tag = "div", class: className, id } = Astro.props;
+---
+
+<Tag
+  id={id}
+  class:list={["reveal", className]}
+  data-reveal={variant}
+  data-armed="false"
+  data-shown="false"
+  style={delay ? `transition-delay:${delay}ms` : undefined}
+>
+  <slot />
+</Tag>

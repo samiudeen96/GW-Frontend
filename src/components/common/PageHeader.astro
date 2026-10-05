@@ -1,0 +1,17 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+}
+
+const { eyebrow, title, intro } = Astro.props;
+---
+
+<header class="container-editorial hairline border-b pt-16 pb-10 md:pt-24 md:pb-16">
+  {eyebrow && <p class="text-forest/60 mb-4 text-sm">{eyebrow}</p>}
+  <h1 class="display-lg max-w-4xl">{title}</h1>
+  {intro && (
+    <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-relaxed md:text-lg">{intro}</p>
+  )}
+</header>

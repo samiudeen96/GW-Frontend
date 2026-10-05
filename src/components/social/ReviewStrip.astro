@@ -1,0 +1,66 @@
+---
+/** Testimonial carousel. Copy is translated here; the island only handles scrolling. */
+import ReviewStripIsland, { type StripReview } from "@/components/islands/ReviewStrip";
+import { reviews, stats, type Review } from "@/data/reviews";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { carouselReviews, featuredReviews } from "@/lib/reviews";
+
+export interface Props {
+  title?: string;
+  product?: Review["product"];
+  bg?: string;
+}
+
+const { title, product, bg = "bg-paper" } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const picks = product ? featuredReviews(product, 8) : carouselReviews(8);
+
+const items: StripReview[] = picks.map((r) => {
+  const idx = reviews.indexOf(r);
+  return {
+    id: `${r.name}-${idx}`,
+    rating: r.rating,
+    image: r.image,
+    imageAlt: t("product.reviewStrip.resultPhotoAlt", "Result photo shared by {name}").replace(
+      "{name}",
+      r.name,
+    ),
+    title: t(`review.${idx}.title`, r.title),
+    body: t(`review.${idx}.body`, r.body),
+    name: t(`review.person.${r.name}`, r.name),
+    place: r.country
+      ? t(`review.country.${r.country}`, r.country)
+      : t("product.reviewStrip.verified", "Verified"),
+  };
+});
+
+const labels = {
+  starsOutOf5: t("product.stars.outOf5", "{n} out of 5"),
+  prev: t("product.reviewStrip.prev", "Previous review"),
+  next: t("product.reviewStrip.next", "Next review"),
+  goTo: t("product.reviewStrip.goTo", "Go to review {n}"),
+};
+---
+
+<section class:list={[bg, "border-ink/10 border-t"]}>
+  <div class="container-editorial py-14 md:py-24">
+    <ReviewStripIsland
+      client:visible
+      title={title ?? t("product.reviewStrip.title", "Verified results, worldwide.")}
+      reviews={items}
+      labels={labels}
+    />
+    <div class="mt-6 text-center">
+      <a
+        href={withLocalePrefix("/reviews", locale)}
+        class="border-forest text-forest border-b pb-1 text-[11px] font-semibold tracking-[0.2em] uppercase hover:opacity-70"
+      >
+        {t("product.reviewStrip.readAll", "Read all {n} reviews").replace(
+          "{n}",
+          stats.count.toLocaleString(),
+        )}
+      </a>
+    </div>
+  </div>
+</section>

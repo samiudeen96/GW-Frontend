@@ -1,0 +1,74 @@
+---
+/**
+ * Single responsive image primitive. Bundled assets get AVIF/WebP sources at
+ * several widths; URL strings (public files, API/CDN) render as a plain <img>.
+ */
+import { Picture } from "astro:assets";
+
+import type { ImageSource } from "@/lib/images";
+
+export interface Props {
+  src: ImageSource;
+  alt: string;
+  /** Tooltip/SEO title; defaults to the alt text. */
+  title?: string;
+  class?: string;
+  /** Responsive `sizes`; defaults to a full-width-on-mobile tile. */
+  sizes?: string;
+  widths?: number[];
+  /** LCP candidate: eager + high priority. */
+  priority?: boolean;
+  width?: number;
+  height?: number;
+  draggable?: boolean;
+}
+
+const {
+  src,
+  alt,
+  title,
+  class: className,
+  sizes = "(min-width: 1024px) 640px, 100vw",
+  widths = [160, 400, 640, 900, 1400],
+  priority = false,
+  width,
+  height,
+  draggable,
+} = Astro.props;
+
+const loading = priority ? "eager" : "lazy";
+const decoding = priority ? "sync" : "async";
+const fetchpriority = priority ? "high" : "low";
+const usableWidths = typeof src === "string" ? [] : widths.filter((w) => w <= src.width);
+---
+
+{typeof src === "string" ? (
+  <img
+    src={src}
+    alt={alt}
+    title={title ?? (alt || undefined)}
+    width={width}
+    height={height}
+    sizes={sizes}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    draggable={draggable}
+    class={className}
+  />
+) : (
+  <Picture
+    src={src}
+    alt={alt}
+    title={title ?? (alt || undefined)}
+    formats={["avif", "webp"]}
+    widths={usableWidths.length ? usableWidths : [src.width]}
+    sizes={sizes}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    draggable={draggable}
+    class={className}
+    pictureAttributes={{ class: "contents" }}
+  />
+)}
