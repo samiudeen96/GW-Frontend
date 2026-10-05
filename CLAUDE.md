@@ -4,7 +4,9 @@ Guidance for Claude Code (and developers) working in this repo.
 
 ## Project
 
-GW-Frontend is the storefront for Green Wealth hair-care products. It is being migrated from TanStack Start (React) to **Astro 5**, as a **frontend only** app. The backend is a separate service that provides all data (products, banners, images, blogs, reviews, translations) and handles auth.
+GW-Frontend is the storefront for Green Wealth hair-care products. It is being migrated from TanStack Start (React) to **Astro 7**, as a **frontend only** app.
+
+`legacy/` holds the old React code (routes, components, hardcoded data, images) **for reference only** while pages are ported. It is excluded from the build, type check and lint. Never import from it; it is deleted in Phase 8. The backend is a separate service that provides all data (products, banners, images, blogs, reviews, translations) and handles auth.
 
 - Roadmap and decisions: [PLAN.md](PLAN.md)
 - Progress and change history: [LOG.md](LOG.md)
@@ -19,24 +21,23 @@ GW-Frontend is the storefront for Green Wealth hair-care products. It is being m
 
 ## Stack (target)
 
-- Astro 5, `output: "server"`, `@astrojs/node` adapter (standalone, own server)
-- React only for interactive islands; shadcn/ui (Radix) inside islands
-- Tailwind CSS v4, mobile-first
+- Astro 7, `output: "server"`, `@astrojs/node` adapter (standalone, own server)
+- React 19 only for interactive islands; shadcn/ui (Radix) inside islands. Add primitives as needed with `npx shadcn add <name>`.
+- Tailwind CSS v4, mobile-first; theme tokens live in `src/styles/global.css`
 - nanostores for shared client state (cart, currency)
-- zod for API response schemas and env validation
-- Package manager: **bun** (`bunfig.toml` has a 24h supply-chain guard; don't add exclusions without asking)
+- zod for API response schemas; env vars are typed through `env.schema` in `astro.config.mjs` (import from `astro:env/server` or `astro:env/client`)
+- Node 22 (`nvm use`), **npm**, TypeScript 6.0 (don't upgrade to 7 until `@astrojs/check` supports it)
 
 ## Commands
 
-Until the Astro scaffold (Phase 2) lands, the old Vite/TanStack scripts in `package.json` still apply. After it lands:
-
 ```
-bun install
-bun run dev          # astro dev
-bun run build        # astro build -> dist/ (node server)
-bun run preview
-bun run check        # astro check (types)
-bun run lint
+npm install
+npm run dev            # astro dev
+npm run build          # astro build -> dist/ (node server)
+npm start              # run the built server (PORT / HOST env vars)
+npm run check          # astro check (types)
+npm run lint           # eslint
+npm run format         # prettier
 ```
 
 ## Structure (target)
