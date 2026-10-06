@@ -1,0 +1,257 @@
+---
+/** /wholesale: partnership onboarding steps and the application form. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const isAr = locale === "ar";
+
+const title = isAr ? "الجملة والتوزيع — جرين ولث" : "Wholesale & Distribution — Green Wealth";
+const description = isAr
+  ? "كن شريكًا لجرين ولث. أسعار الجملة، الحد الأدنى للطلب، العلامة الخاصة واستفسارات التوزيع في أكثر من 40 دولة."
+  : "Partner with Green Wealth. Wholesale pricing, MOQs, private label and distribution enquiries across 40+ countries.";
+const jsonLd = [
+  breadcrumbLd([
+    { name: isAr ? "الرئيسية" : "Home", path: "/" },
+    { name: isAr ? "الجملة" : "Wholesale", path: "/wholesale" },
+  ]),
+];
+
+const process = [
+  {
+    n: "01",
+    key: "step1",
+    t: "Apply",
+    d: "Submit the form with company details, channels and target markets.",
+  },
+  {
+    n: "02",
+    key: "step2",
+    t: "Review",
+    d: "Our partnerships team reviews and responds within 48 hours.",
+  },
+  {
+    n: "03",
+    key: "step3",
+    t: "Discovery",
+    d: "Video call to align on assortment, volumes and territory.",
+  },
+  {
+    n: "04",
+    key: "step4",
+    t: "Agreement",
+    d: "Terms, price list and first purchase order confirmed.",
+  },
+  {
+    n: "05",
+    key: "step5",
+    t: "Launch",
+    d: "Assets, training and shipment. Ongoing account support.",
+  },
+];
+
+const companyFields: Array<{
+  key: string;
+  label: string;
+  name: string;
+  type: "text" | "email" | "tel" | "url";
+}> = [
+  { key: "fullName", label: "Full name", name: "name", type: "text" },
+  { key: "company", label: "Company", name: "company", type: "text" },
+  { key: "businessEmail", label: "Business email", name: "email", type: "email" },
+  { key: "phone", label: "Phone", name: "phone", type: "tel" },
+  { key: "country", label: "Country", name: "country", type: "text" },
+  { key: "website", label: "Website", name: "website", type: "url" },
+];
+const ltrTypes = new Set(["email", "tel", "url"]);
+const fieldCls =
+  "w-full bg-transparent border hairline p-3 outline-none focus:border-forest text-sm";
+const selectPlaceholder = t("misc.wholesale.select.placeholder", "Select…");
+---
+
+<SiteLayout title={title} description={description} path="/wholesale" jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow={t("misc.wholesale.header.eyebrow", "Wholesale partnerships")}
+    title={t("misc.wholesale.header.title", "Distribute Green Wealth.")}
+    intro={t(
+      "misc.wholesale.header.intro",
+      "We partner with a curated network of retailers, clinics and distributors. Applications reviewed weekly by our partnerships desk.",
+    )}
+  />
+
+  {/* Process */}
+  <section class="bg-ivory/40 hairline border-y">
+    <div class="container-editorial py-12 md:py-20">
+      <header class="mb-8 max-w-2xl md:mb-12">
+        <h2 class="text-forest mt-2 font-serif text-2xl md:text-4xl">
+          {t("misc.wholesale.process.title", "Onboarding, in five steps.")}
+        </h2>
+      </header>
+      <ol class="bg-forest/10 hairline grid gap-px border md:grid-cols-5">
+        {process.map((p) => (
+          <li class="bg-paper p-5 md:p-6">
+            <div class="text-forest/30 font-serif text-3xl">{p.n}</div>
+            <div class="eyebrow text-forest mt-3">
+              {t(`misc.wholesale.process.${p.key}.title`, p.t)}
+            </div>
+            <p class="text-forest/70 mt-2 text-xs leading-relaxed">
+              {t(`misc.wholesale.process.${p.key}.desc`, p.d)}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* Application form */}
+  <section class="container-editorial grid gap-10 py-12 md:py-20 lg:grid-cols-[1fr_2fr] lg:gap-16">
+    <aside class="self-start lg:sticky lg:top-24">
+      <h2 class="text-forest mt-2 font-serif text-2xl md:text-3xl">
+        {t("misc.wholesale.apply.title", "Apply.")}
+      </h2>
+      <p class="text-forest/70 mt-3 text-sm">
+        {t(
+          "misc.wholesale.apply.desc",
+          "Complete the application. A partnerships lead will respond within two business days from Bangkok office hours.",
+        )}
+      </p>
+      <dl class="hairline mt-6 divide-y border-t text-sm">
+        <div class="flex justify-between py-3">
+          <dt class="eyebrow text-forest/50">
+            {t("misc.wholesale.apply.responseLabel", "Response")}
+          </dt>
+          <dd class="text-forest">{t("misc.wholesale.apply.responseValue", "≤ 48 hours")}</dd>
+        </div>
+        <div class="flex justify-between py-3">
+          <dt class="eyebrow text-forest/50">
+            {t("misc.wholesale.apply.languagesLabel", "Languages")}
+          </dt>
+          <dd class="text-forest" data-ltr>
+            {t("misc.wholesale.apply.languagesValue", "EN · TH · AR")}
+          </dd>
+        </div>
+        <div class="flex justify-between py-3">
+          <dt class="eyebrow text-forest/50">
+            {t("misc.wholesale.apply.contactLabel", "Contact")}
+          </dt>
+          <dd class="text-forest" data-ltr>
+            wholesale@greenwealth.com
+          </dd>
+        </div>
+      </dl>
+    </aside>
+
+    <form
+      id="wholesale-form"
+      class="hairline bg-paper border p-6 md:p-8"
+      data-submitted-label={t("misc.wholesale.form.submitted", "Application received")}
+    >
+      <fieldset class="grid gap-5 md:grid-cols-2">
+        <legend class="eyebrow text-forest/60 col-span-full mb-4">
+          {t("misc.wholesale.legend.company", "Company details")}
+        </legend>
+        {companyFields.map((f) => (
+          <label class="block">
+            <span class="eyebrow text-forest/60 mb-2 block">
+              {t(`misc.wholesale.field.${f.key}`, f.label)}
+            </span>
+            <input
+              name={f.name}
+              type={f.type}
+              required
+              data-ltr={ltrTypes.has(f.type) ? "" : undefined}
+              class={fieldCls}
+            />
+          </label>
+        ))}
+      </fieldset>
+
+      <fieldset class="hairline mt-8 grid gap-5 border-t pt-8 md:grid-cols-2">
+        <legend class="eyebrow text-forest/60 col-span-full mb-4">
+          {t("misc.wholesale.legend.profile", "Business profile")}
+        </legend>
+        <label class="block">
+          <span class="eyebrow text-forest/60 mb-2 block">
+            {t("misc.wholesale.field.tier", "Partnership tier")}
+          </span>
+          <select name="tier" required class={fieldCls}>
+            <option value="">{selectPlaceholder}</option>
+            <option>{t("misc.wholesale.tier.t01", "T·01 — Retail Partner")}</option>
+            <option>{t("misc.wholesale.tier.t02", "T·02 — Regional Distributor")}</option>
+            <option>{t("misc.wholesale.tier.t03", "T·03 — Country Exclusive")}</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="eyebrow text-forest/60 mb-2 block">
+            {t("misc.wholesale.field.volume", "Estimated monthly volume")}
+          </span>
+          <select name="volume" required class={fieldCls}>
+            <option value="">{selectPlaceholder}</option>
+            <option>{t("misc.wholesale.volume.v1", "50 – 250 units")}</option>
+            <option>{t("misc.wholesale.volume.v2", "250 – 1,000 units")}</option>
+            <option>{t("misc.wholesale.volume.v3", "1,000 – 5,000 units")}</option>
+            <option>{t("misc.wholesale.volume.v4", "5,000+ units")}</option>
+          </select>
+        </label>
+        <label class="block md:col-span-2">
+          <span class="eyebrow text-forest/60 mb-2 block">
+            {t("misc.wholesale.field.channels", "Sales channels")}
+          </span>
+          <input
+            name="channels"
+            required
+            placeholder={t(
+              "misc.wholesale.field.channelsPlaceholder",
+              "e.g. salons, pharmacies, e-commerce, department stores",
+            )}
+            class={fieldCls}
+          />
+        </label>
+        <label class="block md:col-span-2">
+          <span class="eyebrow text-forest/60 mb-2 block">
+            {t("misc.wholesale.field.message", "Products of interest & message")}
+          </span>
+          <textarea name="message" rows={5} class={fieldCls}></textarea>
+        </label>
+      </fieldset>
+
+      <label class="text-forest/80 mt-6 flex items-start gap-3 text-sm">
+        <input type="checkbox" required class="mt-1" />
+        <span>
+          {t(
+            "misc.wholesale.consent",
+            "I agree to be contacted by Green Wealth about wholesale opportunities.",
+          )}
+        </span>
+      </label>
+
+      <div class="hairline mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+        <p class="text-forest/60 text-xs">
+          {t("misc.wholesale.form.note", "Your details are used solely for partnership review.")}
+        </p>
+        <button
+          type="submit"
+          class="bg-forest text-ivory px-7 py-4 text-xs tracking-[0.18em] uppercase disabled:opacity-60"
+        >
+          {t("misc.wholesale.form.submit", "Submit application")}
+        </button>
+      </div>
+    </form>
+  </section>
+</SiteLayout>
+
+<script>
+  // Same as the legacy page: the application is not sent anywhere yet, the
+  // button just confirms receipt. TODO(api): submit to the wholesale endpoint.
+  const form = document.querySelector<HTMLFormElement>("#wholesale-form");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    if (!button) return;
+    button.disabled = true;
+    button.textContent = form.dataset.submittedLabel ?? button.textContent;
+  });
+</script>

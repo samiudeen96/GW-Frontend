@@ -1,0 +1,631 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import VerifyForm from "@/components/features/verify/VerifyForm";
+import CustomerQuote from "@/components/social/CustomerQuote.astro";
+import TrustBar from "@/components/social/TrustBar.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, islandI18n, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const isAr = locale === "ar";
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const title = isAr
+  ? "تحقّق من أصالة لوشن نيو للشعر الأصلي | فحص الأصالة من جرين ولث"
+  : "Verify Original Neo Hair Lotion | Green Wealth Authenticity Check";
+const description = isAr
+  ? "تحقّق من رمز الخدش الخاص بلوشن نيو للشعر عبر الإنترنت — الأصالة وتاريخ الصلاحية والتوزيع المعتمد لمنتجات جرين ولث."
+  : "Verify your Neo Hair Lotion scratch code online — confirm authenticity, expiry and authorized distribution for every Green Wealth product.";
+
+const steps = [
+  {
+    number: "01",
+    title: t("verify.step1.title", "Locate the sticker"),
+    body: t(
+      "verify.step1.body",
+      "Find the holographic ORIGINAL security sticker on the side or back of the box. It shows a black scratch-off bar with a printed serial number underneath.",
+    ),
+    tip: t(
+      "verify.step1.tip",
+      "The sticker sits on the side or back of the carton — never on the bottle itself.",
+    ),
+  },
+  {
+    number: "02",
+    title: t("verify.step2.title", "Scratch the black area"),
+    body: t(
+      "verify.step2.body",
+      "Use a coin or your fingernail to gently scratch off the black bar. The hidden 12 digit verification code is printed behind it.",
+    ),
+    tip: t(
+      "verify.step2.tip",
+      "Use the edge of a coin and press lightly — the code is printed directly beneath the coating.",
+    ),
+  },
+  {
+    number: "03",
+    title: t("verify.step3.title", "Enter the 12 digit code"),
+    body: t(
+      "verify.step3.body",
+      "Type the 12 digit code exactly as revealed. Do not enter the printed serial number below the scratch area — that is not the verification code.",
+    ),
+    tip: t(
+      "verify.step3.tip",
+      "The code uses digits only — no letters. The serial printed under the bar is public and does not verify anything.",
+    ),
+  },
+  {
+    number: "04",
+    title: t("verify.step4.title", "Confirm authenticity"),
+    body: t(
+      "verify.step4.body",
+      "Our system checks the scratch code against production records, expiry, and distribution authorization. A verified result confirms the formula is within its active potency window.",
+    ),
+    tip: t(
+      "verify.step4.tip",
+      "The first check is the definitive one — and every check is logged against the code.",
+    ),
+  },
+  {
+    number: "05",
+    title: t("verify.step5.title", "Report if it fails"),
+    body: t(
+      "verify.step5.body",
+      "If verification fails or the code is not recognized, do not use the product. Contact our support team immediately with photos of the packaging.",
+    ),
+    tip: t(
+      "verify.step5.tip",
+      "Keep the carton — support will ask for photos of the box, the sticker and the bottle base.",
+    ),
+  },
+];
+
+/** FAQ entries (key + English default) shared by the rendered list and FAQPage JSON-LD. */
+const faqs = [
+  {
+    q: t("verify.faq.1.q", "Where is the verification code on Neo Hair Lotion?"),
+    a: t(
+      "verify.faq.1.a",
+      "On the holographic security label, usually on the side or back of the carton. A black scratch-off bar hides the 12 digit code; the number printed beneath the bar is a public serial, not the verification code.",
+    ),
+  },
+  {
+    q: t("verify.faq.2.q", "Can I verify the same code more than once?"),
+    a: t(
+      "verify.faq.2.a",
+      "Yes, but every check is logged. Repeated checks from unrelated devices or regions suggest the code has been copied onto counterfeit packaging, and we investigate those cases.",
+    ),
+  },
+  {
+    q: t("verify.faq.3.q", "My code is not recognized. Is my product fake?"),
+    a: t(
+      "verify.faq.3.a",
+      "First re-enter the code carefully — a single mistyped digit fails the check. If it still fails, treat the unit as unverified: stop using it and contact support with photos of the packaging and your purchase details.",
+    ),
+  },
+  {
+    q: t("verify.faq.4.q", "Do I have to verify before using the lotion?"),
+    a: t(
+      "verify.faq.4.a",
+      "We strongly recommend it. Verification takes seconds and confirms the actives are within their potency window before you commit to a full daily course.",
+    ),
+  },
+  {
+    q: t("verify.faq.5.q", "Does a verified code guarantee results?"),
+    a: t(
+      "verify.faq.5.a",
+      "It guarantees the product is genuine, in date and authorized. Results still depend on consistent daily application across the full protocol and on the underlying cause of your hair loss.",
+    ),
+  },
+  {
+    q: t("verify.faq.6.q", "What if the scratch panel is already scratched when it arrives?"),
+    a: t(
+      "verify.faq.6.a",
+      "Do not use the product. A pre-scratched or peeling panel indicates the carton was opened or the label was transferred. Contact support with photos before applying anything.",
+    ),
+  },
+];
+
+const mistakes = [
+  t("verify.mistakes.1", "Entering the printed serial number instead of the hidden 12 digit code."),
+  t(
+    "verify.mistakes.2",
+    "Confusing digit 0 with letter O, or 1 with I — the code uses digits only.",
+  ),
+  t("verify.mistakes.3", "Adding spaces, dashes or extra characters while typing."),
+  t("verify.mistakes.4", "Reading the code through a partially scratched or smudged panel."),
+  t(
+    "verify.mistakes.5",
+    "Using a code from a different carton — every code belongs to exactly one unit.",
+  ),
+  t(
+    "verify.mistakes.6",
+    "Checking before finishing the scratch — the coating hides parts of the digits.",
+  ),
+];
+
+const results = [
+  {
+    title: t("verify.results.1.t", "Verified genuine"),
+    body: t(
+      "verify.results.1.b",
+      "Your unit is authentic, in date and authorized. Begin your protocol — apply daily and keep the carton until the course is complete.",
+    ),
+  },
+  {
+    title: t("verify.results.2.t", "Genuine but expired"),
+    body: t(
+      "verify.results.2.b",
+      "The code is real, but the batch is past its potency window. Do not begin a course with it; contact support with photos of the carton and your purchase proof.",
+    ),
+  },
+  {
+    title: t("verify.results.3.t", "Code not recognized"),
+    body: t(
+      "verify.results.3.b",
+      "The code is not in our production records. Re-check for a mistyped digit, then stop using the product and report the seller to us.",
+    ),
+  },
+  {
+    title: t("verify.results.4.t", "Already verified elsewhere"),
+    body: t(
+      "verify.results.4.b",
+      "This code has been checked before from another device or region. If you have just opened a sealed carton, send us the code and we will investigate the supply line.",
+    ),
+  },
+  {
+    title: t("verify.results.5.t", "Service unavailable"),
+    body: t(
+      "verify.results.5.b",
+      "A temporary connection issue, not a verdict on your product. Wait a moment and submit the same code again.",
+    ),
+  },
+];
+
+const confirms = [
+  {
+    title: t("verify.confirms.a", "Authentic origin"),
+    body: t(
+      "verify.confirms.a.b",
+      "The code exists in the production ledger of an authorized Green Wealth filling batch.",
+    ),
+  },
+  {
+    title: t("verify.confirms.b", "Batch and fill date"),
+    body: t(
+      "verify.confirms.b.b",
+      "The unit is traced to the batch it was filled in, with its manufacturing date on record.",
+    ),
+  },
+  {
+    title: t("verify.confirms.c", "Potency window"),
+    body: t(
+      "verify.confirms.c.b",
+      "The formula is still inside its stated shelf life, so the actives remain at label strength.",
+    ),
+  },
+  {
+    title: t("verify.confirms.d", "Authorized supply"),
+    body: t(
+      "verify.confirms.d.b",
+      "The unit left an authorized distributor rather than a grey-market or refilled channel.",
+    ),
+  },
+];
+
+const signals = [
+  t("verify.signals.1", "The hologram does not shift colour when tilted under light."),
+  t("verify.signals.2", "The scratch panel is missing, pre-scratched, or peels away as a sticker."),
+  t(
+    "verify.signals.3",
+    "Print is blurred at the edges, or the green tone differs from the reference above.",
+  ),
+  t(
+    "verify.signals.4",
+    "The spray head rattles, leaks, or does not seat flush on the bottle neck.",
+  ),
+  t("verify.signals.5", "Liquid colour or scent differs sharply from a unit you have used before."),
+  t("verify.signals.6", "Batch code on the bottle does not match the batch code on the carton."),
+];
+
+const navItems = [
+  { id: "verify-guide", label: t("verify.nav.guide", "The guided steps") },
+  { id: "mistakes", label: t("verify.nav.mistakes", "Common mistakes") },
+  { id: "confirms", label: t("verify.nav.confirms", "What the check confirms") },
+  { id: "results", label: t("verify.nav.results", "Reading your result") },
+  { id: "faq", label: t("verify.nav.faq", "Questions") },
+];
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: isAr ? "الرئيسية" : "Home", path: "/" },
+    { name: isAr ? "التحقق" : "Verify", path: "/verify" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: isAr ? "فحص أصالة لوشن نيو للشعر" : "Neo Hair Lotion Authenticity Check",
+    description: isAr
+      ? "تحقّق من رمز الخدش الخاص بمنتج لوشن نيو للشعر عبر الإنترنت. تأكّد من الأصالة وتاريخ الصلاحية والتوزيع المعتمد من جرين ولث."
+      : "Verify your Neo Hair Lotion scratch code online. Check authenticity, expiry, and authorized distribution by Green Wealth.",
+    url: "/verify",
+    mainEntity: {
+      "@type": "HowTo",
+      name: isAr
+        ? "كيفية التحقق من رمز الخدش الأصلي للوشن نيو للشعر"
+        : "How to verify your original Neo Hair Lotion scratch code",
+      step: steps.map((s) => ({
+        "@type": "HowToStep",
+        name: s.title,
+        text: s.body,
+        url: `/verify#step-${s.number}`,
+      })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+
+const stickerAlt = t(
+  "verify.sticker.alt",
+  "Genuine Green Wealth Neo Hair Lotion holographic authenticity sticker: black scratch-off panel hiding the 12 digit verification code, with the printed public serial number below",
+);
+---
+
+<SiteLayout title={title} description={description} path="/verify" jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow={t("verify.page.eyebrow", "Authenticity Check")}
+    title={t("verify.page.title", "Verify your original Neo Hair Lotion online.")}
+    intro={t(
+      "verify.page.intro",
+      "Every genuine Neo Hair Lotion bottle, spray, and kit from Green Wealth carries a unique scratch verification code. Scratch the silver panel on the packaging to reveal it, then enter it below to confirm authenticity, expiry status, and authorized distribution before your first use.",
+    )}
+  />
+
+  {/* On-page guide navigation */}
+  <nav aria-label={t("verify.nav.aria", "Page guide")} class="hairline bg-ivory border-b">
+    <div class="container-editorial flex gap-x-8 gap-y-2 overflow-x-auto py-4 whitespace-nowrap">
+      {navItems.map((n) => (
+        <a
+          href={`#${n.id}`}
+          class="text-muted-foreground hover:text-forest text-[11px] tracking-[0.16em] uppercase transition-colors"
+        >
+          {n.label}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <TrustBar variant="ivory" />
+
+  {/* Visual guide — what the authenticity sticker looks like */}
+  <section id="verify-guide" class="hairline scroll-mt-24 border-b">
+    <div class="container-editorial py-12 md:py-16">
+      <div class="eyebrow mb-3">{t("verify.visualGuide.eyebrow", "Visual guide")}</div>
+      <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-3xl">
+        {t("verify.visualGuide.title", "What the genuine authenticity sticker looks like.")}
+      </h2>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-sm leading-relaxed">
+        {t(
+          "verify.visualGuide.body",
+          "Every original Green Wealth® Neo Hair Lotion carton carries a holographic security label. Compare yours against the reference below before scratching and entering your code.",
+        )}
+      </p>
+
+      {/* Announcement — what to do */}
+      <div class="bg-forest text-ivory mt-8 p-6 md:p-7">
+        <div class="grid items-start gap-4 md:grid-cols-[auto_1fr] md:gap-8">
+          <div class="eyebrow !text-gold whitespace-nowrap">
+            {t("verify.announce.eyebrow", "Before you begin")}
+          </div>
+          <p class="text-ivory/90 text-sm leading-relaxed md:text-[15px]">
+            {t(
+              "verify.announce.body",
+              "Gently scratch off the black area marked below — your 12 digit code is hidden behind it. Enter that code in the field, not the number printed below the scratch bar.",
+            )}
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-ink/10 mt-px grid gap-px md:grid-cols-2">
+        <div class="bg-paper space-y-6 p-4 md:p-6">
+          <figure>
+            {/* The overlay is positioned over the photo, so it stays physical (left), not logical, in RTL. */}
+            <div class="hairline relative border">
+              <img
+                src="/images/authenticity-sticker-1260.webp"
+                srcset="/images/authenticity-sticker-800.webp 800w, /images/authenticity-sticker-1260.webp 1260w"
+                sizes="(min-width: 1024px) 600px, (min-width: 768px) 50vw, 100vw"
+                alt={stickerAlt}
+                class="block h-auto w-full"
+                loading="lazy"
+                decoding="async"
+                width="1260"
+                height="680"
+              />
+              {/* Pointer to the black scratch-off panel only */}
+              <div
+                class="border-gold pointer-events-none absolute border-[3px] shadow-[0_0_0_4px_rgba(255,255,255,0.85)]"
+                style="left: 5.5%; top: 11%; width: 84%; height: 24%"
+                aria-hidden="true"
+              ></div>
+              <div
+                class="pointer-events-none absolute flex items-center gap-2"
+                style="left: 5.5%; top: 11%; transform: translateY(-100%)"
+                aria-hidden="true"
+              >
+                <span class="bg-gold text-forest px-3 py-2 text-[10px] font-semibold tracking-[0.2em] whitespace-nowrap uppercase shadow-lg md:text-xs">
+                  {t("verify.sticker.pointer", "Scratch this black area ↓")}
+                </span>
+              </div>
+            </div>
+            <figcaption class="text-muted-foreground mt-3 text-[11px] tracking-[0.14em] uppercase">
+              {t(
+                "verify.sticker.caption",
+                "The 12 digit verification code is hidden under the black scratch area — the number printed below it is not the code",
+              )}
+            </figcaption>
+          </figure>
+
+          <div id="verify-form" class="hairline scroll-mt-28 border bg-white p-5 md:p-6">
+            <VerifyForm
+              client:visible
+              i18n={islandI18n(locale, [
+                "verify.form.",
+                "verify.checking.",
+                "verify.status.",
+                "verify.guidance.",
+                "verify.result.",
+                "verify.warning.",
+                "verify.cta.",
+                "header.close",
+              ])}
+            />
+          </div>
+        </div>
+
+        <div class="bg-paper p-6 md:p-8">
+          <div class="eyebrow mb-3">{t("verify.howTo.eyebrow", "How to verify")}</div>
+          <h2 class="mb-8 font-serif text-2xl leading-tight md:text-3xl">
+            {t("verify.howTo.title", "Scratch, enter, confirm. Four steps to certainty.")}
+          </h2>
+          <ol class="space-y-0">
+            {steps.map((s) => (
+              <li
+                id={`step-${s.number}`}
+                class="hairline grid grid-cols-12 gap-4 border-b py-6 first:border-t"
+              >
+                <div class="text-muted-foreground col-span-2 text-xs tracking-[0.15em] md:col-span-1">
+                  {s.number}
+                </div>
+                <div class="col-span-10 md:col-span-11">
+                  <h3 class="mb-2 font-serif text-lg md:text-xl">{s.title}</h3>
+                  <p class="text-muted-foreground text-sm leading-relaxed">{s.body}</p>
+                  <p class="mt-2 text-xs leading-relaxed">
+                    <span class="text-forest font-semibold tracking-[0.14em] uppercase">
+                      {t("verify.tip.prefix", "Tip")}
+                    </span>
+                    <span class="text-muted-foreground"> — {s.tip}</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div class="bg-forest text-ivory mt-8 p-6 md:p-8">
+            <div class="eyebrow !text-gold mb-4">
+              {t("verify.why.eyebrow", "Why authenticity matters")}
+            </div>
+            <h2 class="mb-4 font-serif text-xl">
+              {t("verify.why.title", "Counterfeits are common.")}
+            </h2>
+            <p class="text-ivory/80 text-sm leading-relaxed">
+              {t(
+                "verify.why.body",
+                "Because Green Wealth is trusted worldwide, counterfeit and expired stock is widely circulated by unauthorized resellers. Verification protects your scalp, your investment, and the integrity of your ritual.",
+              )}
+            </p>
+            <ul class="text-ivory/90 mt-6 space-y-3 text-sm">
+              <li>{t("verify.why.bullet1", "— Verify before first use.")}</li>
+              <li>{t("verify.why.bullet2", "— Purchase only from authorized channels.")}</li>
+              <li>{t("verify.why.bullet3", "— Report suspicious packaging.")}</li>
+            </ul>
+
+            <a
+              href="#verify-form"
+              class="border-ivory/50 mt-8 inline-block border-b pb-1 text-xs tracking-[0.18em] uppercase"
+            >
+              {t("verify.why.cta", "Verify your code")}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* COMMON MISTAKES — why checks fail */}
+  <section id="mistakes" class="hairline bg-ivory scroll-mt-24 border-b">
+    <div class="container-editorial py-12 md:py-16">
+      <div class="eyebrow mb-3">{t("verify.mistakes.eyebrow", "Before you worry")}</div>
+      <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-3xl">
+        {t("verify.mistakes.title", "Common reasons a check fails.")}
+      </h2>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-sm leading-relaxed">
+        {t(
+          "verify.mistakes.intro",
+          "Most failed checks are typing errors, not counterfeit units. Review these six causes before treating your product as unverified.",
+        )}
+      </p>
+      <div class="bg-ink/10 hairline mt-8 grid gap-px border md:grid-cols-2 lg:grid-cols-3">
+        {mistakes.map((m) => (
+          <div class="bg-paper p-5 md:p-6">
+            <p class="text-muted-foreground text-sm leading-relaxed">{m}</p>
+          </div>
+        ))}
+      </div>
+      <a
+        href="#verify-form"
+        class="border-ink/50 mt-8 inline-block border-b pb-1 text-xs tracking-[0.18em] uppercase"
+      >
+        {t("verify.mistakes.cta", "Try your code again")}
+      </a>
+    </div>
+  </section>
+
+  {/* WHAT THE CHECK CONFIRMS */}
+  <section id="confirms" class="hairline scroll-mt-24 border-b">
+    <div class="container-editorial py-12 md:py-16">
+      <div class="eyebrow mb-3">{t("verify.confirms.eyebrow", "Behind the check")}</div>
+      <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-3xl">
+        {t("verify.confirms.title", "What a verification actually confirms.")}
+      </h2>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-sm leading-relaxed">
+        {t(
+          "verify.confirms.intro",
+          "The scratch code is issued once, at fill time, and stored against the production record for that unit. Checking it returns four separate confirmations.",
+        )}
+      </p>
+      <div class="bg-ink/10 hairline mt-8 grid gap-px border md:grid-cols-2 lg:grid-cols-4">
+        {confirms.map((c) => (
+          <div class="bg-paper relative p-5 md:p-6">
+            <h3 class="mb-2 text-[12px] font-semibold tracking-[0.14em] uppercase">{c.title}</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* READING YOUR RESULT */}
+  <section id="results" class="hairline bg-ivory scroll-mt-24 border-b">
+    <div class="container-editorial py-12 md:py-16">
+      <div class="eyebrow mb-3">{t("verify.results.eyebrow", "Outcome guide")}</div>
+      <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-3xl">
+        {t("verify.results.title", "Reading your result.")}
+      </h2>
+      <p class="text-muted-foreground mt-3 max-w-2xl text-sm leading-relaxed">
+        {t(
+          "verify.results.intro",
+          "Every check returns one of five verdicts. Here is what each one means and exactly what to do next.",
+        )}
+      </p>
+      <dl class="hairline mt-8 border-t">
+        {results.map((r) => (
+          <div class="hairline grid gap-2 border-b py-5 md:grid-cols-[16rem_1fr] md:gap-8">
+            <dt>
+              <span class="text-muted-foreground mb-1 block text-[10px] tracking-[0.16em] uppercase">
+                {t("verify.results.label", "Result")}
+              </span>
+              <span class="text-[12px] font-semibold tracking-[0.14em] uppercase">{r.title}</span>
+            </dt>
+            <dd class="text-muted-foreground text-sm leading-relaxed">{r.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  {/* COUNTERFEIT SIGNALS */}
+  <section class="hairline border-b">
+    <div class="container-editorial grid gap-10 py-12 md:py-16 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h2 class="font-serif text-2xl leading-tight md:text-3xl">
+          {t("verify.signals.title", "Physical signs of a counterfeit unit.")}
+        </h2>
+        <p class="text-muted-foreground mt-3 text-sm leading-relaxed">
+          {t(
+            "verify.signals.intro",
+            "Check the packaging alongside the code. Counterfeits reproduce the artwork long before they reproduce the finish.",
+          )}
+        </p>
+        <ul class="hairline mt-8 border-t">
+          {signals.map((s) => (
+            <li class="hairline text-muted-foreground border-b py-4 text-sm leading-relaxed">
+              {s}
+            </li>
+          ))}
+        </ul>
+        <a
+          href={href("/real-vs-fake")}
+          class="border-ink/50 mt-8 inline-block border-b pb-1 text-xs tracking-[0.18em] uppercase"
+        >
+          {t("verify.signals.cta", "Compare genuine vs counterfeit")}
+        </a>
+      </div>
+
+      <div class="bg-forest text-ivory self-start p-6 md:p-8">
+        <div class="eyebrow !text-gold mb-4">
+          {t("verify.support.eyebrow", "If your check fails")}
+        </div>
+        <h2 class="mb-4 font-serif text-xl md:text-2xl">
+          {t("verify.support.title", "Send it to us and stop using the product.")}
+        </h2>
+        <p class="text-ivory/80 text-sm leading-relaxed">
+          {t(
+            "verify.support.body",
+            "Our team reviews every failed check individually. Include the 12 digit code, clear photos of the carton, the sticker and the bottle base, and where the unit was purchased. Where a purchase is traced to an unauthorized seller, we replace genuine stock through an authorized channel wherever local regulations allow.",
+          )}
+        </p>
+        <ul class="text-ivory/90 mt-6 space-y-3 text-sm">
+          <li>{t("verify.support.b1", "— Keep the packaging; do not discard the carton.")}</li>
+          <li>{t("verify.support.b2", "— Do not apply the product to your scalp.")}</li>
+          <li>{t("verify.support.b3", "— Keep your order confirmation or receipt.")}</li>
+        </ul>
+        <a
+          href={href("/contact")}
+          class="border-ivory/50 mt-8 inline-block border-b pb-1 text-xs tracking-[0.18em] uppercase"
+        >
+          {t("verify.support.cta", "Contact support")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <section id="faq" class="hairline bg-ivory scroll-mt-24 border-b">
+    <div class="container-editorial py-12 md:py-16">
+      <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-3xl">
+        {t("verify.faq.title", "Verification questions.")}
+      </h2>
+      <dl class="hairline mt-8 max-w-4xl border-t">
+        {faqs.map((f) => (
+          <div class="hairline border-b py-5">
+            <dt class="mb-2 font-serif text-lg">{f.q}</dt>
+            <dd class="text-muted-foreground max-w-3xl text-sm leading-relaxed">{f.a}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="hairline bg-ivory border-t">
+    <div class="container-editorial grid items-center gap-8 py-12 md:grid-cols-[1fr_auto] md:py-16">
+      <div>
+        <div class="eyebrow text-forest mb-3">
+          {t("verify.social.eyebrow", "Why verification matters")}
+        </div>
+        <h2 class="max-w-xl font-serif text-2xl leading-tight md:text-3xl">
+          {t("verify.social.title", "Counterfeits copy the label — never the results.")}
+        </h2>
+        <p class="text-muted-foreground mt-3 max-w-xl text-sm leading-relaxed">
+          {t(
+            "verify.social.body",
+            "Verifying your scratch code protects the outcomes real customers documented below. Every genuine bottle carries the actives that make these stories possible.",
+          )}
+        </p>
+      </div>
+      <div class="w-full md:max-w-sm">
+        <CustomerQuote />
+      </div>
+    </div>
+  </section>
+</SiteLayout>

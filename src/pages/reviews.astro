@@ -1,0 +1,320 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import Stars from "@/components/common/Stars.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getProducts, getReviews, getReviewStats } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const [reviews, { stats, distribution, productStats }, products] = await Promise.all([
+  getReviews(),
+  getReviewStats(),
+  getProducts(),
+]);
+const distTotal = distribution.reduce((a, b) => a + b.count, 0);
+
+const productLabel = (name: string) => {
+  const sp = products.find((x) => x.name.includes(name) || name.includes(x.name));
+  return sp ? t(`product.${sp.slug}.name`, sp.name) : name;
+};
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: t("reviews.crumb.home", "Home"), path: "/" },
+    { name: t("reviews.crumb.self", "Reviews"), path: "/reviews" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Green Wealth Neo Hair Lotion",
+    brand: { "@type": "Brand", name: "Green Wealth" },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: stats.rating.toFixed(1),
+      reviewCount: stats.count,
+      bestRating: "5",
+      worstRating: "1",
+    },
+  },
+];
+---
+
+<SiteLayout
+  title={t(
+    "reviews.head.title",
+    "Neo Hair Lotion Reviews — 430,692 Verified Ratings | Green Wealth",
+  )}
+  description={t(
+    "reviews.head.desc",
+    "Read 1,407 verified customer reviews of Neo Hair Lotion, Shampoo, Rosemary Oil, and Dermaroller. 4.7/5 rating across 90+ countries. Real photos, real results.",
+  )}
+  path="/reviews"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("reviews.eyebrow", "Reviews · Verified Results")}
+    title={t("reviews.title", "Real results from real people.")}
+    intro={t(
+      "reviews.intro",
+      "{customers} customers across {countries}+ countries. Every review is verified — every result documented.",
+    )
+      .replace("{customers}", String(stats.customers))
+      .replace("{countries}", String(stats.countries))}
+  />
+
+  {/* Hero rating panel */}
+  <section class="hairline bg-ivory border-y">
+    <div class="container-editorial grid items-center gap-8 py-10 md:grid-cols-[auto_1fr] md:gap-14 md:py-14">
+      {/* Big rating */}
+      <div class="hairline border-b pb-8 text-center md:border-e md:border-b-0 md:pe-14 md:pb-0 md:text-start">
+        <div class="eyebrow mb-3">{t("reviews.overall-rating", "Overall Rating")}</div>
+        <div class="text-forest font-serif text-7xl leading-none md:text-8xl">{stats.rating}</div>
+        <div class="mt-3 mb-2">
+          <Stars n={Math.round(stats.rating)} size="lg" />
+        </div>
+        <div class="text-muted-foreground text-xs tabular-nums">
+          {t("reviews.based-on", "Based on")}
+          {stats.count.toLocaleString()}
+          {t("reviews.ratings", "ratings")}
+        </div>
+      </div>
+
+      {/* Distribution */}
+      <div>
+        <div class="eyebrow mb-4">{t("reviews.distribution", "Rating Distribution")}</div>
+        <div class="space-y-2">
+          {distribution.map((d) => {
+            const pct = distTotal > 0 ? (d.count / distTotal) * 100 : 0;
+            return (
+              <div class="flex items-center gap-3 text-xs">
+                <span class="text-ink/70 w-6 tabular-nums">{d.stars}★</span>
+                <div class="bg-ink/5 relative h-2 flex-1 overflow-hidden">
+                  <div class="bg-forest absolute inset-y-0 start-0" style={`width:${pct}%`} />
+                </div>
+                <span class="text-ink/60 w-16 text-end tabular-nums">
+                  {d.count.toLocaleString()}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+        <div class="bg-ink/10 hairline mt-6 grid grid-cols-3 gap-px border">
+          {[
+            { k: t("reviews.customers", "Customers"), v: stats.customers },
+            { k: t("reviews.countries", "Countries"), v: `${stats.countries}+` },
+            { k: t("reviews.verified", "Verified"), v: `${stats.verified}%` },
+          ].map((s) => (
+            <div class="bg-paper py-4 text-center">
+              <div class="text-forest font-serif text-xl md:text-2xl">{s.v}</div>
+              <div class="text-muted-foreground mt-1 text-[10px] tracking-[0.2em] uppercase">
+                {s.k}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Per-product ratings */}
+  <section class="container-editorial py-14 md:py-20">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <div class="eyebrow mb-2">{t("reviews.by-product", "Ratings By Product")}</div>
+        <h2 class="text-ink font-serif text-3xl md:text-4xl">
+          {t("reviews.system-rated", "The system, rated.")}
+        </h2>
+      </div>
+      <div class="text-muted-foreground text-xs tabular-nums">
+        {productStats.reduce((a, b) => a + b.count, 0).toLocaleString()}
+        {t("reviews.ratings-total", "ratings total")}
+      </div>
+    </div>
+    <div class="bg-ink/10 hairline grid grid-cols-2 gap-px border md:grid-cols-4">
+      {productStats.map((p) => (
+        <a
+          href={href(`/product/${p.slug}`)}
+          class="bg-paper hover:bg-ivory group p-5 transition-colors md:p-6"
+        >
+          <div class="text-ink mb-3 min-h-[3rem] font-serif text-base leading-tight md:text-lg">
+            {t(`product.${p.slug}.name`, p.name)}
+          </div>
+          <div class="mb-1 flex items-baseline gap-2">
+            <span class="text-forest font-serif text-3xl tabular-nums">{p.rating.toFixed(1)}</span>
+            <Stars n={Math.round(p.rating)} />
+          </div>
+          <div class="text-muted-foreground text-xs tabular-nums">
+            {p.count.toLocaleString()} {t("reviews.ratings", "ratings")}
+          </div>
+          <div class="text-forest mt-4 text-[10px] tracking-[0.2em] uppercase opacity-0 transition-opacity group-hover:opacity-100">
+            {t("reviews.shop", "Shop →")}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* Review grid — with photos */}
+  <section class="hairline bg-ivory border-t">
+    <div class="container-editorial py-14 md:py-20">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="eyebrow mb-2">{t("reviews.verified-stories", "Verified Stories")}</div>
+          <h2 class="text-ink font-serif text-3xl md:text-4xl">
+            {t("reviews.read-receipts", "Read the receipts.")}
+          </h2>
+        </div>
+        <div class="text-muted-foreground text-xs">
+          {t("reviews.showing", "Showing")}
+          {reviews.length}
+          {t("reviews.of", "of")}
+          {stats.reviews.toLocaleString()}
+        </div>
+      </div>
+
+      <div class="bg-ink/10 hairline grid gap-px border md:grid-cols-2 lg:grid-cols-3">
+        {reviews.map((r, i) => (
+          <article class="bg-paper flex flex-col">
+            {r.image && (
+              <div class="bg-ivory hairline aspect-[4/3] overflow-hidden border-b">
+                <img
+                  src={r.image}
+                  alt={`${t("img.reviewAltPrefix", "Verified customer photo review by")} ${r.name} ${t("img.reviewAltSuffix", "for Green Wealth Neo Hair products")}`}
+                  title={`${t("img.reviewTitle", "Verified review")} — ${r.name}`}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+            )}
+            <div class="flex flex-1 flex-col p-6">
+              <div class="mb-3 flex items-center justify-between">
+                <Stars n={r.rating} size="md" />
+                <span class="text-forest hairline border px-2 py-1 text-[10px] tracking-[0.2em] uppercase">
+                  {t("reviews.verified", "Verified")}
+                </span>
+              </div>
+              <h3 class="text-ink mb-2 font-serif text-lg leading-tight">
+                {t(`review.${i}.title`, r.title)}
+              </h3>
+              <p class="text-ink/75 mb-5 flex-1 text-sm leading-relaxed">
+                “{t(`review.${i}.body`, r.body)}”
+              </p>
+              <div class="hairline flex items-start justify-between gap-3 border-t pt-4">
+                <div>
+                  <div class="text-ink text-sm font-semibold">
+                    {t(`review.person.${r.name}`, r.name)}
+                  </div>
+                  {r.country && (
+                    <div class="text-muted-foreground text-xs">
+                      {t(`review.country.${r.country}`, r.country)}
+                    </div>
+                  )}
+                </div>
+                <div class="text-end">
+                  <div class="text-forest text-[10px] tracking-[0.15em] uppercase">
+                    {productLabel(r.product)}
+                  </div>
+                  {r.helpful ? (
+                    <div class="text-muted-foreground mt-1 text-[10px] tabular-nums">
+                      {r.helpful} {t("reviews.found-helpful", "found helpful")}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Trust + Conversion CTA */}
+  <section class="container-editorial grid items-start gap-10 py-14 md:grid-cols-2 md:py-20">
+    <div>
+      <div class="eyebrow mb-3">{t("reviews.only-real", "Only Real Reviews")}</div>
+      <h2 class="text-ink mb-4 font-serif text-3xl leading-tight md:text-4xl">
+        {t(
+          "reviews.verified-purchase-heading",
+          "Every review here comes from a verified purchase.",
+        )}
+      </h2>
+      <p class="text-ink/75 mb-6 leading-relaxed">
+        {t(
+          "reviews.verified-purchase-desc",
+          "We publish reviews from customers who bought directly through greenwealth.com or our authorised distributors. No paid placements, no anonymous fabrications, no filtered ratings. When the protocol doesn't work for someone, that review is here too.",
+        )}
+      </p>
+      <ul class="text-ink/80 space-y-3 text-sm">
+        <li class="flex gap-3">
+          <span class="text-forest">—</span>
+          {t("reviews.trust.1", "100% verified purchases, no incentivised reviews.")}
+        </li>
+        <li class="flex gap-3">
+          <span class="text-forest">—</span>
+          {t("reviews.trust.2", "Every unit carries a verifiable scratch code.")}
+        </li>
+        <li class="flex gap-3">
+          <span class="text-forest">—</span>
+          {t("reviews.trust.3", "Direct-from-Green-Wealth shipping across 90+ countries.")}
+        </li>
+      </ul>
+      <a
+        href={href("/verify")}
+        class="hover:text-forest mt-6 inline-flex items-center gap-2 text-sm underline underline-offset-4"
+      >
+        {t("reviews.verify-bottle", "Verify your own bottle →")}
+      </a>
+    </div>
+    <div class="hairline bg-ivory border p-6 md:p-8">
+      <div class="eyebrow mb-3">{t("reviews.start-story", "Start your story")}</div>
+      <h3 class="text-ink mb-3 font-serif text-2xl">
+        {t("reviews.begin-protocol", "Begin the 120-day protocol.")}
+      </h3>
+      <p class="text-ink/75 mb-6 text-sm leading-relaxed">
+        {t(
+          "reviews.order-directly",
+          "Order directly from Green Wealth — every bottle carries a scratch-off authenticity code you can verify online before your first use.",
+        )}
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={href("/product/neo-hair-lotion")}
+          class="bg-forest text-paper hover:bg-ink px-6 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+        >
+          {t("reviews.shop-lotion", "Shop Neo Hair Lotion")}
+        </a>
+        <a
+          href={href("/how-to-use")}
+          class="hairline hover:bg-paper border px-6 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+        >
+          {t("reviews.read-protocol", "Read the protocol")}
+        </a>
+      </div>
+      <div class="hairline mt-6 grid grid-cols-3 gap-4 border-t pt-6 text-center">
+        <div>
+          <div class="text-forest font-serif text-xl">4.7★</div>
+          <div class="text-muted-foreground mt-1 text-[10px] tracking-[0.15em] uppercase">
+            {t("reviews.rating", "Rating")}
+          </div>
+        </div>
+        <div>
+          <div class="text-forest font-serif text-xl">2M+</div>
+          <div class="text-muted-foreground mt-1 text-[10px] tracking-[0.15em] uppercase">
+            {t("reviews.customers", "Customers")}
+          </div>
+        </div>
+        <div>
+          <div class="text-forest font-serif text-xl">90+</div>
+          <div class="text-muted-foreground mt-1 text-[10px] tracking-[0.15em] uppercase">
+            {t("reviews.countries", "Countries")}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,167 @@
+---
+/**
+ * Cinematic featured-botanical rotator on /ingredients. Every slide is
+ * server-rendered; a small script cross-fades them every 5 s and on dot clicks.
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { ingredientExtras } from "@/data/ingredient-extras";
+import type { IngredientEntry } from "@/data/ingredients";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+import { familyOf, ingT } from "./utils";
+
+export interface Props {
+  items: IngredientEntry[];
+}
+
+const { items } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const ing = ingT(t);
+---
+
+<section class="container-editorial mt-2 md:mt-4" data-feat-rotator={items.length}>
+  <div class="hairline bg-paper overflow-hidden border">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr]">
+      {/* Image */}
+      <div class="bg-ivory relative aspect-[4/5] overflow-hidden md:aspect-[5/6] lg:aspect-auto">
+        {items.map((f, i) => (
+          <div
+            data-feat-img={i}
+            class:list={[
+              "absolute inset-0 transition-opacity duration-[900ms]",
+              i === 0 ? "opacity-100" : "opacity-0",
+            ]}
+          >
+            {f.image && (
+              <ResponsiveImage
+                src={f.image}
+                alt={`${ing(f.name)} — ${t("img.ingredientAltStudied", "botanical hair-growth active studied by Green Wealth")}`}
+                title={ing(f.name)}
+                sizes="(min-width: 1024px) 48vw, 100vw"
+                class="h-full w-full object-cover"
+              />
+            )}
+          </div>
+        ))}
+        {items.map(
+          (f, i) =>
+            f.latin && (
+              <div
+                data-feat-slide={i}
+                hidden={i !== 0}
+                class="hairline text-forest/70 bg-paper/85 absolute start-3 bottom-3 border px-2 py-1 font-mono text-[9px] tracking-[0.28em] uppercase"
+              >
+                {f.latin}
+              </div>
+            ),
+        )}
+      </div>
+
+      {/* Copy */}
+      {items.map((f, i) => {
+        const extra = ingredientExtras[f.slug];
+        const family = familyOf(f.slug);
+        return (
+          <div
+            data-feat-slide={i}
+            hidden={i !== 0}
+            class="flex flex-col justify-between gap-6 p-6 md:p-10"
+          >
+            <div>
+              <div class="text-moss font-mono text-[9.5px] tracking-[0.32em] uppercase">
+                {t("ingx.featured", "Featured Botanical")}
+              </div>
+              <h2 class="text-forest mt-3 font-serif text-3xl leading-[1.05] md:text-5xl">
+                {ing(f.name)}
+              </h2>
+              {f.role && (
+                <div class="text-forest/60 mt-3 font-mono text-[11px] tracking-[0.24em] uppercase">
+                  {ing(f.role)}
+                </div>
+              )}
+              <p class="text-forest/75 mt-4 max-w-md text-[13.5px] leading-relaxed md:text-sm">
+                {ing(f.summary ?? f.description)}
+              </p>
+
+              {extra && (
+                <div class="bg-ink/10 hairline mt-6 grid max-w-md grid-cols-3 gap-px border">
+                  <div class="bg-paper px-3 py-3">
+                    <div class="text-forest/50 font-mono text-[9px] tracking-[0.28em] uppercase">
+                      {t("ingx.family", "Family")}
+                    </div>
+                    <div class="text-forest mt-0.5 text-[12px] leading-tight">
+                      {family ? ing(family) : "—"}
+                    </div>
+                  </div>
+                  <div class="bg-paper px-3 py-3">
+                    <div class="text-forest/50 font-mono text-[9px] tracking-[0.28em] uppercase">
+                      {t("ingx.partUsed", "Part used")}
+                    </div>
+                    <div class="text-forest mt-0.5 text-[12px] leading-tight">
+                      {extra.partUsed ? ing(extra.partUsed.split("—")[0].trim()) : "—"}
+                    </div>
+                  </div>
+                  <div class="bg-paper px-3 py-3">
+                    <div class="text-forest/50 font-mono text-[9px] tracking-[0.28em] uppercase">
+                      {t("ingx.usedIn", "Used in")}
+                    </div>
+                    <div class="text-forest mt-0.5 text-[12px] leading-tight">
+                      {f.productSlugs.length} {t("ingx.products", "products")}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <a
+                href={withLocalePrefix(`/ingredients/${f.slug}`, locale)}
+                class="bg-forest text-paper hover:bg-moss inline-block px-5 py-2.5 font-mono text-[10px] tracking-[0.28em] uppercase transition-colors"
+              >
+                {t("ingx.readDossier", "Read the dossier →")}
+              </a>
+              {items.map((d, di) => (
+                <button
+                  type="button"
+                  data-feat-go={di}
+                  aria-label={`${t("ingx.show", "Show")} ${ing(d.name)}`}
+                  aria-pressed={di === i ? "true" : "false"}
+                  class:list={[
+                    "h-1 w-8 transition-colors",
+                    di === i ? "bg-forest" : "bg-ink/15 hover:bg-moss",
+                  ]}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-feat-rotator]")) {
+    const layers = [...root.querySelectorAll<HTMLElement>("[data-feat-img]")];
+    const slides = [...root.querySelectorAll<HTMLElement>("[data-feat-slide]")];
+    const count = Number(root.dataset.featRotator) || 0;
+    let current = 0;
+
+    const show = (index: number) => {
+      current = index;
+      for (const el of layers) {
+        const on = Number(el.dataset.featImg) === index;
+        el.classList.toggle("opacity-100", on);
+        el.classList.toggle("opacity-0", !on);
+      }
+      for (const el of slides) el.hidden = Number(el.dataset.featSlide) !== index;
+    };
+
+    root.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-feat-go]");
+      if (btn) show(Number(btn.dataset.featGo));
+    });
+    if (count > 1) window.setInterval(() => show((current + 1) % count), 5000);
+  }
+</script>

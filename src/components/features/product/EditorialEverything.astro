@@ -1,0 +1,139 @@
+---
+/**
+ * "Everything about": why you'll love it, inside the formula and the full INCI
+ * list (native <details> disclosure).
+ */
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import { productT } from "./product-helpers";
+import SectionHead from "./SectionHead.astro";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const inci = p.inciDetails ?? [];
+const allergens = inci.filter((i) => i.allergen);
+const actives = p.ingredientsDetailed ?? [];
+
+const love = (p.science && p.science.length > 0 ? p.science : p.benefits) ?? [];
+const loveField = p.science && p.science.length > 0 ? "science" : "benefits";
+const inside: [string, string][] = actives.length
+  ? actives.map((a, i) => [
+      tp(`active.${i}.name.${i}`, a.name),
+      tp(`active.${i}.description.${i}`, a.description),
+    ])
+  : p.ingredients.map((ing, idx) => [tp(`ingredients.${idx}`, ing), ""]);
+const pName = t(`product.${p.slug}.name`, p.name);
+---
+
+<section class="hairline bg-ivory border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <SectionHead
+      title={`${t("product.pdp.everythingAbout", "Everything about")} ${pName}.`}
+      sub={t(
+        "product.pdp.everythingAboutSub",
+        "Overview, formula, label declaration and ritual — disclosed in full.",
+      )}
+    />
+
+    <div class="bg-forest/15 border-forest/15 grid grid-cols-1 gap-px border md:grid-cols-12">
+      {love.length > 0 && (
+        <div class="bg-paper p-5 md:col-span-5 md:p-7">
+          <h3 class="text-forest/50 font-mono text-[10px] tracking-[0.24em] uppercase">
+            {t("product.pdp.whyYoullLoveIt", "Why you'll love it")}
+          </h3>
+          <ol class="mt-4">
+            {love.map((l, i) => (
+              <li class="border-forest/10 grid grid-cols-[auto_1fr] gap-4 border-b py-3 last:border-b-0">
+                <span class="text-gold" aria-hidden="true">
+                  —
+                </span>
+                <span class="text-forest/80 text-[13px] leading-[1.6]">
+                  {tp(`${loveField}.${i}`, l)}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+      <div
+        class:list={["bg-paper p-5 md:p-7", love.length > 0 ? "md:col-span-7" : "md:col-span-12"]}
+      >
+        <h3 class="text-forest/50 font-mono text-[10px] tracking-[0.24em] uppercase">
+          {actives.length
+            ? t("product.pdp.insideTheFormula", "Inside the formula")
+            : t("product.pdp.whatItsMadeOf", "What it's made of")}
+        </h3>
+        <dl class="mt-4 grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+          {inside.map(([name, body]) => (
+            <div class="border-forest/10 border-b py-3">
+              <dt class="text-forest text-[12px] font-medium tracking-[0.08em] uppercase">
+                {name}
+              </dt>
+              {body && <dd class="text-forest/70 mt-1 text-[12.5px] leading-[1.55]">{body}</dd>}
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    {inci.length > 0 && (
+      <details class="group border-forest/15 bg-paper mt-6 border">
+        <summary class="flex w-full cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-start [&::-webkit-details-marker]:hidden">
+          <span class="text-forest font-mono text-[10.5px] tracking-[0.24em] uppercase">
+            {t("product.pdp.fullIngredientsInci", "Full ingredients (INCI)")} · {inci.length}
+            {t("product.pdp.listed", "listed")}
+          </span>
+          <span class="text-gold font-mono text-[15px] leading-none" aria-hidden="true">
+            <span class="group-open:hidden">+</span>
+            <span class="hidden group-open:inline">−</span>
+          </span>
+        </summary>
+        <div class="border-forest/10 border-t px-5 pt-4 pb-5">
+          <ul class="bg-forest/10 border-forest/10 grid grid-cols-1 gap-px border sm:grid-cols-2 lg:grid-cols-3">
+            {inci.map((row, ri) => (
+              <li class="bg-paper p-3">
+                <p class="text-forest text-[11.5px] leading-snug">
+                  {row.inci}
+                  {row.allergen && (
+                    <span class="text-gold ms-1 font-mono text-[10px]">
+                      ·{t("product.pdp.allergen", "allergen")}
+                    </span>
+                  )}
+                </p>
+                <p class="text-forest/50 mt-1 font-mono text-[10.5px] tracking-[0.14em] uppercase">
+                  {[
+                    row.common ? t(`product.${p.slug}.inci.${ri}.common`, row.common) : null,
+                    t(`product.${p.slug}.inci.${ri}.role`, row.role),
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+          {allergens.length > 0 && (
+            <p class="text-forest/70 mt-4 text-[11.5px] leading-relaxed">
+              <span class="text-gold me-2 font-mono text-[10px] tracking-[0.2em] uppercase">
+                {t("product.pdp.allergensDeclared", "Allergens declared")}
+              </span>
+              {allergens
+                .map((a) =>
+                  a.common
+                    ? t(`product.${p.slug}.inci.${inci.indexOf(a)}.common`, a.common)
+                    : a.inci,
+                )
+                .join(", ")}
+              .
+            </p>
+          )}
+        </div>
+      </details>
+    )}
+  </div>
+</section>

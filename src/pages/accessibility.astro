@@ -1,0 +1,40 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import Prose from "@/components/common/Prose.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const t = createT(Astro.locals.locale);
+
+const EN = {
+  eyebrow: "Commitment",
+  title: "Accessibility",
+  body: "Green Wealth is committed to WCAG 2.2 AA. If you encounter an accessibility barrier, please contact us so we can address it.",
+  seoTitle: "Accessibility — Green Wealth",
+  seoDescription:
+    "Green Wealth is committed to WCAG 2.2 AA accessibility across greenwealth.com. Report any barrier and we will address it.",
+};
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Accessibility", path: "/accessibility" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("legal.accessibility.seo.title", EN.seoTitle)}
+  description={t("legal.accessibility.seo.description", EN.seoDescription)}
+  path="/accessibility"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("legal.accessibility.eyebrow", EN.eyebrow)}
+    title={t("legal.accessibility.title", EN.title)}
+  />
+  <Prose>
+    <p>{t("legal.accessibility.body", EN.body)}</p>
+  </Prose>
+</SiteLayout>

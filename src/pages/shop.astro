@@ -1,0 +1,115 @@
+---
+/** /shop: the collection, curated combos, match quiz, comparison table and FAQ. */
+import CatalogTile from "@/components/features/shop/CatalogTile.astro";
+import CombosSection from "@/components/features/shop/CombosSection.astro";
+import CompareCollection from "@/components/features/shop/CompareCollection.astro";
+import MatchQuiz, { type QuizProduct } from "@/components/features/shop/MatchQuiz";
+import { RITUAL_ORDER, ROLE_LABELS } from "@/components/features/shop/shop-data";
+import ShopFaq from "@/components/features/shop/ShopFaq.astro";
+import { productImageAlt, productImageTitle, type Product } from "@/data/products";
+import { productStats } from "@/data/reviews";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getCombos, getProducts } from "@/lib/api/catalog";
+import { createT, islandI18n, withLocalePrefix } from "@/lib/i18n";
+import { islandImage } from "@/lib/images";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+import { abs, breadcrumbLd } from "@/lib/seo";
+
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+
+const [products, combos] = await Promise.all([getProducts(), getCombos()]);
+
+// Fixed ritual display order.
+const collection = RITUAL_ORDER.map((s) => products.find((p) => p.slug === s)).filter(
+  (p): p is Product => Boolean(p),
+);
+const statBySlug = Object.fromEntries(productStats.map((s) => [s.slug, s]));
+
+const quizProducts: QuizProduct[] = await Promise.all(
+  collection.map(async (p) => ({
+    slug: p.slug,
+    name: t(`product.${p.slug}.name`, p.name),
+    href: withLocalePrefix(`/product/${p.slug}`, locale),
+    image: await islandImage(p.image, { widths: [160, 320] }),
+    imageAlt: productImageAlt(p, 0, t),
+    imageTitle: productImageTitle(p, t),
+    price: formatMoney(getBasePrice(p.slug, currency), currency),
+    role: t(`shop.role.${p.slug}`, ROLE_LABELS[p.slug]),
+  })),
+);
+
+const isAr = locale === "ar";
+const title = isAr
+  ? "المتجر — جرين ولث للعناية النباتية بالشعر"
+  : "Shop — Green Wealth Botanical Hair Care";
+const description = isAr
+  ? "المجموعة الكاملة من جرين ولث وغوري: لوشن نيو للشعر، شامبو نيو للشعر، زيت إكليل الجبل والديرمارولر. ابنِ روتينك، قارن، واطلب مع ضمان أصالة موثق."
+  : "The full Green Wealth & Ghori collection: Neo Hair Lotion, Neo Hair Shampoo, Rosemary Oil and Dermaroller — verified authentic, shipped worldwide.";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Green Wealth Collection",
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: abs(`/product/${p.slug}`),
+      name: p.name,
+    })),
+  },
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+  ]),
+];
+---
+
+<SiteLayout title={title} description={description} path="/shop" jsonLd={jsonLd}>
+  {/* Editorial hero */}
+  <header class="container-editorial pt-20 pb-16 text-center md:pt-32 md:pb-24">
+    <div class="eyebrow mb-8">{t("shop.hero.eyebrowPrefix", "The Green Wealth collection")}</div>
+    <h1 class="display-xl text-forest mx-auto max-w-5xl">
+      {t("shop.hero.title", "The Collection")}
+    </h1>
+    <p class="text-muted-foreground mx-auto mt-8 max-w-2xl text-base leading-relaxed md:mt-10 md:text-lg lg:text-xl">
+      {t(
+        "shop.hero.intro",
+        "A four-step botanical system engineered for scalp health, hair density, and visible growth. Every unit is shipped from authorized distribution and protected by a verifiable scratch code.",
+      )}
+    </p>
+  </header>
+
+  {/* The catalog: four editorial tiles */}
+  <section class="container-editorial mt-16 md:mt-24">
+    <div class="mb-8 flex items-end justify-between md:mb-10">
+      <div>
+        <h2 class="text-forest font-serif text-2xl md:text-3xl lg:text-4xl">
+          {t("shop.catalog.title", "The Catalog")}
+        </h2>
+      </div>
+    </div>
+
+    <div class="bg-ink/10 hairline grid grid-cols-1 gap-px border sm:grid-cols-2 xl:grid-cols-4">
+      {collection.map((p) => (
+        <CatalogTile product={p} stat={statBySlug[p.slug]} />
+      ))}
+    </div>
+  </section>
+
+  <CombosSection combos={combos} />
+
+  {/* Which is right for you: match quiz */}
+  <section class="container-editorial mt-10 md:mt-16">
+    <MatchQuiz
+      client:visible
+      products={quizProducts}
+      i18n={islandI18n(locale, ["shop.quiz.", "shop.addToBag"])}
+    />
+  </section>
+
+  <CompareCollection products={collection} stats={statBySlug} />
+
+  <ShopFaq />
+</SiteLayout>

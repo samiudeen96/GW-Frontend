@@ -1,0 +1,78 @@
+---
+/** "How it works" 2×2 combined-effect grid (Neo Hair Lotion only). */
+import { createT } from "@/lib/i18n";
+
+import Eyebrow from "./Eyebrow.astro";
+
+const t = createT(Astro.locals.locale);
+const k = "product.route.howItWorks";
+const cards = [
+  {
+    step: "01",
+    title: t(`${k}.step1Title`, "Feed the roots"),
+    body: t(
+      `${k}.step1Body`,
+      "White Ginseng supports scalp micro-circulation; Cantaloupe SOD adds antioxidant defence.",
+    ),
+    actives: t(`${k}.step1Actives`, "White Ginseng, Cantaloupe"),
+  },
+  {
+    step: "02",
+    title: t(`${k}.step2Title`, "Calm the hormone"),
+    body: t(
+      `${k}.step2Body`,
+      "Saw Palmetto is associated with healthy DHT activity at the follicle.",
+    ),
+    actives: t(`${k}.step2Actives`, "Saw Palmetto"),
+  },
+  {
+    step: "03",
+    title: t(`${k}.step3Title`, "Soothe the scalp"),
+    body: t(
+      `${k}.step3Body`,
+      "False Daisy calms the scalp; Horsetail silica contributes to keratin structure.",
+    ),
+    actives: t(`${k}.step3Actives`, "False Daisy, Horsetail"),
+  },
+  {
+    step: "04",
+    title: t(`${k}.step4Title`, "Build stronger strands"),
+    body: t(
+      `${k}.step4Body`,
+      "Silica and the antioxidant complex help new growth look thicker and less prone to breakage.",
+    ),
+    actives: t(`${k}.step4Actives`, "Horsetail, Cantaloupe SOD"),
+  },
+];
+---
+
+<section class="hairline bg-paper border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <div class="border-forest/15 mb-5 max-w-3xl border-b pb-4 md:mb-8">
+      <Eyebrow>{t("product.route.howItWorks", "How it works")}</Eyebrow>
+      <h2 class="text-forest mt-3 font-serif text-2xl leading-[1.05] tracking-[-0.015em] md:text-[2rem]">
+        {t("product.route.whatHappensSpray", "What happens when you spray it on.")}
+      </h2>
+    </div>
+
+    <div class="bg-forest/15 border-forest/15 grid grid-cols-1 gap-px border md:grid-cols-2">
+      {cards.map((card) => (
+        <article class="bg-paper flex h-full flex-col p-5 md:p-7">
+          <div class="mb-3 flex items-center justify-between">
+            <span class="text-forest/50 font-mono text-[10px] tracking-[0.24em] uppercase">
+              {card.step}
+            </span>
+            <span class="bg-gold size-2"></span>
+          </div>
+          <h3 class="text-forest mb-2 font-serif text-lg leading-[1.15] md:text-xl">
+            {card.title}
+          </h3>
+          <p class="text-forest/80 flex-1 font-serif text-[13px] leading-[1.6]">{card.body}</p>
+          <div class="border-forest/10 text-forest/70 mt-3 border-t pt-3 font-mono text-[11.5px]">
+            {card.actives}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

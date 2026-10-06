@@ -1,0 +1,72 @@
+---
+/** "Frequently paired" list at the foot of the buy box (first two related products). */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+
+import ProductActions from "./ProductActions";
+
+export interface Props {
+  related: Product[];
+}
+
+const { related } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const button =
+  "px-2 py-2 border border-paper/20 text-[9px] uppercase tracking-[0.16em] font-mono text-paper hover:bg-paper hover:text-forest transition-colors disabled:opacity-40";
+---
+
+{related.length > 0 && (
+  <div class="border-paper/10 border-b px-5 py-5 sm:px-7 lg:px-8">
+    <p class="text-gold mb-3 font-mono text-[9.5px] tracking-[0.28em] uppercase">
+      {t("product.route.frequentlyPaired", "Frequently paired")}
+    </p>
+    <div class="space-y-2">
+      {related.slice(0, 2).map((r) => {
+        const rName = t(`product.${r.slug}.name`, r.name);
+        return (
+          <div class="border-paper/15 group flex items-center gap-2 border p-2">
+            <a
+              href={withLocalePrefix(`/product/${r.slug}`, locale)}
+              class="hover:bg-paper/5 flex min-w-0 flex-1 items-center gap-3 transition-colors"
+            >
+              <ResponsiveImage
+                src={r.image}
+                alt={rName}
+                sizes="48px"
+                widths={[96, 160]}
+                class="bg-paper h-12 w-12 shrink-0 object-cover"
+              />
+              <div class="min-w-0 flex-1">
+                <p class="text-paper group-hover:text-gold truncate text-[11px] transition-colors">
+                  {rName}
+                </p>
+                <p class="text-paper/50 truncate font-mono text-[9.5px] tracking-[0.2em] uppercase">
+                  {t(`product.${r.slug}.tagline`, r.tagline)}
+                </p>
+              </div>
+              <span class="text-gold shrink-0 font-mono text-[11px] tabular-nums" data-ltr>
+                {formatMoney(getBasePrice(r.slug, currency), currency)}
+              </span>
+            </a>
+            <ProductActions
+              client:visible
+              slug={r.slug}
+              available={r.available}
+              className="flex shrink-0 items-center gap-1"
+              buttonClassName={button}
+              labels={{
+                add: t("product.route.add", "Add"),
+                addAria: `${t("product.route.add", "Add")} ${rName} ${t("product.route.toBag", "to bag")}`,
+                view: t("product.route.view", "View"),
+                viewAria: `${t("product.route.quickView", "Quick view")} ${rName}`,
+              }}
+            />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}

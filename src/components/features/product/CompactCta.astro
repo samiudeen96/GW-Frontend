@@ -1,0 +1,53 @@
+---
+/** "Convinced?" compact secondary CTA shown after the indications section. */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { productImageTitle, type Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+import { getTiers } from "@/lib/pricing";
+
+import CompactCtaActions from "./CompactCtaActions";
+import { altFor } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+---
+
+<section class="hairline bg-ivory border-t">
+  <div class="container-editorial py-6 md:py-8">
+    <div class="border-forest/15 bg-paper flex items-center justify-between gap-4 border p-3 md:p-4">
+      <div class="flex min-w-0 items-center gap-3">
+        <div class="bg-ivory border-forest/10 size-12 shrink-0 border md:size-14">
+          <ResponsiveImage
+            src={p.image}
+            alt={altFor(p, 0, t)}
+            title={productImageTitle(p, t)}
+            sizes="56px"
+            widths={[112, 160]}
+            class="h-full w-full object-contain p-1.5"
+          />
+        </div>
+        <div class="min-w-0">
+          <div class="text-forest/50 font-mono text-[9.5px] tracking-[0.22em] uppercase">
+            {t("product.route.convinced", "Convinced?")}
+          </div>
+          <div class="text-forest truncate font-serif text-[14px] leading-tight md:text-[16px]">
+            {t(`product.${p.slug}.name`, p.name)}
+          </div>
+        </div>
+      </div>
+      <CompactCtaActions
+        client:visible
+        slug={p.slug}
+        available={p.available}
+        currency={currency}
+        tiers={getTiers(p.slug, currency)}
+        label={t("product.route.addToBag", "Add to bag")}
+      />
+    </div>
+  </div>
+</section>

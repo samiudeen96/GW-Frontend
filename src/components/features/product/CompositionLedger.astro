@@ -1,0 +1,129 @@
+---
+/**
+ * Full composition: the active botanicals (linked to their ingredient pages),
+ * the INCI declaration and the label-accurate component count.
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+import Eyebrow from "./Eyebrow.astro";
+import { pad2 } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const percentOf = (s: string | undefined) => s?.match(/(\d+(?:\.\d+)?)\s*%/)?.[0] ?? "";
+const actives = (p.ingredientsDetailed ?? []).map((ing, idx) => ({
+  name: t(`product.${p.slug}.active.${idx}.name`, ing.name),
+  latin: ing.latin ?? "",
+  role: t(`product.${p.slug}.active.${idx}.role`, ing.role ?? ""),
+  percent: ing.percentage ?? percentOf(p.ingredients[idx]),
+}));
+const rawList = p.ingredients.map((s, i) => t(`product.${p.slug}.ingredients.${i}`, s));
+const rows = actives.length
+  ? actives
+  : rawList.map((s) => ({ name: s, latin: "", role: "", percent: percentOf(s) }));
+const inci = p.inciDetails ?? [];
+
+const ingredientSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/\(.*?\)/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+---
+
+<section id="full-composition" class="hairline bg-paper border-t">
+  <div class="container-editorial py-8 md:py-14">
+    <div class="border-forest/15 border-b pb-5 md:pb-6">
+      <Eyebrow>{t("product.route.composition", "Composition")}</Eyebrow>
+      <h2 class="text-forest mt-3 font-serif text-2xl leading-[1.05] tracking-[-0.015em] md:text-[2.2rem]">
+        {t("product.route.theActiveBotanicals", "The active botanicals")}
+      </h2>
+    </div>
+
+    <ul
+      class="bg-forest/15 border-forest/15 mt-6 grid grid-cols-2 gap-px border md:mt-8 md:[grid-template-columns:repeat(var(--comp-cols),minmax(0,1fr))]"
+      style={`--comp-cols:${Math.max(rows.length, 1)}`}
+    >
+      {rows.map((r, i) => {
+        const detail = (p.ingredientsDetailed ?? [])[i];
+        const ingSlug = detail ? ingredientSlug(detail.name) : "";
+        const Tag = ingSlug ? "a" : "div";
+        return (
+          <li class="bg-paper">
+            <Tag
+              href={ingSlug ? withLocalePrefix(`/ingredients/${ingSlug}`, locale) : undefined}
+              class:list={["flex h-full flex-col p-3.5 md:p-5", ingSlug && "group"]}
+            >
+              {detail?.image && (
+                <div class="bg-ivory border-forest/10 mb-3 aspect-square overflow-hidden border">
+                  <ResponsiveImage
+                    src={detail.image}
+                    alt={r.name}
+                    sizes="(min-width: 768px) 20vw, 45vw"
+                    widths={[200, 400, 600]}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
+              <div class="flex items-baseline justify-between gap-2">
+                <span class="text-gold font-mono text-[10px] tracking-[0.24em] tabular-nums">
+                  {pad2(i + 1)}
+                </span>
+                {r.percent && (
+                  <span class="text-forest font-mono text-[11px] tabular-nums">{r.percent}</span>
+                )}
+              </div>
+              <p class="text-forest group-hover:text-moss mt-2 font-serif text-[14px] leading-[1.25] transition-colors md:text-[15.5px]">
+                {r.name}
+              </p>
+              {r.latin && (
+                <p class="text-forest/45 mt-1 font-mono text-[9.5px] tracking-[0.18em] uppercase">
+                  {r.latin}
+                </p>
+              )}
+              {r.role && <p class="text-forest/70 mt-2 text-[11.5px] leading-[1.55]">{r.role}</p>}
+              {ingSlug && (
+                <span class="border-forest/10 text-forest/50 group-hover:text-forest mt-3 border-t pt-3 font-mono text-[9.5px] tracking-[0.22em] uppercase">
+                  {t("product.route.readTheScience", "Read the science")}
+                </span>
+              )}
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+
+    {inci.length > 0 && (
+      <div class="border-forest/15 bg-ivory mt-6 border p-4 md:mt-8 md:p-5">
+        <p class="text-forest/50 font-mono text-[9.5px] tracking-[0.28em] uppercase">
+          {t("product.route.fullInciDeclaration", "Full INCI Declaration")}
+        </p>
+        <p class="text-forest/75 mt-2 text-[12px] leading-[1.7]">
+          {inci
+            .map((ing, i) => t(`product.${p.slug}.inci.${i}.common`, ing.common ?? ing.inci))
+            .join(", ")}
+        </p>
+      </div>
+    )}
+
+    <div class="border-forest/15 bg-paper mt-4 flex items-center justify-between gap-4 border px-4 py-3 md:mt-5">
+      <span class="text-forest/50 font-mono text-[10px] tracking-[0.24em] uppercase">
+        {pad2(rows.length)}
+        {t("product.route.componentsLabelAccurate", "components · label-accurate")}
+      </span>
+      {p.size && (
+        <span class="text-forest/70 font-mono text-[11px] tabular-nums">
+          {t(`product.${p.slug}.size`, p.size)}
+        </span>
+      )}
+    </div>
+  </div>
+</section>

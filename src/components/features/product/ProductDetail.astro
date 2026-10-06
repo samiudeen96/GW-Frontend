@@ -1,0 +1,228 @@
+---
+/**
+ * "The details": specification, in-the-box list and the "From the house"
+ * brand card. Clicking the hero figure shows image 1 in the gallery and
+ * scrolls back to the top.
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import { pad2, productGallery, productT } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+  sku: string;
+}
+
+const { product: p, sku } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const pName = tp("name", p.name);
+const brandName = p.brand ? `${p.brand}®` : "Green Wealth®";
+const form = p.slug.includes("dermaroller")
+  ? t("product.route.form.microNeedling", "Micro-needling tool")
+  : p.slug.includes("shampoo")
+    ? t("product.route.form.shampoo", "Shampoo")
+    : p.slug.includes("rosemary")
+      ? t("product.route.form.scalpHairOil", "Scalp & hair oil")
+      : t("product.route.form.sprayLotion", "Spray lotion");
+const componentsCount = (p.inciDetails ?? p.ingredients).length;
+const heroImg = productGallery(p)[0] ?? p.image;
+const origin = p.origin ? tp("origin", p.origin) : t("product.route.thailand", "Thailand");
+const brandNarrative =
+  p.brand === "GHORI"
+    ? t(
+        "product.route.brandNarrative.ghori",
+        "GHORI® is our sister label for cold-pressed oils and precision scalp tools. Every batch is manufactured under GMP standards for Ghori International, Miami FL, and paired with a scratch-code so you can verify authenticity in seconds.",
+      )
+    : t(
+        "product.route.brandNarrative.greenWealth",
+        "Green Wealth® has spent over a decade formulating the reference botanical spray-treatment loved from Bangkok to Riyadh. Each bottle is authorised, batch-verifiable and ships worldwide from our official distribution.",
+      );
+const freeFromSpec = (
+  p.freeFrom
+    ? p.freeFrom.map((f, fi) => tp(`freeFrom.${fi}`, f))
+    : [
+        t("product.route.silicones", "silicones"),
+        t("product.route.sulfates", "sulfates"),
+        t("product.route.parabens", "parabens"),
+      ]
+).join(" · ");
+const freeFromChips = (
+  p.freeFrom
+    ? p.freeFrom.map((f, fi) => tp(`freeFrom.${fi}`, f))
+    : [
+        t("product.route.silicone", "Silicone"),
+        t("product.route.sulfate", "Sulfate"),
+        t("product.route.paraben", "Paraben"),
+        t("product.route.mineralOil", "Mineral oil"),
+      ]
+).slice(0, 6);
+
+const spec = [
+  [t("product.route.spec.brand", "Brand"), brandName],
+  [t("product.route.spec.category", "Category"), tp("category", p.category)],
+  [t("product.route.spec.format", "Format"), form],
+  [t("product.route.spec.volume", "Volume"), tp("size", p.size)],
+  [t("product.route.spec.origin", "Origin"), origin],
+  [
+    t("product.route.spec.components", "Components"),
+    `${componentsCount} ${t("product.route.declared", "declared")}`,
+  ],
+  [t("product.route.spec.freeFrom", "Free from"), freeFromSpec],
+  [
+    t("product.route.spec.availability", "Availability"),
+    p.available
+      ? t("product.route.inStockShips", "In stock — ships worldwide")
+      : t("product.route.currentlyUnavailable", "Currently unavailable"),
+  ],
+];
+const inBox = [
+  { name: `1 × ${pName}`, note: tp("size", p.size ?? "") },
+  {
+    name: t("product.route.box.scratchCard", "Scratch-code verification card"),
+    note: t("product.route.box.uniqueCode", "Unique code"),
+  },
+  {
+    name: t("product.route.box.leaflet", "Usage & authenticity leaflet"),
+    note: t("product.route.box.multiLanguage", "Multi-language"),
+  },
+  {
+    name: t("product.route.box.carton", "Sealed outer carton"),
+    note: t("product.route.box.tamperEvident", "Tamper-evident"),
+  },
+];
+const houseStats = [
+  { n: "10+", l: t("product.route.years", "Years") },
+  { n: "40+", l: t("product.route.countries", "Countries") },
+  { n: t("product.route.verified", "Verified"), l: t("product.route.source", "Source") },
+];
+const panelHead = "px-5 md:px-6 py-3 border-b border-forest/15 bg-ivory/60";
+const panelLabel = "text-[9.5px] uppercase tracking-[0.24em] font-mono text-gold";
+---
+
+<section class="hairline bg-paper border-t">
+  <div class="container-editorial py-9 md:py-14">
+    <div class="border-forest/15 mb-6 flex items-baseline justify-between gap-4 border-b pb-4 md:mb-8">
+      <div>
+        <div class="text-forest/55 font-mono text-[9px] tracking-[0.28em] uppercase">
+          {t("product.route.productDetail", "Product Detail")} · {sku}
+        </div>
+        <h2 class="text-forest mt-2 font-serif text-2xl leading-[1.05] tracking-[-0.02em] md:text-[2rem]">
+          {t("product.route.theDetails", "The details.")}
+        </h2>
+      </div>
+      <div class="text-forest/55 hidden items-center gap-4 font-mono text-[9.5px] tracking-[0.22em] uppercase md:flex">
+        <span>
+          {componentsCount} {t("product.route.components", "components")}
+        </span>
+        <span class="text-forest/30">·</span>
+        <span>{tp("size", p.size)}</span>
+        <span class="text-forest/30">·</span>
+        <span>{origin}</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
+      <div class="space-y-6 md:space-y-8">
+        <div class="border-forest/15 bg-paper border">
+          <div class={panelHead}>
+            <span class={panelLabel}>{t("product.route.specification", "Specification")}</span>
+          </div>
+          <dl class="px-5 py-1 md:px-6">
+            {spec.map(([k, v]) => (
+              <div class="border-forest/10 grid grid-cols-[38%_1fr] gap-3 border-b py-2.5 last:border-b-0">
+                <dt class="text-forest/55 pt-0.5 font-mono text-[10px] tracking-[0.2em] uppercase">
+                  {k}
+                </dt>
+                <dd class="text-forest/85 font-serif text-[12.5px] leading-[1.5]">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div class="border-forest/15 bg-paper border">
+          <div class={panelHead}>
+            <span class={panelLabel}>{t("product.route.inTheBox", "In the box")}</span>
+          </div>
+          <ul class="px-5 py-1 md:px-6">
+            {inBox.map((row, i) => (
+              <li class="border-forest/10 grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b py-2.5 last:border-b-0">
+                <span class="text-forest/40 w-5 font-serif text-xs tabular-nums">
+                  {pad2(i + 1)}
+                </span>
+                <span class="text-forest font-serif text-[13px]">{row.name}</span>
+                <span class="text-forest/50 font-mono text-[9px] tracking-[0.2em] uppercase">
+                  {row.note}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-forest/15 bg-paper flex flex-col border">
+        <button
+          type="button"
+          data-pdp-figure="0"
+          class="bg-ivory group border-forest/15 relative aspect-[4/3] overflow-hidden border-b"
+          aria-label={t("product.route.viewHeroFigure", "View hero figure")}
+        >
+          <ResponsiveImage
+            src={heroImg}
+            alt={pName}
+            sizes="(min-width: 1024px) 500px, 100vw"
+            class="absolute inset-0 h-full w-full object-contain p-8 transition-transform duration-[900ms] group-hover:scale-[1.03] md:p-12"
+          />
+        </button>
+        <div class="flex flex-1 flex-col p-5 md:p-7">
+          <div class={panelLabel}>{t("product.route.fromTheHouse", "From the house")}</div>
+          <h3 class="text-forest mt-2 font-serif text-xl leading-[1.1] tracking-[-0.015em] md:text-2xl">
+            {p.slug.startsWith("ghori-")
+              ? t(
+                  "product.route.ghoriTagline",
+                  "Ghori® — botanical formulation, honestly labelled.",
+                )
+              : t(
+                  "product.route.greenWealthTagline",
+                  "Green Wealth® — a botanical hair-care house.",
+                )}
+          </h3>
+          <p class="text-forest/75 mt-3 font-serif text-[13.5px] leading-[1.6]">{brandNarrative}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">
+            {freeFromChips.map((f) => (
+              <span class="text-forest border-forest/25 border px-2 py-1 font-mono text-[9.5px] tracking-[0.18em] uppercase">
+                {f}-{t("product.route.freeSuffix", "free")}
+              </span>
+            ))}
+          </div>
+          <div class="border-forest/15 mt-auto grid grid-cols-3 gap-4 border-t pt-5">
+            {houseStats.map((s) => (
+              <div>
+                <div class="text-forest font-serif text-xl leading-none tabular-nums md:text-2xl">
+                  {s.n}
+                </div>
+                <div class="text-forest/55 mt-1.5 font-mono text-[9px] tracking-[0.2em] uppercase">
+                  {s.l}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { GALLERY_FIGURE_EVENT } from "./store";
+
+  document.querySelectorAll<HTMLButtonElement>("[data-pdp-figure]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const index = Number(btn.dataset.pdpFigure ?? 0);
+      window.dispatchEvent(new CustomEvent(GALLERY_FIGURE_EVENT, { detail: index }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+</script>

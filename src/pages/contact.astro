@@ -1,0 +1,390 @@
+---
+import ContactForm from "@/components/features/static/contact/ContactForm";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, islandI18n } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const ar = locale === "ar";
+
+const title = ar
+  ? "تواصل مع جرين ولث — الدعم لطلبات لوشن نيو للشعر"
+  : "Contact Green Wealth — Support for Neo Hair Lotion Orders";
+const description = ar
+  ? "تواصل مع فريق خدمة عملاء جرين ولث بخصوص الطلبات والأصالة والجملة والشراكات. المقر الرئيسي في دبي. الرد خلال 24 ساعة."
+  : "Reach Green Wealth customer care for orders, authenticity, wholesale and partnerships. Head office in Dubai. Response within 24 hours.";
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: ar ? "الرئيسية" : "Home", path: "/" },
+    { name: ar ? "تواصل معنا" : "Contact", path: "/contact" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact Green Wealth",
+    mainEntity: {
+      "@type": "Organization",
+      name: "Green Wealth",
+      telephone: "+971-800-44674",
+      email: "sales@greenwealth.com",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "2003, One By Omniyat, Business Bay",
+        addressLocality: "Dubai",
+        addressCountry: "AE",
+      },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          telephone: "+971-800-44674",
+          availableLanguage: ["English", "Arabic"],
+        },
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          email: "sales@greenwealth.com",
+          availableLanguage: ["English", "Arabic"],
+        },
+      ],
+    },
+  },
+];
+
+const WHATSAPP_URL = "https://wa.me/97180044674";
+
+const CONTACT_CARDS = [
+  {
+    key: "office",
+    label: "Head Office",
+    lines: ["Ghori Trading LLC", "2003, One By Omniyat", "Business Bay, Dubai, UAE"],
+  },
+  { key: "phone", label: "Phone", lines: ["+971 800 44674", "Toll-free within UAE"] },
+  { key: "email", label: "Email", lines: ["sales@greenwealth.com", "support@greenwealth.com"] },
+  { key: "hours", label: "Working Hours", lines: ["Mon – Sat  9AM – 7PM GST", "Sunday closed"] },
+];
+
+const SUPPORT_STANDARDS = [
+  {
+    key: "global",
+    title: "Global Coverage",
+    desc: "Support in English & Arabic across 90+ countries.",
+  },
+  {
+    key: "fast",
+    title: "Fast Response",
+    desc: "Average reply time under 12 hours, 7 days a week.",
+  },
+  {
+    key: "order",
+    title: "Order Assistance",
+    desc: "Tracking, delivery, customs & re-ship support.",
+  },
+  {
+    key: "authenticity",
+    title: "Authenticity Desk",
+    desc: "Verify holograms, scratch codes & sellers in minutes.",
+  },
+  {
+    key: "wholesale",
+    title: "Wholesale Team",
+    desc: "Direct line to our distribution & partnerships desk.",
+  },
+  {
+    key: "whatsapp",
+    title: "WhatsApp Concierge",
+    desc: "Instant chat with a human agent, not a bot.",
+  },
+];
+
+const DEPARTMENTS = [
+  {
+    key: "care",
+    label: "Customer Care",
+    email: "support@greenwealth.com",
+    for: "Orders, tracking, returns, refunds, replacements.",
+  },
+  {
+    key: "sales",
+    label: "Sales & Wholesale",
+    email: "sales@greenwealth.com",
+    for: "Bulk orders, retailer accounts, distributor onboarding.",
+  },
+  {
+    key: "partnerships",
+    label: "Partnerships",
+    email: "partners@greenwealth.com",
+    for: "Country distributors, exclusive market rights, brand collaborations.",
+  },
+  {
+    key: "authenticity",
+    label: "Authenticity & Anti-Counterfeit",
+    email: "verify@greenwealth.com",
+    for: "Report a fake seller, verify a code, submit a marketplace listing.",
+  },
+  {
+    key: "press",
+    label: "Press & Media",
+    email: "press@greenwealth.com",
+    for: "Interview requests, editorial images, brand fact-sheets.",
+  },
+];
+
+const FAQ = [
+  {
+    key: "q1",
+    q: "How fast will I hear back?",
+    a: "Our customer team responds within 24 hours, with an average of under 12 hours. WhatsApp is typically fastest during Dubai business hours.",
+  },
+  {
+    key: "q2",
+    q: "How do I confirm my Neo Hair Lotion is authentic?",
+    a: "Every authorised bottle carries a 3D holographic seal, a white nozzle, and a unique verification code. Enter it on our /verify page or send it to verify@greenwealth.com.",
+  },
+  {
+    key: "q3",
+    q: "Do you ship worldwide?",
+    a: "Yes. We ship to 90+ countries from our Dubai and Bangkok fulfilment hubs. Duties and taxes are calculated at checkout where applicable.",
+  },
+  {
+    key: "q4",
+    q: "I want to sell Neo Hair Lotion in my country — who do I talk to?",
+    a: "Write to sales@greenwealth.com with your market, expected volume, and existing retail footprint. Our distribution desk replies within two business days.",
+  },
+];
+---
+
+<SiteLayout title={title} description={description} path="/contact" jsonLd={jsonLd}>
+  {/* Hero */}
+  <section class="bg-forest text-ivory">
+    <div class="container-editorial py-20 text-center md:py-28">
+      <span class="border-ivory/20 bg-ivory/[0.03] text-ivory/70 mb-8 inline-block border px-5 py-2 text-[10px] font-semibold tracking-[0.3em] uppercase">
+        {t("misc.contact.badge", "Customer Care")}
+      </span>
+      <h1 class="display-lg text-ivory">{t("misc.contact.hero.title", "Get in Touch")}</h1>
+      <p class="text-ivory/60 mx-auto mt-6 max-w-xl text-sm leading-relaxed md:text-base">
+        {t(
+          "misc.contact.hero.desc",
+          "Our dedicated team assists with orders, product questions, authenticity, and partnerships. Average response time under 12 hours.",
+        )}
+      </p>
+    </div>
+  </section>
+
+  {/* Contact cards */}
+  <section class="bg-ivory">
+    <div class="container-editorial relative z-10 -mt-10">
+      <div class="grid grid-cols-2 md:grid-cols-4">
+        {CONTACT_CARDS.map((c) => (
+          <div class="bg-paper hairline border p-5 md:p-6">
+            <p class="text-forest mb-2 text-[10px] font-bold tracking-[0.2em] uppercase">
+              {t(`misc.contact.card.${c.key}.label`, c.label)}
+            </p>
+            {c.lines.map((l, i) => (
+              <p class="text-ink/60 text-xs leading-relaxed">
+                {t(`misc.contact.card.${c.key}.line${i + 1}`, l)}
+              </p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* WhatsApp banner */}
+    <div class="container-editorial py-8">
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-forest text-ivory flex items-center justify-between p-5 transition hover:brightness-110 md:p-6"
+      >
+        <div>
+          <p class="text-xs font-bold tracking-[0.2em] uppercase">
+            {t("misc.contact.whatsapp.title", "Chat on WhatsApp")}
+          </p>
+          <p class="text-ivory/50 text-[11px]">
+            {t("misc.contact.whatsapp.desc", "Instant support · +971 800 44674")}
+          </p>
+        </div>
+        <span class="text-ivory/60 hidden text-[11px] tracking-[0.2em] uppercase sm:inline">
+          {t("misc.contact.whatsapp.open", "Open →")}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  {/* Support standards grid */}
+  <section class="bg-paper">
+    <div class="container-editorial py-16 md:py-24">
+      <div class="mb-12 text-center">
+        <div class="eyebrow mb-4">{t("misc.contact.standards.eyebrow", "What to Expect")}</div>
+        <h2 class="text-forest font-serif text-3xl md:text-5xl">
+          {t("misc.contact.standards.title", "Our Support Standards")}
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {SUPPORT_STANDARDS.map((p) => (
+          <div class="hairline border p-6 md:p-8">
+            <h3 class="text-forest mb-2 text-xs font-bold tracking-[0.15em] uppercase">
+              {t(`misc.contact.standard.${p.key}.title`, p.title)}
+            </h3>
+            <p class="text-ink/60 text-xs leading-relaxed">
+              {t(`misc.contact.standard.${p.key}.desc`, p.desc)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Departments */}
+  <section class="bg-ivory">
+    <div class="container-editorial py-16 md:py-24">
+      <div class="mb-10">
+        <div class="eyebrow mb-4">{t("misc.contact.departments.eyebrow", "Direct Lines")}</div>
+        <h2 class="text-forest font-serif text-3xl md:text-5xl">
+          {t("misc.contact.departments.title", "Reach the Right Desk")}
+        </h2>
+        <p class="text-ink/60 mt-4 max-w-xl text-sm">
+          {t(
+            "misc.contact.departments.desc",
+            "Skip the routing — write directly to the team best suited to your request.",
+          )}
+        </p>
+      </div>
+      <div class="hairline border">
+        {DEPARTMENTS.map((d) => (
+          <div class="hairline grid grid-cols-1 items-center gap-4 border-b p-5 last:border-b-0 md:grid-cols-[220px_1fr_auto] md:gap-8 md:p-6">
+            <p class="text-forest text-xs font-bold tracking-[0.15em] uppercase">
+              {t(`misc.contact.dept.${d.key}.label`, d.label)}
+            </p>
+            <p class="text-ink/60 text-xs leading-relaxed">
+              {t(`misc.contact.dept.${d.key}.for`, d.for)}
+            </p>
+            <a
+              href={`mailto:${d.email}`}
+              data-ltr
+              class="text-forest font-mono text-xs underline underline-offset-4 hover:text-[color:var(--moss)]"
+            >
+              {d.email}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Form */}
+  <section class="bg-paper">
+    <div class="container-editorial grid gap-10 py-16 md:grid-cols-5 md:gap-14 md:py-24">
+      {/* Left context */}
+      <div class="space-y-6 md:col-span-2">
+        <div class="eyebrow">{t("misc.contact.form.eyebrow", "Send a Message")}</div>
+        <h2 class="text-forest font-serif text-3xl leading-tight md:text-4xl">
+          {t("misc.contact.form.title", "We would love to hear from you.")}
+        </h2>
+        <p class="text-ink/70 text-sm leading-relaxed">
+          {t(
+            "misc.contact.form.desc",
+            "Whether it is a question about our products, help tracking an order, or a distribution opportunity — fill the form and our team will reply within 24 hours.",
+          )}
+        </p>
+        <ul class="hairline space-y-3 border-t pt-4">
+          <li class="text-ink/70 text-xs">
+            {t("misc.contact.form.bullet1", "— Product, order and authenticity support")}
+          </li>
+          <li class="text-ink/70 text-xs">
+            {t("misc.contact.form.bullet2", "— Replies during published support hours")}
+          </li>
+          <li class="text-ink/70 text-xs">
+            {t("misc.contact.form.bullet3", "— Every message reviewed by our support team")}
+          </li>
+        </ul>
+      </div>
+
+      {/* Right form */}
+      <div class="md:col-span-3">
+        <ContactForm
+          client:visible
+          i18n={islandI18n(locale, [
+            "misc.contact.form.",
+            "misc.contact.field.",
+            "misc.contact.subject.",
+          ])}
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* Map + Address */}
+  <section class="bg-ivory">
+    <div class="container-editorial grid items-start gap-8 py-16 md:grid-cols-2 md:py-24">
+      <div class="space-y-4">
+        <div class="eyebrow">{t("misc.contact.visit.eyebrow", "Visit")}</div>
+        <h2 class="text-forest font-serif text-3xl md:text-4xl">
+          {t("misc.contact.visit.title", "Dubai Headquarters")}
+        </h2>
+        <p class="text-ink/70 text-sm leading-relaxed">
+          {t(
+            "misc.contact.visit.desc",
+            "Ghori Trading LLC operates from Business Bay, Dubai — the strategic bridge between our Bangkok manufacturing partner and our 90+ international markets.",
+          )}
+        </p>
+        <address class="text-ink/80 border-forest border-s-2 ps-4 text-sm leading-relaxed not-italic">
+          {t("misc.contact.visit.addrCompany", "Ghori Trading LLC")}
+          <br />
+          {t("misc.contact.visit.addrOffice", "Office 2003, One By Omniyat")}
+          <br />
+          {t("misc.contact.visit.addrBusinessBay", "Business Bay, Dubai")}
+          <br />
+          {t("misc.contact.visit.addrCountry", "United Arab Emirates")}
+        </address>
+        <a
+          href="https://www.google.com/maps/search/Ghori+Trading+LLC,+Dubai,+UAE"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-forest inline-flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase hover:underline"
+        >
+          {t("misc.contact.visit.mapLink", "Open in Google Maps →")}
+        </a>
+      </div>
+      <div class="hairline border">
+        <iframe
+          title={t("misc.contact.mapTitle", "Ghori Trading LLC Location")}
+          src="https://www.google.com/maps?q=Business+Bay+Dubai+UAE&output=embed"
+          width="100%"
+          height="360"
+          style="border: 0; display: block"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <section class="bg-paper">
+    <div class="container-editorial py-16 md:py-24">
+      <div class="mb-10 text-center">
+        <div class="eyebrow mb-4">{t("misc.contact.faq.eyebrow", "Quick Answers")}</div>
+        <h2 class="text-forest font-serif text-3xl md:text-5xl">
+          {t("misc.contact.faq.title", "Before you write to us")}
+        </h2>
+      </div>
+      <div class="hairline mx-auto max-w-3xl border">
+        {FAQ.map((f) => (
+          <div class="hairline border-b p-6 last:border-b-0 md:p-8">
+            <h3 class="text-forest mb-2 text-sm font-bold">
+              {t(`misc.contact.faq.${f.key}`, f.q)}
+            </h3>
+            <p class="text-ink/60 text-xs leading-relaxed">
+              {t(`misc.contact.faq.a${f.key.slice(1)}`, f.a)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>

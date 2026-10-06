@@ -25,7 +25,13 @@ export interface Props {
   path?: string;
   image?: string;
   type?: "website" | "article" | "product";
+  /** Shorthand for `robots="noindex, follow"`. */
   noindex?: boolean;
+  /** Explicit robots directive; overrides `noindex`. */
+  robots?: string;
+  /** Social-card title/description when they differ from the page's. */
+  ogTitle?: string;
+  ogDescription?: string;
   /** Page-specific JSON-LD objects. */
   jsonLd?: object[];
 }
@@ -42,8 +48,13 @@ const {
   image = DEFAULT_OG_IMAGE,
   type = "website",
   noindex = false,
+  robots = noindex ? "noindex, follow" : undefined,
+  ogTitle = title,
+  ogDescription = description,
   jsonLd = [],
 } = Astro.props;
+
+const indexable = !robots?.includes("noindex");
 
 const meta = LOCALE_META[locale];
 const canonical = canonicalFor(path, locale);
@@ -72,23 +83,23 @@ const structured = [organizationLd, websiteLd, ...jsonLd];
     <meta name="description" content={description} />
     <meta name="author" content={SITE_NAME} />
     <meta name="theme-color" content="#064e3b" />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {robots && <meta name="robots" content={robots} />}
 
     <link rel="canonical" href={canonical} />
-    {!noindex &&
+    {indexable &&
       hreflangLinks(path).map((l) => <link rel="alternate" hreflang={l.hreflang} href={l.href} />)}
 
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:type" content={type} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={locale === "ar" ? "ar_AR" : "en_US"} />
     <meta property="og:locale:alternate" content={locale === "ar" ? "en_US" : "ar_AR"} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" href="/favicon.ico" />

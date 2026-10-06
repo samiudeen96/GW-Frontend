@@ -1,0 +1,37 @@
+---
+/** Single-row trust strip under the PDP hero. */
+import { createT } from "@/lib/i18n";
+
+const t = createT(Astro.locals.locale);
+const items = [
+  {
+    label: t("product.route.verifiedAuthentic", "Verified authentic"),
+    body: t("product.route.authorisedDistribution", "Authorised distribution only"),
+  },
+  {
+    label: t("product.route.worldwideShipping", "Worldwide shipping"),
+    body: t("product.route.trackedCountries", "Tracked to 140+ countries"),
+  },
+  {
+    label: t("product.route.sevenDayReturns", "7-day returns"),
+    body: t("product.route.unopenedEasyExchanges", "Unopened, easy exchanges"),
+  },
+  {
+    label: t("product.route.secureCheckout", "Secure checkout"),
+    body: t("product.route.sslEncryptedPayments", "SSL encrypted payments"),
+  },
+];
+---
+
+<section class="hairline bg-paper border-t">
+  <ul class="hairline grid grid-cols-2 divide-x divide-[color:var(--border)] border-b md:grid-cols-4">
+    {items.map(({ label, body }) => (
+      <li class="flex items-start gap-3 px-3 py-5 md:px-6 md:py-6">
+        <div class="min-w-0">
+          <p class="text-forest font-mono text-[11px] tracking-[0.22em] uppercase">{label}</p>
+          <p class="text-forest/60 mt-1 text-[12px] leading-snug">{body}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>

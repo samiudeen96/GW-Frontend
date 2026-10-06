@@ -1,0 +1,105 @@
+---
+/**
+ * Scientific ledger blocks (mechanism, bio-pathways, formulation facts,
+ * composition). Shared by the desktop hero aside and the mobile ledger.
+ */
+import { createT } from "@/lib/i18n";
+
+import { pad2, type LedgerData } from "./product-helpers";
+
+export interface Props {
+  data: LedgerData;
+  variant: "desktop" | "mobile";
+}
+
+const { data, variant } = Astro.props;
+const t = createT(Astro.locals.locale);
+const desktop = variant === "desktop";
+const heading = "text-forest/40 mb-3 font-mono text-[9.5px] tracking-[0.28em] uppercase";
+---
+
+<section>
+  <h2 class={heading}>{t("product.route.primaryMechanism", "Primary Mechanism")}</h2>
+  <p class="text-forest text-[13px] leading-[1.65]">{data.mechanism}</p>
+  {desktop && data.overview && (
+    <p class="text-forest/70 mt-3 text-[12px] leading-[1.7]">{data.overview}</p>
+  )}
+  {data.benefits.length > 0 && (
+    <ul class:list={["space-y-2", desktop ? "mt-4" : "mt-3"]}>
+      {data.benefits.map((b, i) => (
+        <li
+          class:list={[
+            "text-forest/85 flex gap-2.5 leading-[1.55]",
+            desktop ? "text-[11.5px]" : "text-[12px]",
+          ]}
+        >
+          <span class="text-gold shrink-0 pt-[2px] font-mono tabular-nums">{pad2(i + 1)}</span>
+          <span>{b}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</section>
+
+{data.bioPathways.length > 0 && (
+  <section>
+    <h2 class={heading}>{t("product.route.bioPathways", "Bio-Pathways")}</h2>
+    <div class="space-y-3">
+      {data.bioPathways.map((bp, i) => (
+        <div class="border-gold/70 border-s-2 ps-3">
+          <div class="flex items-baseline justify-between gap-2">
+            <span class="text-forest text-[10.5px] font-medium tracking-[0.08em] uppercase">
+              {bp.role}
+            </span>
+            <span class="text-forest/40 font-mono text-[9.5px] tabular-nums">P·{pad2(i + 1)}</span>
+          </div>
+          <p
+            class:list={[
+              "text-forest/70 mt-0.5 leading-[1.55]",
+              desktop ? "text-[11px]" : "text-[11.5px]",
+            ]}
+          >
+            <span class="text-forest/90">{bp.actor}</span>
+            {bp.note && <> — {bp.note}</>}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+{data.facts.length > 0 && (
+  <section>
+    <h2 class={heading}>{t("product.route.formulationFacts", "Formulation Facts")}</h2>
+    <div class="flex flex-wrap gap-1.5">
+      {data.facts.map((f) => (
+        <span class="text-forest/80 hairline border px-2 py-1 font-mono text-[9.5px] tracking-[0.14em] uppercase">
+          {f}
+        </span>
+      ))}
+    </div>
+  </section>
+)}
+
+{data.composition.length > 0 && (
+  <section>
+    <h2
+      class:list={[
+        "text-forest/40 font-mono text-[9.5px] tracking-[0.28em] uppercase",
+        desktop ? "mb-4" : "mb-3",
+      ]}
+    >
+      {t("product.route.molecularComposition", "Molecular Composition")}
+    </h2>
+    <div class="space-y-2.5">
+      {data.composition.map((c) => (
+        <div class="hairline flex items-end justify-between gap-3 border-b pb-1.5">
+          <span class="text-forest truncate text-[10.5px] font-medium tracking-[0.06em] uppercase">
+            {c.name}
+          </span>
+          <span class="text-gold shrink-0 font-mono text-[11px] tabular-nums">{c.percent}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+)}

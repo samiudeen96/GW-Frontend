@@ -1,0 +1,33 @@
+---
+import AccountHero from "@/components/features/account/AccountHero.astro";
+import AccountPortal from "@/components/features/account/AccountPortal";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { islandI18n } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+
+const i18n = islandI18n(locale, [
+  "commerce.account.",
+  "commerce.auth.",
+  "commerce.fields.",
+  "commerce.tracking.",
+  "commerce.trackOrder.items",
+  "commerce.trackOrder.payment",
+  "commerce.trackOrder.email",
+  "commerce.summary.shipping",
+  "commerce.summary.total",
+  "commerce.payment.contactSupport",
+]);
+---
+
+<SiteLayout
+  title="My Account — Green Wealth"
+  description="Your Green Wealth account: order history, shipment status, saved addresses, profile details and sign-in security."
+  path="/account"
+  noindex
+>
+  <AccountHero />
+  <div class="container-editorial py-6 md:py-10">
+    <AccountPortal client:load i18n={i18n} />
+  </div>
+</SiteLayout>

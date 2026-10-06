@@ -1,0 +1,38 @@
+---
+/** Forest header band at the top of /account. */
+import { createT } from "@/lib/i18n";
+
+const t = createT(Astro.locals.locale);
+const steps = ["Orders", "Delivery", "Security"];
+---
+
+<div class="bg-forest text-paper border-paper/15 border-b">
+  <div class="container-editorial py-10 md:py-14">
+    <div class="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <p class="text-brass mb-4 text-[10px] tracking-[0.24em] uppercase">
+          {t("commerce.account.portal.eyebrow", "Private Customer Record")}
+        </p>
+        <h1 class="font-serif text-4xl leading-none md:text-6xl">
+          {t("commerce.account.portal.title", "My Account")}
+        </h1>
+        <p class="text-paper/70 mt-4 max-w-2xl text-sm leading-relaxed">
+          {t(
+            "commerce.account.portal.intro",
+            "One place for every order, delivery, address and account setting.",
+          )}
+        </p>
+      </div>
+      <div class="border-paper/20 divide-paper/20 grid min-w-full grid-cols-3 divide-x border md:min-w-[390px]">
+        {steps.map((label, index) => (
+          <div class="p-4 md:p-5">
+            <p class="text-paper/55 text-[9px] tracking-[0.2em] uppercase">0{index + 1}</p>
+            <p class="mt-2 text-[10px] tracking-[0.16em] uppercase">
+              {t(`commerce.account.header.${label.toLowerCase()}`, label)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

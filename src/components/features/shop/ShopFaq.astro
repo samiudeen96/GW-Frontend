@@ -1,0 +1,59 @@
+---
+/** "Before you order" FAQ on /shop (native <details> accordion, no JS). */
+import { createT } from "@/lib/i18n";
+
+const t = createT(Astro.locals.locale);
+
+const faqs = [
+  {
+    id: "authentic",
+    q: "How do I know my unit is authentic?",
+    a: "Every carton carries a scratch panel with a unique code. Verify it on our Authenticity page before first use — codes are single-use and locked to the first successful check.",
+  },
+  {
+    id: "results",
+    q: "How long until I see results?",
+    a: "Most customers report reduced shedding within 4–6 weeks and visible density changes between 90 and 120 days of daily use.",
+  },
+  {
+    id: "shipping",
+    q: "Do you ship to my country?",
+    a: "We ship worldwide from authorized distribution to 90+ countries with tracked, insured delivery. Duties are calculated at checkout.",
+  },
+  {
+    id: "combine",
+    q: "Can I combine products?",
+    a: "Yes — the four-step ritual is designed to layer. Use the derma roller before Neo Hair Lotion to improve delivery to the follicle.",
+  },
+];
+---
+
+<section class="container-editorial mt-10 mb-12 md:mt-16 md:mb-20">
+  <div class="grid grid-cols-1 gap-6 md:gap-10 lg:grid-cols-[0.4fr_1fr]">
+    <div>
+      <h2 class="text-forest font-serif text-2xl leading-tight md:text-3xl">
+        {t("shop.faq.title", "Before you order")}
+      </h2>
+      <p class="text-forest/70 mt-3 text-[13px]">
+        {t("shop.faq.intro", "The most common questions from first-time customers.")}
+      </p>
+    </div>
+    <div class="hairline divide-y border">
+      {faqs.map((f) => (
+        <details class="group bg-paper">
+          <summary class="text-forest flex cursor-pointer list-none items-center justify-between p-4 md:p-5">
+            <span class="pe-4 text-[13.5px] font-medium md:text-sm">
+              {t(`shop.faq.${f.id}.q`, f.q)}
+            </span>
+            <span class="text-moss font-mono text-lg transition-transform group-open:rotate-45">
+              +
+            </span>
+          </summary>
+          <div class="text-forest/75 px-4 pb-4 text-[13px] leading-relaxed md:px-5 md:pb-5">
+            {t(`shop.faq.${f.id}.a`, f.a)}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

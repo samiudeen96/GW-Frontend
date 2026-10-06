@@ -1,0 +1,394 @@
+---
+/** /ingredients/:slug — ingredient dossier. Unknown slugs render the 404 body with a 404 status. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import IngredientNotFound from "@/components/features/ingredients/IngredientNotFound.astro";
+import { ingT } from "@/components/features/ingredients/utils";
+import { ingredientExtras } from "@/data/ingredient-extras";
+import { productImageAlt, productImageTitle, type Product } from "@/data/products";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getIngredientBySlug, getIngredients, getProducts } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { imageUrl } from "@/lib/images";
+import { abs, breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const ing = ingT(t);
+const entry = await getIngredientBySlug(Astro.params.slug ?? "");
+if (!entry) Astro.response.status = 404;
+
+const [ingredients, products] = entry
+  ? await Promise.all([getIngredients(), getProducts()])
+  : [[], []];
+const usedIn = (entry?.productSlugs ?? [])
+  .map((s) => products.find((p) => p.slug === s))
+  .filter((p): p is Product => !!p);
+const otherIngredients = ingredients.filter((i) => i.slug !== entry?.slug).slice(0, 6);
+const extra = entry ? ingredientExtras[entry.slug] : undefined;
+const tags = extra?.tags ?? [];
+const label = "font-mono text-[10px] tracking-[0.22em] text-forest/50 uppercase";
+const kicker = "font-mono text-[10px] tracking-[0.28em] text-moss uppercase";
+
+const path = entry ? `/ingredients/${entry.slug}` : Astro.locals.pathname;
+const eName = entry ? ing(entry.name) : "";
+const desc = entry ? ing(entry.summary ?? entry.description) : "";
+const jsonLd = entry
+  ? [
+      breadcrumbLd([
+        { name: t("ing.breadcrumb.home", "Home"), path: "/" },
+        { name: t("ing.breadcrumb.ingredients", "Ingredients"), path: "/ingredients" },
+        { name: eName, path },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        name: eName,
+        alternateName: entry.latin,
+        description: desc,
+        inDefinedTermSet: abs("/ingredients"),
+        url: abs(path),
+      },
+    ]
+  : [];
+---
+
+{!entry ? (
+  <SiteLayout title={`${t("ing.notFound.title", "Ingredient not found")} — Green Wealth`} noindex>
+    <IngredientNotFound />
+  </SiteLayout>
+) : (
+  <SiteLayout
+    title={`${eName} — ${t("ing.meta.titleSuffix", "Ingredient Guide | Green Wealth")}`}
+    description={desc}
+    path={path}
+    image={entry.image ? imageUrl(entry.image) : undefined}
+    jsonLd={jsonLd}
+  >
+    <div class="hairline bg-paper border-b">
+      <div class="container-editorial py-6">
+        <nav class="text-forest/60 font-mono text-[10px] tracking-[0.24em] uppercase">
+          <a href={withLocalePrefix("/", locale)} class="hover:text-forest">
+            {t("ing.breadcrumb.home", "Home")}
+          </a>
+          <span class="mx-2">/</span>
+          <a href={withLocalePrefix("/ingredients", locale)} class="hover:text-forest">
+            {t("ing.breadcrumb.ingredients", "Ingredients")}
+          </a>
+          <span class="mx-2">/</span>
+          <span class="text-forest">{eName}</span>
+        </nav>
+      </div>
+    </div>
+
+    <PageHeader
+      eyebrow={entry.role ? ing(entry.role) : t("ing.eyebrow.botanical", "Botanical")}
+      title={eName}
+      intro={desc}
+    />
+
+    {(tags.length > 0 || usedIn.length > 0) && (
+      <div class="container-editorial pb-2">
+        <div class="flex flex-wrap gap-1.5">
+          {tags.map((tag) => (
+            <span class="text-forest bg-ivory hairline border px-2.5 py-1 font-mono text-[10px] tracking-[0.22em] uppercase">
+              {ing(tag)}
+            </span>
+          ))}
+          {usedIn.map((p) => (
+            <a
+              href={withLocalePrefix(`/product/${p.slug}`, locale)}
+              class="text-paper bg-forest hairline border-forest hover:bg-moss border px-2.5 py-1 font-mono text-[10px] tracking-[0.22em] uppercase transition-colors"
+            >
+              {t("ing.chip.usedIn", "Used in")} ·{" "}
+              {t(`product.${p.slug}.name`, p.name).replace(/®/g, "")}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="container-editorial py-8 md:py-14">
+      <div class="grid grid-cols-1 items-start gap-8 md:gap-12 lg:grid-cols-5">
+        {entry.image && (
+          <div class="lg:sticky lg:top-24 lg:col-span-2 lg:self-start">
+            <div class="bg-ivory hairline aspect-square overflow-hidden border">
+              <ResponsiveImage
+                src={entry.image}
+                alt={`${eName} — ${t("img.ingredientAltCare", "botanical active used in Green Wealth hair care")}`}
+                title={eName}
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <dl class="hairline divide-ink/10 bg-paper mt-6 divide-y border">
+              {entry.latin && (
+                <div class="flex justify-between px-4 py-3">
+                  <dt class={label}>{t("ing.label.latin", "Latin")}</dt>
+                  <dd class="text-forest text-[12px]">{entry.latin}</dd>
+                </div>
+              )}
+              {entry.origin && (
+                <div class="flex justify-between px-4 py-3">
+                  <dt class={label}>{t("ing.label.origin", "Origin")}</dt>
+                  <dd class="text-forest text-[12px]">{ing(entry.origin)}</dd>
+                </div>
+              )}
+              {entry.process && (
+                <div class="flex justify-between px-4 py-3">
+                  <dt class={label}>{t("ing.label.process", "Process")}</dt>
+                  <dd class="text-forest text-end text-[12px]">{ing(entry.process)}</dd>
+                </div>
+              )}
+              {entry.dailyDose && (
+                <div class="flex justify-between px-4 py-3">
+                  <dt class={label}>{t("ing.label.dose", "Dose")}</dt>
+                  <dd class="text-forest text-[12px]">{ing(entry.dailyDose)}</dd>
+                </div>
+              )}
+              {extra?.family && (
+                <div class="flex justify-between px-4 py-3">
+                  <dt class={label}>{t("ing.label.family", "Family")}</dt>
+                  <dd class="text-forest text-end text-[12px]">{ing(extra.family)}</dd>
+                </div>
+              )}
+              {extra?.partUsed && (
+                <div class="flex justify-between gap-4 px-4 py-3">
+                  <dt class:list={[label, "flex-shrink-0"]}>
+                    {t("ing.label.partUsed", "Part used")}
+                  </dt>
+                  <dd class="text-forest text-end text-[12px]">{ing(extra.partUsed)}</dd>
+                </div>
+              )}
+            </dl>
+            {extra?.activeCompounds && extra.activeCompounds.length > 0 && (
+              <div class="hairline bg-paper mt-4 border p-4">
+                <span class={kicker}>{t("ing.label.activeCompounds", "Active compounds")}</span>
+                <ul class="mt-2 space-y-1">
+                  {extra.activeCompounds.map((c) => (
+                    <li class="text-forest/80 text-[12.5px] leading-snug">— {ing(c)}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div class={entry.image ? "lg:col-span-3" : "lg:col-span-5"}>
+          <section>
+            <h2 class="text-forest font-serif text-2xl">{t("ing.section.about", "About")}</h2>
+            <p class="text-forest/80 mt-3 leading-relaxed">{ing(entry.description)}</p>
+          </section>
+
+          {entry.whatItDoes && entry.whatItDoes.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.whatItDoes", "What it does")}
+              </h2>
+              <ul class="bg-ink/10 hairline mt-4 grid grid-cols-1 gap-px border md:grid-cols-2">
+                {entry.whatItDoes.map((w) => (
+                  <li class="bg-paper text-forest/80 p-4 text-[13px] leading-relaxed">{ing(w)}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {entry.howItWorks && entry.howItWorks.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.howItWorks", "How it works")}
+              </h2>
+              <div class="hairline divide-ink/10 bg-paper mt-4 divide-y border">
+                {entry.howItWorks.map((h) => (
+                  <div class="p-5">
+                    <span class={kicker}>{ing(h.category)}</span>
+                    <p class="text-forest/80 mt-2 text-[13.5px] leading-relaxed">
+                      {ing(h.description)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {entry.evidence && (
+            <section class="hairline bg-ivory/50 mt-10 border p-6">
+              <span class={kicker}>{t("ing.section.evidence", "Evidence")}</span>
+              <p class="text-forest/85 mt-3 text-[14px] leading-relaxed">{ing(entry.evidence)}</p>
+            </section>
+          )}
+
+          {extra?.history && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.history", "History & heritage")}
+              </h2>
+              <p class="text-forest/80 mt-3 text-[14.5px] leading-relaxed">{ing(extra.history)}</p>
+            </section>
+          )}
+
+          {extra?.traditionalUses && extra.traditionalUses.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.traditionalUses", "Traditional uses through history")}
+              </h2>
+              <ol class="hairline divide-ink/10 bg-paper mt-4 divide-y border">
+                {extra.traditionalUses.map((u, i) => (
+                  <li class="flex gap-4 px-5 py-4">
+                    <span class="text-moss w-8 flex-shrink-0 pt-0.5 font-mono text-[10px] tracking-[0.24em] uppercase">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span class="text-forest/80 text-[13.5px] leading-relaxed">{ing(u)}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {extra?.modernResearch && (
+            <section class="hairline bg-ivory/40 mt-10 border p-6">
+              <span class={kicker}>{t("ing.section.modernResearch", "Modern research")}</span>
+              <p class="text-forest/85 mt-3 text-[14px] leading-relaxed">
+                {ing(extra.modernResearch)}
+              </p>
+            </section>
+          )}
+
+          {extra?.mechanism && extra.mechanism.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.mechanism", "How it actually works")}
+              </h2>
+              <div class="bg-ink/10 hairline mt-4 grid grid-cols-1 gap-px border md:grid-cols-3">
+                {extra.mechanism.map((m, i) => (
+                  <div class="bg-paper p-5">
+                    <span class={kicker}>
+                      {t("ing.step", "Step")} {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 class="text-forest mt-2 font-serif text-[16px] leading-tight">
+                      {ing(m.title)}
+                    </h3>
+                    <p class="text-forest/75 mt-2 text-[13px] leading-relaxed">{ing(m.body)}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {extra?.bestFor && extra.bestFor.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.bestFor", "Best for")}
+              </h2>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {extra.bestFor.map((b) => (
+                  <span class="text-forest bg-ivory hairline border px-3 py-1.5 font-mono text-[11.5px]">
+                    {ing(b)}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {(extra?.safety || (extra?.pairsWith && extra.pairsWith.length > 0)) && (
+            <section class="bg-ink/10 hairline mt-10 grid grid-cols-1 gap-px border md:grid-cols-2">
+              {extra?.safety && (
+                <div class="bg-paper p-5">
+                  <span class={kicker}>{t("ing.section.safety", "Safety")}</span>
+                  <p class="text-forest/80 mt-2 text-[13px] leading-relaxed">{ing(extra.safety)}</p>
+                </div>
+              )}
+              {extra?.pairsWith && extra.pairsWith.length > 0 && (
+                <div class="bg-paper p-5">
+                  <span class={kicker}>{t("ing.section.pairsWith", "Pairs well with")}</span>
+                  <ul class="mt-2 space-y-1">
+                    {extra.pairsWith.map((p) => (
+                      <li class="text-forest/80 text-[13px]">— {ing(p)}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </section>
+          )}
+
+          {usedIn.length > 0 && (
+            <section class="mt-10">
+              <h2 class="text-forest font-serif text-2xl">
+                {t("ing.section.foundIn", "Found in")}
+              </h2>
+              <div class="bg-ink/10 hairline mt-4 grid grid-cols-1 gap-px border md:grid-cols-2">
+                {usedIn.map((p) => (
+                  <a
+                    href={withLocalePrefix(`/product/${p.slug}`, locale)}
+                    class="group bg-paper hover:bg-ivory/60 flex gap-4 p-4 transition-colors"
+                  >
+                    <div class="bg-ivory hairline h-16 w-16 flex-shrink-0 overflow-hidden border">
+                      <ResponsiveImage
+                        src={p.image}
+                        alt={productImageAlt(p, 0, t)}
+                        title={productImageTitle(p, t)}
+                        sizes="64px"
+                        widths={[160]}
+                        class="h-full w-full object-contain p-2"
+                      />
+                    </div>
+                    <div>
+                      <span class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+                        {t(`product.category.${p.category}`, p.category)}
+                      </span>
+                      <p class="text-forest mt-1 font-serif leading-tight">
+                        {t(`product.${p.slug}.name`, p.name)}
+                      </p>
+                      <span class="text-gold mt-1 inline-block font-mono text-[10px] tracking-[0.24em] uppercase">
+                        {t("ing.link.shop", "Shop →")}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+
+      {otherIngredients.length > 0 && (
+        <section class="hairline mt-16 border-t pt-10">
+          <div class="mb-6 flex items-baseline justify-between">
+            <h2 class="text-forest font-serif text-2xl">
+              {t("ing.section.more", "More botanicals")}
+            </h2>
+            <a
+              href={withLocalePrefix("/ingredients", locale)}
+              class="text-forest border-forest/40 border-b font-mono text-[10.5px] tracking-[0.24em] uppercase"
+            >
+              {t("ing.link.fullGlossary", "Full glossary")}
+            </a>
+          </div>
+          <div class="bg-ink/10 hairline grid grid-cols-2 gap-px border md:grid-cols-3 lg:grid-cols-6">
+            {otherIngredients.map((i) => (
+              <a
+                href={withLocalePrefix(`/ingredients/${i.slug}`, locale)}
+                class="group bg-paper hover:bg-ivory/60 block p-3 text-center transition-colors"
+              >
+                {i.image && (
+                  <div class="bg-ivory hairline mb-2 aspect-square overflow-hidden border">
+                    <ResponsiveImage
+                      src={i.image}
+                      alt={`${ing(i.name)} — ${t("img.ingredientAltCare", "botanical active in Green Wealth hair care")}`}
+                      title={ing(i.name)}
+                      sizes="(min-width: 1024px) 16vw, (min-width: 768px) 33vw, 50vw"
+                      class="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+                <p class="text-forest group-hover:text-moss font-serif text-[13px] leading-tight">
+                  {ing(i.name)}
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </SiteLayout>
+)}

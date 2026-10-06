@@ -1,0 +1,83 @@
+---
+/** "The story": title + key facts, long overview and three pillars (or benefits). */
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import type { EditorialCopy } from "./editorial-copy";
+import { productT } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+  copy: EditorialCopy;
+}
+
+const { product: p, copy: c } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const actives = p.ingredientsDetailed ?? [];
+
+const pillars = (actives.length >= 3 ? actives.slice(0, 3) : []).map((a, i) => ({
+  title: tp(`active.${i}.tagline.${i}`, a.tagline ?? a.name),
+  body: tp(`active.${i}.summary.${i}`, a.summary ?? a.description),
+  tag: tp(`active.${i}.role.${i}`, a.role ?? a.name),
+}));
+
+const facts = [
+  [t("product.pdp.format", "Format"), tp("category", p.category)],
+  [t("product.pdp.texture", "Texture"), tp("texture", c.texture)],
+  [t("product.pdp.signature", "Signature"), tp("signature", c.signature)],
+  [t("product.pdp.size", "Size"), tp("size", p.size)],
+];
+---
+
+<section class="hairline bg-paper border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-14">
+      <div class="md:col-span-5">
+        <h2 class="text-forest font-serif text-3xl leading-[1.03] md:text-[2.6rem]">
+          {tp("storyTitle", c.storyTitle)}
+        </h2>
+        <dl class="bg-forest/15 border-forest/15 mt-6 grid grid-cols-2 gap-px border">
+          {facts.map(([k, v]) => (
+            <div class="bg-paper p-3">
+              <dt class="text-forest/45 font-mono text-[9.5px] tracking-[0.22em] uppercase">{k}</dt>
+              <dd class="text-forest mt-1 text-[12.5px] leading-snug">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div class="md:col-span-7">
+        <p class="text-forest/85 font-serif text-[15px] leading-[1.75] md:text-[17px]">
+          {tp("longOverview", p.longOverview ?? p.overview)}
+        </p>
+        {pillars.length > 0 ? (
+          <ul class="bg-forest/15 border-forest/15 mt-6 grid grid-cols-1 gap-px border">
+            {pillars.map((card) => (
+              <li class="bg-paper p-5 md:p-6">
+                <div class="flex items-baseline justify-between gap-4">
+                  <span class="text-gold font-mono text-[10px] tracking-[0.2em] uppercase">
+                    {card.tag}
+                  </span>
+                </div>
+                <h3 class="text-forest mt-2 font-serif text-lg leading-[1.15] md:text-xl">
+                  {card.title}
+                </h3>
+                <p class="text-forest/75 mt-2 text-[13px] leading-[1.65]">{card.body}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul class="bg-forest/15 border-forest/15 mt-6 grid grid-cols-1 gap-px border sm:grid-cols-2">
+            {p.benefits.map((b, i) => (
+              <li class="bg-paper p-5">
+                <p class="text-forest font-serif text-[15px] leading-[1.4]">
+                  {tp(`benefits.${i}`, b)}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+/** Thin fixed bar along the top of the viewport tracking scroll progress through the page. */
+---
+
+<div aria-hidden="true" class="fixed inset-x-0 top-0 z-[60] h-[3px] bg-transparent">
+  <div
+    data-reading-progress
+    class="bg-forest h-full origin-left rtl:origin-right"
+    style="transform: scaleX(0)"
+  ></div>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>("[data-reading-progress]");
+  if (bar) {
+    const onScroll = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = h > 0 ? Math.min(1, window.scrollY / h) : 0;
+      bar.style.transform = `scaleX(${progress})`;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

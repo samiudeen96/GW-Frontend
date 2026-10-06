@@ -1,0 +1,43 @@
+---
+import LegalSections from "@/components/common/LegalSections.astro";
+import PageHeader from "@/components/common/PageHeader.astro";
+import { shippingSections } from "@/components/features/static/legal/shipping-sections";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { translateLegalSections } from "@/lib/legal";
+import { breadcrumbLd } from "@/lib/seo";
+
+const t = createT(Astro.locals.locale);
+
+const EN = {
+  eyebrow: "Legal",
+  title: "Shipping Policy",
+  intro:
+    "Welcome to the shipping policy of Ghori Trading LLC. It sets out how orders are processed and dispatched, how shipping is charged, expected transit times, how to track a parcel, how customs duties are handled, and what happens if a shipment is delayed, damaged or lost. By placing an order through our website, you agree to the terms outlined here.",
+  seoTitle: "Shipping Policy — Green Wealth",
+  seoDescription:
+    "Green Wealth shipping costs, dispatch and transit times, tracking, customs duties, damaged or lost parcel claims, and the return process for orders worldwide.",
+};
+
+const sections = translateLegalSections(t, "shipping", shippingSections);
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Shipping & Returns", path: "/shipping-returns" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("legal.shipping.seo.title", EN.seoTitle)}
+  description={t("legal.shipping.seo.description", EN.seoDescription)}
+  path="/shipping-returns"
+  jsonLd={jsonLd}
+>
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <PageHeader
+    eyebrow={t("legal.shipping.eyebrow", EN.eyebrow)}
+    title={t("legal.shipping.title", EN.title)}
+  />
+  <LegalSections intro={t("legal.shipping.intro", EN.intro)} sections={sections} numbered />
+</SiteLayout>

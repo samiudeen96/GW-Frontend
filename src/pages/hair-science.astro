@@ -1,0 +1,225 @@
+---
+/** /hair-science — the biology behind the Neo Hair protocol: timeline, guide, primer, evidence. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import HairGuideSections from "@/components/features/hair-science/HairGuideSections.astro";
+import CustomerQuote from "@/components/social/CustomerQuote.astro";
+import { hsEn } from "@/data/hair-science-content";
+import { GUIDE_UI, pickL } from "@/data/hair-science-guide";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const tt = createT(locale);
+const g = (k: string) => pickL(GUIDE_UI[k], locale);
+const t = (key: string, fallback?: string) => tt(key, fallback ?? hsEn(key));
+
+const phaseKeys = ["phase1", "phase2", "phase3", "phase4"] as const;
+const outcomeCounts: Record<(typeof phaseKeys)[number], number> = {
+  phase1: 6,
+  phase2: 6,
+  phase3: 6,
+  phase4: 6,
+};
+const topicKeys = ["topic1", "topic2", "topic3", "topic4", "topic5", "topic6"] as const;
+const evidenceKeys = ["j1", "j2", "j3", "j4", "j5", "j6"] as const;
+
+const phases = phaseKeys.map((key) => ({
+  key,
+  range: t(`hairScience.${key}.range`),
+  title: t(`hairScience.${key}.title`),
+  lede: t(`hairScience.${key}.lede`),
+  outcomes: Array.from({ length: outcomeCounts[key] }, (_, i) => t(`hairScience.${key}.o${i + 1}`)),
+}));
+
+const scienceTopics = topicKeys.map((key) => ({
+  key,
+  title: t(`hairScience.${key}.title`),
+  subtitle: t(`hairScience.${key}.subtitle`),
+  body: t(`hairScience.${key}.body`),
+}));
+
+const citations = evidenceKeys.map((key, i) => ({
+  key,
+  j: t(`hairScience.evidence.${key}`),
+  f: t(`hairScience.evidence.f${i + 1}`),
+}));
+
+const navLink = "hover:text-forest whitespace-nowrap";
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Hair Science", path: "/hair-science" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={tt("hairScience.head.title", "Hair Science — The Biology Behind the Neo Hair Protocol")}
+  description={tt(
+    "hairScience.head.description",
+    "The trichological science behind Green Wealth: the 4-phase 120-day recovery timeline, dermal papilla biology, DHT pathways, and micro-circulation.",
+  )}
+  path="/hair-science"
+  type="article"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("hairScience.hero.eyebrow", "Hair Science")}
+    title={t("hairScience.hero.title", "Understanding hair and scalp health")}
+    intro={t(
+      "hairScience.hero.intro",
+      "Hair recovery is a biological sequence — not a promise. Here is the 120-day timeline our botanicals were designed around, and the trichological principles behind every phase.",
+    )}
+  />
+
+  {/* Anchor nav */}
+  <nav class="hairline bg-ivory sticky top-14 z-30 border-b backdrop-blur">
+    <div class="container-editorial text-ink/70 flex gap-6 overflow-x-auto py-3 text-xs tracking-[0.2em] uppercase">
+      <a href="#timeline" class={navLink}>
+        {t("hairScience.nav.timeline", "120-Day Timeline")}
+      </a>
+      <a href="#problems" class={navLink}>
+        {g("navProblems")}
+      </a>
+      <a href="#products" class={navLink}>
+        {g("navProducts")}
+      </a>
+      <a href="#combined" class={navLink}>
+        {g("navCombined")}
+      </a>
+      <a href="#biology" class={navLink}>
+        {t("hairScience.nav.biology", "Biology Primer")}
+      </a>
+      <a href="#evidence" class={navLink}>
+        {t("hairScience.nav.evidence", "Evidence")}
+      </a>
+    </div>
+  </nav>
+
+  {/* Timeline phases */}
+  <section id="timeline" class="container-editorial py-14 md:py-20">
+    <div class="eyebrow mb-3">{t("hairScience.timeline.eyebrow", "The 120-Day Protocol")}</div>
+    <h2 class="text-ink mb-10 max-w-3xl font-serif text-3xl md:text-4xl">
+      {t("hairScience.timeline.title", "Four phases, one biological arc.")}
+    </h2>
+    <div class="hairline border">
+      {phases.map((p, i) => (
+        <article
+          class:list={[
+            "grid gap-8 p-6 md:grid-cols-[220px_1fr] md:gap-12 md:p-10",
+            i > 0 && "hairline border-t",
+            i % 2 === 1 ? "bg-ivory" : "bg-paper",
+          ]}
+        >
+          <div class="hairline md:border-e md:pe-8">
+            <div class="eyebrow mb-2">
+              {t("hairScience.timeline.phaseLabel", "Phase")} {i + 1}
+            </div>
+            <div class="text-forest font-serif text-2xl leading-tight md:text-3xl">{p.range}</div>
+            <div class="bg-forest mt-4 h-1 w-16" />
+          </div>
+          <div>
+            <h3 class="text-ink mb-4 font-serif text-2xl md:text-3xl">{p.title}</h3>
+            <p class="text-ink/80 mb-6 max-w-2xl text-[15px] leading-relaxed">{p.lede}</p>
+            <div class="eyebrow mb-3">
+              {t("hairScience.timeline.outcomesLabel", "Observable Outcomes")}
+            </div>
+            <ul class="text-ink/80 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+              {p.outcomes.map((o) => (
+                <li class="flex items-start gap-2 leading-relaxed">
+                  <span class="bg-forest mt-2 h-1 w-1 shrink-0" />
+                  <span>{o}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <HairGuideSections />
+
+  {/* Biology primer */}
+  <section id="biology" class="hairline bg-ivory border-y">
+    <div class="container-editorial py-14 md:py-20">
+      <div class="eyebrow mb-3">{t("hairScience.biology.eyebrow", "Biology Primer")}</div>
+      <h2 class="text-ink mb-10 max-w-3xl font-serif text-3xl md:text-4xl">
+        {t("hairScience.biology.title", "Six principles that shape every formulation decision.")}
+      </h2>
+      <div class="bg-ink/10 hairline grid gap-px border md:grid-cols-2 lg:grid-cols-3">
+        {scienceTopics.map((tp) => (
+          <article class="bg-paper p-6 md:p-7">
+            <div class="eyebrow mb-2">{tp.subtitle}</div>
+            <h3 class="text-ink mb-3 font-serif text-xl">{tp.title}</h3>
+            <p class="text-ink/75 text-sm leading-relaxed">{tp.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Evidence strip */}
+  <section id="evidence" class="container-editorial py-14 md:py-20">
+    <div class="eyebrow mb-3">{t("hairScience.evidence.eyebrow", "Cited Research")}</div>
+    <h2 class="text-ink mb-10 max-w-2xl font-serif text-3xl md:text-4xl">
+      {t("hairScience.evidence.title", "Peer-reviewed foundations.")}
+    </h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      {citations.map((r) => (
+        <div class="hairline bg-paper border p-5 md:p-6">
+          <div class="eyebrow mb-2">{r.j}</div>
+          <p class="text-ink/80 text-sm leading-relaxed">{r.f}</p>
+        </div>
+      ))}
+    </div>
+    <p class="text-muted-foreground mt-8 max-w-2xl text-xs leading-relaxed">
+      {t(
+        "hairScience.evidence.disclaimer",
+        "Citations reference published trichological literature relevant to the botanical mechanisms in the Neo Hair formulation. Green Wealth is a cosmetic hair-care house, not a pharmaceutical manufacturer. Individual results vary.",
+      )}
+    </p>
+  </section>
+
+  {/* Evidence + lived proof */}
+  <section class="hairline bg-ivory border-y">
+    <div class="container-editorial grid items-center gap-8 py-14 md:grid-cols-2 md:gap-12 md:py-20">
+      <div>
+        <div class="eyebrow text-forest mb-3">
+          {t("hairScience.proof.eyebrow", "Evidence in Practice")}
+        </div>
+        <h2 class="text-ink font-serif text-3xl leading-tight md:text-4xl">
+          {t("hairScience.proof.title", "The literature explains it. Our customers live it.")}
+        </h2>
+        <p class="text-muted-foreground mt-4 max-w-md text-sm leading-relaxed">
+          {t(
+            "hairScience.proof.body",
+            "Published research explains possible mechanisms; customer experiences show how routines can differ in everyday use.",
+          )}
+        </p>
+      </div>
+      <CustomerQuote />
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="hairline bg-forest text-paper border-t">
+    <div class="container-editorial grid items-end gap-8 py-14 md:grid-cols-[1fr_auto] md:py-20">
+      <div>
+        <div class="eyebrow text-paper/60 mb-3">
+          {t("hairScience.cta.eyebrow", "Put the science to work")}
+        </div>
+        <h2 class="max-w-2xl font-serif text-3xl leading-tight md:text-5xl">
+          {t("hairScience.cta.title", "Follow the 6-step ritual designed around this biology.")}
+        </h2>
+      </div>
+      <a
+        href={withLocalePrefix("/how-to-use", locale)}
+        class="bg-paper text-forest hover:bg-ivory inline-flex items-center gap-2 self-start px-8 py-3 text-xs tracking-[0.2em] uppercase transition-colors md:self-auto"
+      >
+        {t("hairScience.cta.link", "Read the protocol →")}
+      </a>
+    </div>
+  </section>
+</SiteLayout>

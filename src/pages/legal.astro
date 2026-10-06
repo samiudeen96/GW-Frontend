@@ -1,0 +1,202 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import { noticeSections } from "@/components/features/static/legal/notice-sections";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { translateLegalSections } from "@/lib/legal";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const legalHubLinks = [
+  {
+    href: "/terms",
+    key: "terms",
+    title: "Terms of Service",
+    desc: "The rules and conditions for using our website and purchasing products.",
+  },
+  {
+    href: "/privacy",
+    key: "privacy",
+    title: "Privacy Policy",
+    desc: "How we collect, use, store, and protect your personal information.",
+  },
+  {
+    href: "/refund-policy",
+    key: "refund",
+    title: "Refund Policy",
+    desc: "Return windows, eligibility criteria, and how refunds are processed.",
+  },
+  {
+    href: "/shipping-returns",
+    key: "shipping",
+    title: "Shipping & Returns",
+    desc: "Delivery timelines, shipping costs, and return instructions by region.",
+  },
+  {
+    href: "/cookie-policy",
+    key: "cookie",
+    title: "Cookie Policy",
+    desc: "How we use cookies and similar technologies on greenwealth.com.",
+  },
+  {
+    href: "/accessibility",
+    key: "accessibility",
+    title: "Accessibility",
+    desc: "Our commitment to making the site usable for everyone.",
+  },
+];
+
+/** Anchor ids come from the English titles so they stay stable across locales. */
+const tocIds = noticeSections.map((s) =>
+  s.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, ""),
+);
+
+const EN = {
+  eyebrow: "Legal Center",
+  title: "Legal Notice",
+  intro:
+    "Intellectual property, trademark, copyright, anti-counterfeiting enforcement, data protection, and governing terms for greenwealth.com, operated by Ghori Trading LLC.",
+  seoTitle: "Legal Notice — Green Wealth | Ghori Trading LLC",
+  seoDescription:
+    "Legal notice, intellectual property, trademark, copyright, anti-counterfeiting enforcement, and data protection for greenwealth.com.",
+  hubHeading: "Related Legal Pages",
+  tocHeading: "On this page",
+  bodyIntro:
+    "The statements below apply to all visitors and users of greenwealth.com. They do not replace the full Terms of Service, Privacy Policy, or other policies linked above.",
+  helpHeading: "Need to reach our legal team?",
+  helpDesc:
+    "For infringement reports, authenticity concerns, or general legal inquiries, email us directly. We aim to respond to substantive legal correspondence within five business days.",
+  helpCta: "EMAIL LEGAL",
+  jsonldName: "Legal Notice — Green Wealth",
+  jsonldDescription:
+    "Legal notice, intellectual property, trademark, copyright, anti-counterfeiting, and data protection information for greenwealth.com.",
+};
+
+const localized = translateLegalSections(t, "notice", noticeSections);
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Legal", path: "/legal" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: t("legal.notice.jsonld.name", EN.jsonldName),
+    description: t("legal.notice.jsonld.description", EN.jsonldDescription),
+    url: "https://greenwealth.com/legal",
+    mainEntity: {
+      "@type": "Organization",
+      name: "Ghori Trading LLC",
+      url: "https://greenwealth.com",
+      parentOrganization: { "@type": "Organization", name: "GHORI Holding Limited" },
+      brand: { "@type": "Brand", name: "Green Wealth" },
+    },
+  },
+];
+---
+
+<SiteLayout
+  title={t("legal.notice.seo.title", EN.seoTitle)}
+  description={t("legal.notice.seo.description", EN.seoDescription)}
+  path="/legal"
+  jsonLd={jsonLd}
+>
+  <meta slot="head" name="robots" content="noindex, follow" />
+
+  <PageHeader
+    eyebrow={t("legal.notice.eyebrow", EN.eyebrow)}
+    title={t("legal.notice.title", EN.title)}
+    intro={t("legal.notice.intro", EN.intro)}
+  />
+
+  <section class="container-editorial hairline bg-paper border-b py-8 md:py-14">
+    <div class="mb-5 flex items-baseline justify-between gap-4">
+      <h2 class="eyebrow">{t("legal.notice.hub.heading", EN.hubHeading)}</h2>
+    </div>
+    <div class="bg-ink/10 hairline grid grid-cols-1 gap-[1px] border sm:grid-cols-2 lg:grid-cols-3">
+      {legalHubLinks.map((link) => (
+        <a
+          href={withLocalePrefix(link.href, locale)}
+          class="group bg-paper hover:bg-ivory focus:ring-forest block p-4 transition-colors focus:ring-2 focus:outline-none focus:ring-inset md:p-5"
+        >
+          <h3 class="group-hover:text-forest mb-1.5 text-sm font-bold transition-colors">
+            {t(`legal.notice.hub.${link.key}.title`, link.title)}
+          </h3>
+          <p class="text-muted-foreground text-sm leading-relaxed">
+            {t(`legal.notice.hub.${link.key}.desc`, link.desc)}
+          </p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div class="container-editorial py-10 md:py-16">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+      <nav class="lg:col-span-3">
+        <div class="hairline bg-paper border lg:sticky lg:top-28">
+          <div class="hairline bg-ivory border-b px-4 py-4">
+            <h2 class="eyebrow">{t("legal.notice.toc.heading", EN.tocHeading)}</h2>
+          </div>
+          <ol class="hairline divide-y">
+            {localized.map((item, i) => (
+              <li>
+                <a
+                  href={`#${tocIds[i]}`}
+                  class="text-muted-foreground hover:text-forest hover:bg-ivory/50 block px-4 py-3 text-sm leading-snug transition-colors"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </nav>
+
+      <div class="lg:col-span-9">
+        <div class="hairline bg-paper border p-4 md:p-6 lg:p-8">
+          <p class="text-muted-foreground mb-8 max-w-3xl text-sm leading-relaxed">
+            {t("legal.notice.body.intro", EN.bodyIntro)}
+          </p>
+          <div class="space-y-4">
+            {localized.map((s, i) => (
+              <article id={tocIds[i]} class="hairline bg-paper scroll-mt-28 overflow-hidden border">
+                <div class="p-4 md:p-5">
+                  <h2 class="mb-3 text-sm font-bold tracking-tight">{s.title}</h2>
+                  {/* Developer-authored constant HTML, not user input. */}
+                  <div
+                    class="text-ink/75 [&_a:hover]:text-forest [&_strong]:text-ink space-y-2 text-sm leading-relaxed [&_a]:underline [&_a]:underline-offset-2 [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:ps-5"
+                    set:html={s.html}
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="container-editorial hairline bg-ivory/30 border-t py-12 md:py-20">
+    <div class="mx-auto max-w-3xl text-center lg:mx-0 lg:text-start">
+      <h2 class="display-md mb-4">{t("legal.notice.help.heading", EN.helpHeading)}</h2>
+      <p class="text-muted-foreground mb-8 leading-relaxed">
+        {t("legal.notice.help.desc", EN.helpDesc)}
+      </p>
+      <div class="flex flex-col items-center gap-4 sm:flex-row">
+        <a
+          href="mailto:legal@greenwealth.com"
+          class="bg-forest text-paper hover:bg-forest-dark inline-flex h-12 items-center justify-center px-8 text-sm font-medium tracking-wide transition-colors"
+        >
+          {t("legal.notice.help.cta", EN.helpCta)}
+        </a>
+        <span class="text-muted-foreground text-xs">legal@greenwealth.com</span>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

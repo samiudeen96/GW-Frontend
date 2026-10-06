@@ -1,0 +1,90 @@
+---
+/** Neo Hair Lotion spotlight: name, overview, meta ledger, CTAs and packshot. */
+import Reveal from "@/components/common/Reveal.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { productImageAlt, productImageTitle, type Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+
+const meta = [
+  {
+    k: t("home.spotlight.metaCategory", "Category"),
+    v: t(`product.category.${hero.category}`, hero.category),
+    ltr: false,
+  },
+  {
+    k: t("home.spotlight.metaOrigin", "Origin"),
+    v: t(`review.country.${hero.origin ?? ""}`, hero.origin ?? "—"),
+    ltr: false,
+  },
+  {
+    k: t("home.spotlight.metaPrice", "From"),
+    v: formatMoney(getBasePrice(hero.slug, currency), currency),
+    ltr: true,
+  },
+];
+---
+
+<section class="bg-paper border-forest/15 border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
+      <Reveal class="order-2 lg:order-1 lg:col-span-6">
+        <h2 class="font-serif text-[clamp(2.25rem,4.4vw,4rem)] leading-[0.9] font-bold tracking-tight uppercase">
+          {t(`product.${hero.slug}.name`, hero.name)}
+        </h2>
+        <p class="text-forest/70 mt-6 max-w-lg text-sm leading-relaxed sm:text-base">
+          {t(`product.${hero.slug}.overview`, hero.overview)}
+        </p>
+        <dl class="border-forest/15 mt-9 grid max-w-lg grid-cols-3 gap-6 border-t pt-6">
+          {meta.map((m) => (
+            <div>
+              <dt class="text-moss mb-1.5 font-mono text-[9px] tracking-[0.24em] uppercase">
+                {m.k}
+              </dt>
+              <dd
+                class="text-forest/85 text-[11px] tracking-[0.1em] uppercase sm:text-xs"
+                data-ltr={m.ltr ? "" : undefined}
+              >
+                {m.v}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
+          <a
+            href={withLocalePrefix(`/product/${hero.slug}`, locale)}
+            class="bg-forest text-paper hover:bg-moss px-8 py-4 text-center text-[11px] font-bold tracking-[0.22em] uppercase transition-colors sm:px-10 sm:py-5"
+          >
+            {t("home.spotlight.shopCta", "Shop Neo Hair Lotion")}
+          </a>
+          <a
+            href={withLocalePrefix("/hair-science", locale)}
+            class="border-forest/40 hover:bg-forest hover:text-paper border px-8 py-4 text-center text-[11px] font-bold tracking-[0.22em] uppercase transition-colors sm:px-10 sm:py-5"
+          >
+            {t("home.spotlight.scienceCta", "The Science")}
+          </a>
+        </div>
+      </Reveal>
+
+      <Reveal delay={120} class="order-1 lg:order-2 lg:col-span-6">
+        <div class="bg-ivory border-forest/15 relative border p-6 sm:p-12">
+          <ResponsiveImage
+            src={hero.image}
+            alt={productImageAlt(hero, 0, t)}
+            title={productImageTitle(hero, t)}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            class="aspect-square w-full object-contain"
+          />
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

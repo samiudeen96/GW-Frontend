@@ -1,0 +1,36 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import TrackOrderForm from "@/components/features/verify/TrackOrderForm";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, islandI18n } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const isAr = locale === "ar";
+
+const title = isAr ? "تتبّع الطلب — Green Wealth" : "Track Order — Green Wealth";
+const description = isAr
+  ? "تتبّع حالة طلبك من Green Wealth."
+  : "Track the status of your Green Wealth order.";
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: isAr ? "الرئيسية" : "Home", path: "/" },
+    { name: isAr ? "تتبّع الطلب" : "Track Order", path: "/track-order" },
+  ]),
+];
+---
+
+<SiteLayout title={title} description={description} path="/track-order" jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow={t("commerce.trackOrder.eyebrow", "Orders")}
+    title={t("commerce.trackOrder.title", "Track your order.")}
+  />
+  <div class="container-editorial max-w-2xl py-12 md:py-20">
+    <TrackOrderForm
+      client:visible
+      i18n={islandI18n(locale, ["commerce.trackOrder.", "commerce.tracking.", "commerce.summary."])}
+    />
+  </div>
+</SiteLayout>

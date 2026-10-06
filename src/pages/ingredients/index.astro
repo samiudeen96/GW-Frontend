@@ -1,0 +1,143 @@
+---
+/** /ingredients — The Botanical Library: featured rotator, stats, filterable glossary, by-product map. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import FeaturedRotator from "@/components/features/ingredients/FeaturedRotator.astro";
+import IngredientExplorer from "@/components/features/ingredients/IngredientExplorer.astro";
+import { familyOf, ingT } from "@/components/features/ingredients/utils";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getIngredients, getProducts } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { abs, breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const ing = ingT(t);
+const [ingredients, products] = await Promise.all([getIngredients(), getProducts()]);
+
+const featuredSlugs = ["saw-palmetto", "white-ginseng", "rosemary-oil", "cantaloupe"].filter((s) =>
+  ingredients.some((i) => i.slug === s),
+);
+const featuredList = featuredSlugs.length
+  ? featuredSlugs.map((s) => ingredients.find((i) => i.slug === s)!)
+  : ingredients.slice(0, 4);
+
+const totalUsages = ingredients.reduce((s, i) => s + i.productSlugs.length, 0);
+const uniqueFamilies = new Set(ingredients.map((i) => familyOf(i.slug)).filter(Boolean)).size;
+const stats = [
+  { k: t("ingx.stat.actives", "Actives catalogued"), v: ingredients.length },
+  { k: t("ingx.stat.families", "Plant families"), v: uniqueFamilies },
+  { k: t("ingx.stat.slots", "Formula slots"), v: totalUsages },
+  { k: t("ingx.stat.products", "Products"), v: products.length },
+];
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: t("ing.breadcrumb.home", "Home"), path: "/" },
+    { name: t("ing.breadcrumb.ingredients", "Ingredients"), path: "/ingredients" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: "Green Wealth Ingredient Glossary",
+    hasDefinedTerm: ingredients.map((i) => ({
+      "@type": "DefinedTerm",
+      name: ing(i.name),
+      description: ing(i.summary ?? i.description),
+      url: abs(`/ingredients/${i.slug}`),
+    })),
+  },
+];
+---
+
+<SiteLayout
+  title={t("ingx.meta.title", "Ingredient Glossary — Botanicals Behind Green Wealth")}
+  description={t(
+    "ingx.meta.desc",
+    "Every botanical, extract and active used across the Green Wealth range — history, mechanism and the role each plays in scalp health and hair growth.",
+  )}
+  path="/ingredients"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("ingx.eyebrow", "Glossary · {n} entries · {f} plant families")
+      .replace("{n}", String(ingredients.length))
+      .replace("{f}", String(uniqueFamilies))}
+    title={t("ingx.title", "The Botanical Library")}
+    intro={t(
+      "ingx.intro",
+      "Every active, extract and mineral used across Green Wealth and Ghori — with history, mechanism, and the role each plays in scalp health and hair growth.",
+    )}
+  />
+
+  {/* ═════════════ Cinematic featured rotator ═════════════ */}
+  {featuredList.length > 0 && <FeaturedRotator items={featuredList} />}
+
+  {/* ═════════════ Stats strip ═════════════ */}
+  <div class="container-editorial mt-6 md:mt-10">
+    <div class="bg-ink/10 hairline grid grid-cols-2 gap-px border text-center md:grid-cols-4">
+      {stats.map((c) => (
+        <div class="bg-paper px-3 py-4">
+          <div class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">{c.k}</div>
+          <div class="text-forest mt-1 font-serif text-xl md:text-2xl">{c.v}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* ═════════════ Filters, grid and alphabetical index ═════════════ */}
+  <IngredientExplorer ingredients={ingredients} products={products} />
+
+  {/* ═════════════ By product breakdown ═════════════ */}
+  <section class="container-editorial mt-10 mb-12 md:mt-16 md:mb-20">
+    <div class="mb-4 flex items-end justify-between">
+      <div>
+        <h2 class="text-forest font-serif text-2xl md:text-3xl">
+          {t("ingx.byProduct", "Where each botanical appears")}
+        </h2>
+      </div>
+    </div>
+    <div class="bg-ink/10 hairline grid grid-cols-1 gap-px border md:grid-cols-2">
+      {products.map((p) => {
+        const used = ingredients.filter((i) => i.productSlugs.includes(p.slug));
+        if (used.length === 0) return null;
+        return (
+          <div class="bg-paper p-5 md:p-6">
+            <div class="flex items-start gap-4">
+              <div class="bg-ivory hairline h-16 w-16 flex-shrink-0 overflow-hidden border md:h-20 md:w-20">
+                <ResponsiveImage
+                  src={p.image}
+                  alt={t(`product.${p.slug}.name`, p.name)}
+                  sizes="80px"
+                  widths={[160]}
+                  class="h-full w-full object-contain p-1"
+                />
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+                  {used.length} {t("ingx.actives", "actives")}
+                </div>
+                <a
+                  href={withLocalePrefix(`/product/${p.slug}`, locale)}
+                  class="text-forest hover:text-moss mt-1 block font-serif text-lg leading-tight transition-colors md:text-xl"
+                >
+                  {t(`product.${p.slug}.name`, p.name).replace(/®/g, "")}
+                </a>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              {used.map((i) => (
+                <a
+                  href={withLocalePrefix(`/ingredients/${i.slug}`, locale)}
+                  class="text-forest/75 hairline bg-ivory hover:bg-forest hover:text-paper hover:border-forest border px-2 py-1 font-mono text-[10px] tracking-[0.2em] uppercase transition-colors"
+                >
+                  {ing(i.name)}
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</SiteLayout>

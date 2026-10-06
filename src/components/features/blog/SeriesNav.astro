@@ -1,0 +1,77 @@
+---
+/** Previous/next navigation for an essay inside "The Hair Recovery Curriculum". */
+import { pick, SERIES_TITLE, type seriesPosition } from "@/data/blog-series";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  pos: NonNullable<ReturnType<typeof seriesPosition>>;
+}
+
+const { pos } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const pad = (n: number) => String(n).padStart(2, "0");
+const back = locale === "ar" ? "→" : "←";
+const forward = locale === "ar" ? "←" : "→";
+---
+
+<nav aria-label={t("blog.series.eyebrow", "Series")} class="hairline bg-paper border-t">
+  <div class="container-editorial py-8 md:py-10">
+    <div class="mb-5 flex flex-wrap items-baseline justify-between gap-3">
+      <div class="eyebrow">
+        {pick(SERIES_TITLE, locale)} · {pad(pos.index + 1)} / {pad(pos.total)}
+      </div>
+      <a
+        href={withLocalePrefix("/blogs/series", locale)}
+        class="eyebrow text-forest border-forest border-b pb-0.5"
+      >
+        {t("blog.series.overview", "Series overview")}
+      </a>
+    </div>
+    <div class="bg-ink/10 mb-6 h-[3px]">
+      <div class="bg-forest h-full" style={`width: ${((pos.index + 1) / pos.total) * 100}%`}></div>
+    </div>
+    <div class="bg-ink/10 hairline grid gap-px border md:grid-cols-2">
+      {pos.prev ? (
+        <a
+          href={withLocalePrefix(`/blogs/${pos.prev.slug}`, locale)}
+          class="bg-paper hover:bg-ivory group p-5 md:p-6"
+        >
+          <div class="eyebrow mb-2">
+            {back} {t("blog.series.prev", "Previous essay")}
+          </div>
+          <div class="group-hover:text-forest font-serif text-lg leading-snug">
+            {t(`blog.${pos.prev.slug}.title`, pos.prev.title)}
+          </div>
+        </a>
+      ) : (
+        <div class="bg-paper eyebrow text-ink/40 p-5 md:p-6">
+          {t("blog.series.beginning", "Beginning of the series")}
+        </div>
+      )}
+      {pos.next ? (
+        <a
+          href={withLocalePrefix(`/blogs/${pos.next.slug}`, locale)}
+          class="bg-forest text-paper p-5 text-end hover:opacity-95 md:p-6"
+        >
+          <div class="eyebrow text-paper/70 mb-2">
+            {t("blog.series.next", "Next essay")} {forward}
+          </div>
+          <div class="font-serif text-lg leading-snug">
+            {t(`blog.${pos.next.slug}.title`, pos.next.title)}
+          </div>
+        </a>
+      ) : (
+        <a
+          href={withLocalePrefix("/blogs/series", locale)}
+          class="bg-forest text-paper p-5 text-end md:p-6"
+        >
+          <div class="eyebrow text-paper/70 mb-2">
+            {t("blog.series.complete", "Series complete")}
+          </div>
+          <div class="font-serif text-lg">{t("blog.series.overview", "Series overview")}</div>
+        </a>
+      )}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,94 @@
+---
+/** Made for · inside the bottle · never in the bottle (or spec) + good-to-know note. */
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import type { EditorialCopy } from "./editorial-copy";
+import { pad2, productT } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+  copy: EditorialCopy;
+}
+
+const { product: p, copy: c } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const inside = p.yesList ?? p.benefits;
+const insideField = p.yesList ? "yesList" : "benefits";
+const freeFrom = p.freeFrom ?? [];
+const heading = "font-mono text-[10px] uppercase tracking-[0.24em] text-forest/50";
+const spec = [
+  [t("product.pdp.category", "Category"), tp("category", p.category)],
+  [t("product.pdp.size", "Size"), tp("size", p.size)],
+  [t("product.pdp.origin", "Origin"), p.origin ? tp("origin", p.origin) : "—"],
+  [t("product.pdp.brand", "Brand"), p.brand ?? "Green Wealth"],
+];
+---
+
+<section class="hairline bg-ivory border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <div class="bg-forest/15 border-forest/15 grid grid-cols-1 gap-px border md:grid-cols-12">
+      <div class="bg-paper p-5 md:col-span-4 md:p-7">
+        <h3 class={heading}>{t("product.pdp.madeFor", "Made for")}</h3>
+        <ul class="bg-forest/10 border-forest/10 mt-4 flex flex-wrap gap-px border">
+          {c.madeFor.map((m, mi) => (
+            <li class="bg-paper text-forest px-3 py-2 font-mono text-[10.5px] tracking-[0.18em] uppercase">
+              {tp(`madeFor.${mi}`, m)}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="bg-paper p-5 md:col-span-4 md:p-7">
+        <h3 class={heading}>{t("product.pdp.insideTheBottle", "Inside the bottle")}</h3>
+        <ul class="mt-4">
+          {inside.map((y, i) => (
+            <li class="border-forest/10 flex items-start gap-3 border-b py-2.5 last:border-b-0">
+              <span class="text-forest/40 mt-0.5 w-5 font-mono text-[10px] tabular-nums">
+                {pad2(i + 1)}
+              </span>
+              <span class="text-forest/85 text-[12.5px] leading-snug">
+                {tp(`${insideField}.${i}`, y)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="bg-paper p-5 md:col-span-4 md:p-7">
+        <h3 class={heading}>
+          {freeFrom.length > 0
+            ? t("product.pdp.neverInTheBottle", "Never in the bottle")
+            : t("product.pdp.specification", "Specification")}
+        </h3>
+        {freeFrom.length > 0 ? (
+          <ul class="bg-forest/10 border-forest/10 mt-4 grid grid-cols-2 gap-px border">
+            {freeFrom.map((f, fi) => (
+              <li class="bg-paper text-forest flex items-center gap-2 px-2.5 py-2.5 font-mono text-[10.5px] tracking-[0.18em] uppercase">
+                <span class="text-gold">×</span>
+                <span class="truncate">{tp(`freeFrom.${fi}`, f)}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <dl class="mt-4">
+            {spec.map(([k, v]) => (
+              <div class="border-forest/10 flex items-center justify-between gap-3 border-b py-2.5 last:border-b-0">
+                <dt class="text-forest/50 font-mono text-[10px] tracking-[0.2em] uppercase">{k}</dt>
+                <dd class="text-forest text-[12.5px]">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+    </div>
+
+    <div class="bg-paper border-gold mt-6 flex flex-col gap-3 border-s-2 p-5 md:flex-row md:gap-6">
+      <span class="text-gold shrink-0 pt-0.5 font-mono text-[10px] tracking-[0.28em] uppercase">
+        {t("product.pdp.goodToKnow", "Good to know")}
+      </span>
+      <p class="text-forest/85 font-serif text-[13.5px] leading-[1.7]">
+        {tp("goodToKnow", c.goodToKnow)}
+      </p>
+    </div>
+  </div>
+</section>

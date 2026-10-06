@@ -1,0 +1,156 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import FaqBrowser, {
+  type LocalizedFaqSection,
+} from "@/components/features/static/faq/FaqBrowser.astro";
+import {
+  faqSections,
+  RELATED_KEY,
+  relatedReading,
+} from "@/components/features/static/faq/faq-content";
+import productLotion from "@/assets/products/neo-hair-lotion.webp";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const EN = {
+  eyebrow: "FAQ · Updated {month}",
+  title: "Every question, answered.",
+  intro:
+    "Real answers about Green Wealth Neo Hair Lotion, Neo Hair Shampoo, Ghori Derma Roller and Rosemary Mint & Biotin Oil — ingredients, protocol, timeline, safety, authenticity, shipping, and honest comparisons.",
+  seoTitle: "FAQ — Green Wealth Neo Hair Lotion, Shampoo, Derma Roller & Rosemary Oil",
+  seoDescription:
+    "Answers on Neo Hair Lotion, Neo Hair Shampoo, Derma Roller and Rosemary Oil — ingredients, use, results timeline, safety, authenticity and shipping.",
+};
+
+const monthLabel = new Date().toLocaleString(locale === "ar" ? "ar" : "en-US", {
+  month: "long",
+  year: "numeric",
+});
+
+const localized: LocalizedFaqSection[] = faqSections.map((s) => ({
+  id: s.id,
+  title: t(`faq.section.${s.id}.title`, s.title),
+  faqs: s.faqs.map((f, i) => ({
+    q: t(`faq.section.${s.id}.q${i}`, f.q),
+    a: t(`faq.section.${s.id}.a${i}`, f.a),
+    related: f.related?.map((r) => ({
+      to: r.to,
+      label: RELATED_KEY[r.to] ? t(`faq.related.${RELATED_KEY[r.to]}`, r.label) : r.label,
+    })),
+  })),
+}));
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: localized.flatMap((s) =>
+      s.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    ),
+  },
+  breadcrumbLd([
+    { name: t("faq.breadcrumb.home", "Home"), path: "/" },
+    { name: t("faq.breadcrumb.faq", "FAQ"), path: "/faq" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("faq.seo.title", EN.seoTitle)}
+  description={t("faq.seo.description", EN.seoDescription)}
+  path="/faq"
+  image={productLotion.src}
+  jsonLd={jsonLd}
+>
+  <meta
+    slot="head"
+    name="robots"
+    content="index, follow, max-snippet:-1, max-image-preview:large"
+  />
+
+  <PageHeader
+    eyebrow={t("faq.hero.eyebrow", EN.eyebrow).replace("{month}", monthLabel)}
+    title={t("faq.hero.title", EN.title)}
+    intro={t("faq.hero.intro", EN.intro)}
+  />
+
+  <FaqBrowser sections={localized} />
+
+  {/* Still have a question */}
+  <section class="hairline bg-forest text-paper border-t">
+    <div class="container-editorial grid items-end gap-8 py-14 md:grid-cols-[1fr_auto] md:py-20">
+      <div>
+        <div class="eyebrow text-paper/60 mb-3">
+          {t("faq.cta.eyebrow", "Still have a question?")}
+        </div>
+        <h2 class="max-w-2xl font-serif text-3xl leading-tight md:text-5xl">
+          {t("faq.cta.title", "Our team responds within one business day.")}
+        </h2>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={href("/contact")}
+          class="bg-paper text-forest hover:bg-ivory px-8 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+        >
+          {t("faq.cta.contact", "Contact support")}
+        </a>
+        <a
+          href="https://api.whatsapp.com/send/?phone=97180044674"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-paper/30 hover:bg-paper/10 border px-8 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+        >
+          {t("faq.cta.whatsapp", "WhatsApp us")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Related reading */}
+  <section class="hairline bg-paper border-t">
+    <div class="container-editorial py-14 md:py-20">
+      <div class="mb-8 flex items-end justify-between">
+        <div>
+          <div class="eyebrow mb-2">{t("faq.journal.eyebrow", "The Journal")}</div>
+          <h2 class="text-ink font-serif text-2xl md:text-3xl">
+            {t("faq.journal.heading", "Related reading")}
+          </h2>
+        </div>
+        <a
+          href={href("/blogs")}
+          class="text-ink/70 hover:text-forest hidden text-[11px] tracking-[0.2em] uppercase md:inline"
+        >
+          {t("faq.journal.allArticles", "All articles →")}
+        </a>
+      </div>
+      <div class="hairline grid gap-0 border md:grid-cols-3">
+        {relatedReading.map((r, i) => (
+          <a
+            href={href(`/blogs/${r.slug}`)}
+            class:list={[
+              "bg-paper hover:bg-ivory block p-6 transition-colors md:p-8",
+              i > 0 && "hairline border-t md:border-t-0 md:border-s",
+            ]}
+          >
+            <div class="eyebrow mb-3">{t(`faq.journal.article${i + 1}.eyebrow`, r.eyebrow)}</div>
+            <div class="text-ink font-serif text-lg leading-snug md:text-xl">
+              {t(`faq.journal.article${i + 1}.title`, r.title)}
+            </div>
+            <div class="text-forest mt-4 text-[11px] tracking-[0.2em] uppercase">
+              {t("faq.journal.read", "Read →")}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>

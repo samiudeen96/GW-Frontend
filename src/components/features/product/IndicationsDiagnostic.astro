@@ -1,0 +1,74 @@
+---
+/** "Helps with" — static index of the concerns the product is formulated for. */
+import { createT } from "@/lib/i18n";
+
+import { pad2 } from "./product-helpers";
+
+export interface Props {
+  items: string[];
+  productName: string;
+}
+
+const { items, productName } = Astro.props;
+const t = createT(Astro.locals.locale);
+---
+
+<section
+  id="indications-diagnostic"
+  class="hairline bg-forest text-paper relative overflow-hidden border-t"
+>
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.07]"
+    style="background-image:linear-gradient(to right, currentColor 1px, transparent 1px);background-size:72px 100%"
+  ></div>
+
+  <div class="container-editorial relative py-8 md:py-16">
+    <div class="border-paper/20 mb-7 grid grid-cols-1 gap-5 border-b pb-5 md:mb-12 md:grid-cols-12 md:gap-8 md:pb-7">
+      <div class="md:col-span-7">
+        <span class="text-gold font-mono text-[9.5px] tracking-[0.3em] uppercase">
+          {t("product.route.helpsWith", "Helps with")}
+        </span>
+        <h2 class="text-paper mt-3 font-serif text-[1.6rem] leading-[1.08] tracking-[-0.02em] md:text-[2.4rem]">
+          {t("product.route.concernsAddress", "Concerns")}
+          {productName.replace(/®/g, "")}
+          {t("product.route.isFormulatedToAddress", "is formulated to address")}
+        </h2>
+      </div>
+      <div class="md:col-span-5 md:flex md:items-end">
+        <p class="text-paper/70 max-w-md font-serif text-[12.5px] leading-[1.75] md:text-[13.5px]">
+          {t(
+            "product.route.dailyProtocolBlurb",
+            "A daily botanical protocol designed to support scalp balance, reduce visible shedding, and encourage stronger, fuller-looking hair over time.",
+          )}
+        </p>
+      </div>
+    </div>
+
+    <ul class="bg-paper/20 border-paper/20 grid grid-cols-1 gap-px border sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((item, i) => (
+        <li class="group bg-forest hover:bg-moss flex min-h-[132px] flex-col justify-between gap-5 p-5 transition-colors md:min-h-[168px] md:p-7">
+          <div class="flex items-center justify-between gap-3">
+            <span class="text-gold font-mono text-[10px] tracking-[0.26em] tabular-nums">
+              {pad2(i + 1)}
+            </span>
+            <span class="bg-paper/20 h-px flex-1"></span>
+          </div>
+          <p class="text-paper font-serif text-[15.5px] leading-[1.35] md:text-[17.5px]">{item}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="border-paper/20 mt-5 flex flex-col gap-4 border p-4 sm:flex-row sm:items-center sm:justify-between md:mt-8 md:p-6">
+      <p class="text-paper/70 max-w-2xl font-serif text-[12.5px] leading-[1.75] md:text-[13.5px]">
+        {t(
+          "product.route.sameRootMechanism",
+          "Every concern below is addressed through the same root mechanism: a calm, nourished scalp environment and healthy follicle cycling.",
+        )}
+      </p>
+      <span class="text-gold shrink-0 font-mono text-[10px] tracking-[0.24em] uppercase">
+        {items.length}
+        {t("product.route.targetedAreas", "targeted areas")}
+      </span>
+    </div>
+  </div>
+</section>

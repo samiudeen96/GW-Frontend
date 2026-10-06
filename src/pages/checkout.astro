@@ -1,0 +1,52 @@
+---
+/** Checkout. The form and summary read the client-side cart, so they are one island. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import CheckoutForm from "@/components/features/checkout/CheckoutForm";
+import CustomerQuote from "@/components/social/CustomerQuote.astro";
+import { productImageTitle } from "@/data/products";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getProducts } from "@/lib/api/catalog";
+import { buildCartCatalog } from "@/lib/cart-catalog";
+import { createT, islandI18n } from "@/lib/i18n";
+
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const isAr = locale === "ar";
+const catalog = await buildCartCatalog(locale, currency);
+const imageTitles = Object.fromEntries(
+  (await getProducts()).map((p) => [p.slug, productImageTitle(p, t)]),
+);
+---
+
+<SiteLayout
+  title={isAr ? "الدفع — Green Wealth" : "Checkout — Green Wealth"}
+  description={
+    isAr
+      ? "أكمل طلبك من غسول Neo Hair Lotion بأمان. شحن عالمي وأصالة موثّقة."
+      : "Complete your Neo Hair Lotion order securely. Global shipping, verified authenticity."
+  }
+  path="/checkout"
+  noindex
+>
+  <PageHeader
+    eyebrow={t("commerce.checkout.eyebrow", "Secure Checkout")}
+    title={t("commerce.checkout.title", "Complete your order")}
+  />
+  <CheckoutForm
+    client:load
+    catalog={catalog}
+    currency={currency}
+    imageTitles={imageTitles}
+    i18n={islandI18n(locale, [
+      "commerce.checkout.",
+      "commerce.cart.",
+      "commerce.summary.",
+      "commerce.delivery.",
+      "commerce.payment.",
+      "commerce.fields.",
+      "commerce.auth.",
+    ])}
+  >
+    <CustomerQuote slot="quote" compact />
+  </CheckoutForm>
+</SiteLayout>

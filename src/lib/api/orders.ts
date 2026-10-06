@@ -22,9 +22,11 @@ export async function placeOrder(_input: PlaceOrderInput): Promise<ActionResult<
   };
 }
 
+/** Look up an order by number plus the email or phone used at checkout. */
 export async function trackOrder(_input: {
   orderNumber: string;
-  email: string;
+  email?: string;
+  phone?: string;
 }): Promise<ActionResult<TrackedOrder>> {
   return { ok: false, error: "Order tracking is not connected yet. Please contact support." };
 }

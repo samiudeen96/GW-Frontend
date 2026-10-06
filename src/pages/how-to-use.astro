@@ -1,0 +1,323 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const steps = [
+  {
+    num: "01",
+    title: "Cleanse",
+    subtitle: "Scalp Preparation",
+    desc: "Wash your hair with a gentle, sulfate-free shampoo (we recommend Neo Hair Shampoo). Towel-dry until damp. A clean scalp free of sebum and product buildup is essential for the lotion to penetrate the stratum corneum effectively.",
+    tip: "Use lukewarm water. Hot water strips natural oils and irritates the scalp.",
+  },
+  {
+    num: "02",
+    title: "Stimulate",
+    subtitle: "Pre-Application Massage",
+    desc: "Using your fingertips (never nails), massage the thinning areas in circular motions for 2 minutes. This stimulates capillary blood flow to the dermal papilla, priming the follicles for maximum absorption of the active botanical compounds.",
+    tip: "Focus on the hairline, temples, and crown where blood flow is often restricted.",
+  },
+  {
+    num: "03",
+    title: "Apply",
+    subtitle: "Targeted Delivery",
+    desc: "Part the hair to expose the scalp. Dispense 2–3 pumps of Neo Hair Lotion directly onto the affected areas. Apply to the scalp, not the hair strands. Work in systematic sections from front to crown for complete coverage of all thinning zones.",
+    tip: "Hold the nozzle 2–3 cm from the scalp for precise application.",
+  },
+  {
+    num: "04",
+    title: "Absorb",
+    subtitle: "Post-Application Massage",
+    desc: "Gently massage the applied lotion into the scalp for 2–3 minutes using circular motions. This works the actives deeper into the follicular unit. Allow the lotion to air-dry naturally. Do not rinse. Do not blow-dry for at least 30 minutes.",
+    tip: "Avoid touching the treated area after massage to prevent product transfer.",
+  },
+  {
+    num: "05",
+    title: "Timing",
+    subtitle: "Twice Daily Protocol",
+    desc: "Apply twice daily — morning and evening — maintaining consistent 12-hour intervals between applications. Consistency is the single most important factor determining treatment success. Skipping applications disrupts the sustained delivery of active compounds to the follicle.",
+    tip: "Set daily reminders. Morning after shower, evening before bed works best.",
+  },
+  {
+    num: "06",
+    title: "Commit",
+    subtitle: "Trust the Growth Cycle",
+    desc: "Hair grows in cycles (anagen, catagen, telogen). The botanical complex needs time to shift dormant follicles from telogen back into anagen. Expect reduced shedding within 2–4 weeks, vellus hair within 8–12 weeks, and visible density improvement within 12–24 weeks.",
+    tip: "Take monthly progress photos of the same areas under the same lighting.",
+  },
+];
+
+const enhancers = [
+  {
+    key: "shampoo",
+    title: "Neo Hair Shampoo",
+    desc: "Use 3–4 times per week. pH 5.5 sulfate-free formula removes buildup without stripping, so the lotion reaches a clean scalp.",
+    slug: "neo-hair-shampoo",
+  },
+  {
+    key: "dermaroller",
+    title: "Ghori Dermaroller",
+    desc: "Use once per week before the lotion. Creates transient micro-channels that support absorption of the lotion's actives; allow five to seven days between sessions.",
+    slug: "ghori-dermaroller",
+  },
+  {
+    key: "rosemary",
+    title: "Ghori Rosemary Oil",
+    desc: "Apply 2–3 nights per week as an overnight scalp treatment. Botanical extracts and biotin for scalp comfort and strand vitality.",
+    slug: "ghori-rosemary-oil",
+  },
+];
+
+const donts = [
+  "Do not apply to soaking hair — towel-dry first",
+  "Do not blow-dry the scalp for 30 minutes after application",
+  "Do not use heavy styling wax or pomade directly on the scalp",
+  "Do not exceed the recommended dosage (2–3 pumps per session)",
+  "Do not expect overnight results — commit to at least 12 weeks",
+  "Do not combine with minoxidil without medical supervision",
+];
+
+const timeline = [
+  {
+    key: "1",
+    k: "Week 1–2",
+    v: "Scalp reset",
+    d: "Reduced flaking. Cleaner feel. Mild tingling on application.",
+  },
+  {
+    key: "2",
+    k: "Week 3–6",
+    v: "Shedding stops",
+    d: "Many users report noticeably less daily fallout as follicles re-anchor. Individual results vary.",
+  },
+  {
+    key: "3",
+    k: "Week 8–12",
+    v: "New vellus",
+    d: "Baby hairs appear along hairline, temples, and crown.",
+  },
+  {
+    key: "4",
+    k: "Week 12–24",
+    v: "Terminal density",
+    d: "Vellus matures into pigmented terminal hair. Others notice.",
+  },
+];
+
+const metrics = [
+  {
+    k: t("howto.metric.frequency.k", "Frequency"),
+    v: t("howto.metric.frequency.v", "Twice daily"),
+  },
+  { k: t("howto.metric.dose.k", "Dose"), v: t("howto.metric.dose.v", "2–3 pumps") },
+  { k: t("howto.metric.session.k", "Session"), v: t("howto.metric.session.v", "~5 minutes") },
+  { k: t("howto.metric.full.k", "Full protocol"), v: t("howto.metric.full.v", "120 days") },
+];
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: t("howto.crumb.home", "Home"), path: "/" },
+    { name: t("howto.crumb.self", "How to Use"), path: "/how-to-use" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: t("howto.head.howtoname", "How to Use Neo Hair Lotion"),
+    description: t(
+      "howto.head.howtodesc",
+      "6-step clinical protocol for maximum absorption and follicle activation.",
+    ),
+    totalTime: "PT10M",
+    supply: [{ "@type": "HowToSupply", name: "Neo Hair Lotion" }],
+    step: steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: t(`howto.step.${i + 1}.title`, s.title),
+      text: t(`howto.step.${i + 1}.desc`, s.desc),
+    })),
+  },
+];
+---
+
+<SiteLayout
+  title={t("howto.head.title", "How to Use Neo Hair Lotion — Step-by-Step Application Guide")}
+  description={t(
+    "howto.head.desc",
+    "A precise 6-step clinical protocol for maximum follicle activation with Neo Hair Lotion. Timing, dosage, complementary products, and the 120-day plan.",
+  )}
+  path="/how-to-use"
+  type="article"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("howto.eyebrow", "Application guide")}
+    title={t("howto.title", "How to use Neo Hair Lotion.")}
+    intro={t(
+      "howto.intro",
+      "A practical six-step routine for applying Neo Hair Lotion consistently and comfortably.",
+    )}
+  />
+
+  {/* Timeline strip */}
+  <section class="hairline bg-ivory border-b">
+    <div class="container-editorial grid grid-cols-2 gap-6 py-8 text-sm md:grid-cols-4 md:gap-10 md:py-10">
+      {metrics.map((m) => (
+        <div>
+          <div class="eyebrow mb-1">{m.k}</div>
+          <div class="text-forest font-serif text-xl md:text-2xl">{m.v}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Steps */}
+  <section class="container-editorial py-14 md:py-20">
+    <div class="hairline grid gap-0 border">
+      {steps.map((s, i) => (
+        <article
+          class:list={[
+            "grid gap-6 p-6 md:grid-cols-[120px_1fr_260px] md:gap-10 md:p-10",
+            i > 0 && "hairline border-t",
+            i % 2 === 1 ? "bg-ivory" : "bg-paper",
+          ]}
+        >
+          <div>
+            <div class="text-forest font-serif text-5xl leading-none md:text-6xl">{s.num}</div>
+            <div class="eyebrow mt-3">{t(`howto.step.${i + 1}.subtitle`, s.subtitle)}</div>
+          </div>
+          <div>
+            <h2 class="text-ink mb-3 font-serif text-2xl md:text-3xl">
+              {t(`howto.step.${i + 1}.title`, s.title)}
+            </h2>
+            <p class="text-ink/80 max-w-2xl text-[15px] leading-relaxed">
+              {t(`howto.step.${i + 1}.desc`, s.desc)}
+            </p>
+          </div>
+          <aside class="hairline self-start border-s ps-5">
+            <div class="eyebrow mb-2">{t("howto.practitioner-tip", "Practitioner tip")}</div>
+            <p class="text-ink/70 text-sm leading-relaxed">{t(`howto.step.${i + 1}.tip`, s.tip)}</p>
+          </aside>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* Enhancers */}
+  <section class="hairline bg-ivory border-y">
+    <div class="container-editorial py-14 md:py-20">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4 md:mb-10">
+        <div>
+          <div class="eyebrow mb-2">{t("howto.enhancers.eyebrow", "Complementary Protocol")}</div>
+          <h2 class="text-ink font-serif text-3xl md:text-4xl">
+            {t("howto.enhancers.title", "Amplify the ritual.")}
+          </h2>
+        </div>
+        <a href={href("/shop")} class="hover:text-forest text-sm underline underline-offset-4">
+          {t("howto.enhancers.shop", "Shop the full system →")}
+        </a>
+      </div>
+      <div class="bg-ink/10 hairline grid gap-px border md:grid-cols-3">
+        {enhancers.map((e) => (
+          <a
+            href={href(`/product/${e.slug}`)}
+            class="bg-paper hover:bg-ivory group flex flex-col justify-between p-6 transition-colors md:p-8"
+          >
+            <div>
+              <div class="eyebrow mb-3">{t("howto.enhancers.addon", "Add-on")}</div>
+              <h3 class="text-ink mb-3 font-serif text-xl">
+                {t(`howto.enh.${e.key}.title`, e.title)}
+              </h3>
+              <p class="text-ink/70 text-sm leading-relaxed">
+                {t(`howto.enh.${e.key}.desc`, e.desc)}
+              </p>
+            </div>
+            <div class="text-forest mt-6 text-xs tracking-[0.2em] uppercase">
+              {t("howto.enhancers.view", "View product")}{" "}
+              <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Don'ts */}
+  <section class="container-editorial py-14 md:py-20">
+    <div class="grid gap-8 md:grid-cols-[300px_1fr] md:gap-12">
+      <div>
+        <div class="eyebrow mb-3">{t("howto.donts.eyebrow", "Common Mistakes")}</div>
+        <h2 class="text-ink font-serif text-3xl md:text-4xl">
+          {t("howto.donts.title", "What to avoid.")}
+        </h2>
+        <p class="text-muted-foreground mt-3 max-w-xs text-sm">
+          {t("howto.donts.intro", "The habits that quietly derail even well-formulated protocols.")}
+        </p>
+      </div>
+      <ul class="hairline bg-ink/10 grid gap-px border sm:grid-cols-2">
+        {donts.map((d, i) => (
+          <li class="bg-paper text-ink/80 flex items-start gap-3 p-5 text-sm leading-relaxed">
+            <span class="border-ink/40 mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center border text-[10px] font-bold">
+              x
+            </span>
+            <span>{t(`howto.dont.${i + 1}`, d)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* Timeline */}
+  <section class="hairline bg-forest text-paper border-y">
+    <div class="container-editorial py-14 md:py-20">
+      <div class="eyebrow text-paper/60 mb-3">
+        {t("howto.timeline.eyebrow", "120-Day Expectation Map")}
+      </div>
+      <h2 class="mb-10 max-w-2xl font-serif text-3xl md:text-4xl">
+        {t("howto.timeline.title", "What to expect, week by week.")}
+      </h2>
+      <div class="bg-paper/10 hairline border-paper/20 grid gap-px border md:grid-cols-4">
+        {timeline.map((p) => (
+          <div class="bg-forest p-6 md:p-8">
+            <div class="eyebrow text-paper/50 mb-3">{t(`howto.tl.${p.key}.k`, p.k)}</div>
+            <div class="mb-2 font-serif text-xl">{t(`howto.tl.${p.key}.v`, p.v)}</div>
+            <p class="text-paper/70 text-sm leading-relaxed">{t(`howto.tl.${p.key}.d`, p.d)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="container-editorial py-16 text-center md:py-24">
+    <div class="eyebrow mb-3">{t("howto.cta.eyebrow", "Ready to begin")}</div>
+    <h2 class="text-ink mx-auto mb-5 max-w-2xl font-serif text-3xl leading-tight md:text-5xl">
+      {t("howto.cta.title", "Start the 120-day protocol.")}
+    </h2>
+    <p class="text-muted-foreground mx-auto mb-8 max-w-md">
+      {t(
+        "howto.cta.desc",
+        "Consistency is the foundation of results. Commit to the ritual, trust the botanicals, and document your progress.",
+      )}
+    </p>
+    <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a
+        href={href("/product/neo-hair-lotion")}
+        class="bg-forest text-paper hover:bg-ink inline-flex items-center gap-2 px-8 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+      >
+        {t("howto.cta.shop", "Shop Neo Hair Lotion")}
+      </a>
+      <a
+        href={href("/faq")}
+        class="hairline hover:bg-ivory inline-flex items-center gap-2 border px-8 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+      >
+        {t("howto.cta.faq", "Read the FAQ")}
+      </a>
+    </div>
+  </section>
+</SiteLayout>

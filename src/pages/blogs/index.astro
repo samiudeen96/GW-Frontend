@@ -1,0 +1,222 @@
+---
+/** /blogs — Green Wealth Journal index: masthead, featured essay, dossier series, ledger. */
+import Reveal from "@/components/common/Reveal.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import {
+  formatDate,
+  postCategory,
+  postExcerpt,
+  postTitle,
+  readTime,
+} from "@/components/features/blog/format";
+import JournalLedger from "@/components/features/blog/JournalLedger.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getPosts } from "@/lib/api/catalog";
+import { canonicalFor, abs, breadcrumbLd } from "@/lib/seo";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const posts = await getPosts();
+const [featured, ...rest] = posts;
+
+const CATEGORIES = ["All", "Ingredient", "Protocol", "Science", "Guide", "Ritual"] as const;
+const available = CATEGORIES.filter((c) => c === "All" || posts.some((p) => p.category === c));
+const dossiers = posts.filter((p) => p.tags.includes("Ingredient Dossier"));
+
+const title = t("blog.head.index.title", "Journal — Green Wealth");
+const description = t(
+  "blog.head.index.description",
+  "Field notes on Neo Hair Lotion, Neo Hair Shampoo and the Ghori Dermaroller — protocols, ingredient science and timelines from the Green Wealth studio.",
+);
+const jsonLd = [
+  breadcrumbLd([
+    { name: t("blog.head.index.breadcrumbHome", "Home"), path: "/" },
+    { name: t("blog.head.index.breadcrumbJournal", "Journal"), path: "/blogs" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Green Wealth Journal",
+    url: canonicalFor("/blogs", locale),
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: postTitle(t, p.slug, p.title),
+      url: abs(`/blogs/${p.slug}`),
+      datePublished: p.date,
+      author: { "@type": "Organization", name: p.author },
+    })),
+  },
+];
+---
+
+<SiteLayout title={title} description={description} path="/blogs" jsonLd={jsonLd}>
+  {/* Masthead — oversized editorial plate */}
+  <header class="hairline bg-forest text-paper relative overflow-hidden border-b">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 opacity-[0.05]"
+      style="background-image: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 12.5%)"
+    ></div>
+    <div class="container-editorial relative pt-14 pb-12 md:pt-24 md:pb-16">
+      <div class="text-paper/70 mb-10 text-sm md:mb-14">
+        {t("blog.chrome.journalLabel", "Green Wealth Journal")}
+      </div>
+      <h1 class="font-serif text-[12vw] leading-[0.92] tracking-tight md:text-[8.5vw]">
+        {t(
+          "blog.chrome.heroTitle2",
+          "The Green Wealth Journal: hair science, botanicals and honest timelines.",
+        )}
+      </h1>
+      <div class="border-paper/20 mt-8 grid items-end gap-6 border-t pt-5 md:mt-14 md:grid-cols-12 md:pt-6">
+        <p class="text-paper/75 text-sm leading-relaxed md:col-span-5 md:text-base">
+          {t(
+            "blog.chrome.heroDesc2",
+            "Evidence-led essays on the ingredients inside our formulas and the protocols that make them work. Every claim is qualified, every study is named.",
+          )}
+        </p>
+      </div>
+      <a
+        href={withLocalePrefix("/blogs/series", locale)}
+        class="border-paper/40 text-paper hover:bg-paper hover:text-forest mt-8 inline-block border px-6 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+      >
+        {t("blog.series.cta", "Read the full series")} →
+      </a>
+    </div>
+  </header>
+
+  {/* Featured — Editor's file */}
+  {featured && (
+    <section class="hairline border-b">
+      <div class="container-editorial py-10 md:py-16">
+        <Reveal>
+          <a
+            href={withLocalePrefix(`/blogs/${featured.slug}`, locale)}
+            class="group grid gap-6 md:grid-cols-12 md:gap-10"
+          >
+            <div class="relative md:col-span-7">
+              <div class="bg-ivory aspect-[4/3] overflow-hidden">
+                <ResponsiveImage
+                  src={featured.cover}
+                  alt={postTitle(t, featured.slug, featured.title)}
+                  sizes="(min-width: 768px) 58vw, 100vw"
+                  priority
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+              </div>
+              <div class="bg-forest text-paper absolute start-0 top-0 px-3 py-2 text-[11px] tracking-[0.18em] uppercase">
+                Fig. 01 — {t("blog.chrome.featured", "Featured")}
+              </div>
+            </div>
+            <div class="flex flex-col justify-center md:col-span-5">
+              <div class="eyebrow mb-4">
+                {postCategory(t, featured.category)} · {readTime(featured.read, t)}{" "}
+                {t("blog.chrome.readSuffix", "read")}
+              </div>
+              <h2 class="group-hover:text-forest font-serif text-3xl leading-[1.05] transition-colors md:text-5xl">
+                {postTitle(t, featured.slug, featured.title)}
+              </h2>
+              {featured.answer && (
+                <p class="border-forest text-ink/80 mt-5 line-clamp-5 border-s-2 ps-4 text-[15px] leading-relaxed">
+                  {t(`blog.${featured.slug}.answer`, featured.answer)}
+                </p>
+              )}
+              <div class="text-muted-foreground mt-6 flex items-center gap-3 text-xs tracking-[0.14em] uppercase">
+                <span>{t(`blog.author.${featured.author}`, featured.author)}</span>
+                <span aria-hidden="true">·</span>
+                <span>{formatDate(featured.date, locale)}</span>
+              </div>
+              <div class="mt-8">
+                <span class="border-forest text-forest inline-block border-b pb-1 text-sm tracking-[0.18em] uppercase">
+                  {t("blog.chrome.readTheEssay", "Read the essay")} &rarr;
+                </span>
+              </div>
+            </div>
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  )}
+
+  {/* Ingredient dossier series — numbered plates */}
+  {dossiers.length > 0 && (
+    <section class="hairline bg-ivory border-b">
+      <div class="container-editorial py-12 md:py-16">
+        <Reveal>
+          <div class="mb-8 flex flex-wrap items-baseline justify-between gap-4">
+            <div>
+              <div class="eyebrow mb-2">
+                {t("blog.chrome.seriesEyebrow", "Series · Ingredient Dossiers")}
+              </div>
+              <h2 class="max-w-2xl font-serif text-2xl leading-tight md:text-4xl">
+                {t("blog.chrome.seriesTitle", "Inside the formula: one botanical at a time.")}
+              </h2>
+            </div>
+            <a
+              href={withLocalePrefix("/ingredients", locale)}
+              class="eyebrow border-forest text-forest border-b pb-1"
+            >
+              {t("blog.chrome.seriesAll", "Full ingredient glossary")}
+            </a>
+          </div>
+        </Reveal>
+        <div class="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 lg:grid-cols-6">
+          {dossiers.map((d, i) => (
+            <Reveal delay={i * 60} class="w-[78%] shrink-0 snap-start sm:w-[46%] md:w-auto">
+              <a
+                href={withLocalePrefix(`/blogs/${d.slug}`, locale)}
+                class="group hairline bg-paper flex h-full flex-col border"
+              >
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <ResponsiveImage
+                    src={d.cover}
+                    alt={postTitle(t, d.slug, d.title)}
+                    sizes="(min-width: 1024px) 16vw, (min-width: 768px) 33vw, 78vw"
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                </div>
+                <div class="flex-1 p-4 md:p-5">
+                  <div class="eyebrow mb-2">
+                    {t("blog.chrome.dossierTag", "Ingredient Dossier")}
+                  </div>
+                  <h3 class="group-hover:text-forest line-clamp-2 font-serif text-lg leading-snug transition-colors md:text-xl">
+                    {postTitle(t, d.slug, d.title)}
+                  </h3>
+                  <p class="text-muted-foreground mt-2 line-clamp-2 text-sm leading-relaxed">
+                    {postExcerpt(t, d.slug, d.excerpt)}
+                  </p>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* Index — numbered ledger with hover plates */}
+  <JournalLedger posts={rest} categories={available} />
+
+  {/* Footer strip */}
+  <section class="hairline bg-forest text-paper border-t">
+    <div class="container-editorial grid items-end gap-8 py-12 md:grid-cols-2 md:py-16">
+      <div>
+        <div class="eyebrow text-paper/70 mb-4">
+          {t("blog.chrome.studioLetterEyebrow", "The Studio Letter")}
+        </div>
+        <h2 class="max-w-md font-serif text-2xl leading-tight md:text-3xl">
+          {t(
+            "blog.chrome.studioLetterTitle",
+            "One essay a month. Written by the team that formulates the products.",
+          )}
+        </h2>
+      </div>
+      <p class="text-paper/70 text-sm leading-relaxed md:text-end">
+        {t(
+          "blog.chrome.studioLetterDesc",
+          "No promotions, no discount codes, no forwarded press releases. Subscribe from the footer of any page.",
+        )}
+      </p>
+    </div>
+  </section>
+</SiteLayout>

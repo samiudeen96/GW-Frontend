@@ -1,0 +1,200 @@
+---
+/**
+ * "Active Botanicals": the hero product's first five detailed ingredients.
+ * Mobile: snap-scroll tiles with indicator dots (script below). md+: grid.
+ */
+import Reveal from "@/components/common/Reveal.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/\(.*?\)/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+const ingredientAlt = t(
+  "img.ingredientAlt",
+  "botanical active used in Green Wealth Neo Hair formulas",
+);
+const items = (hero.ingredientsDetailed ?? []).slice(0, 5).map((ing, i) => {
+  const slug = slugify(ing.name);
+  const name = t(`home.ingredients.${slug}.name`, ing.name);
+  return {
+    ing,
+    num: String(i + 1).padStart(2, "0"),
+    href: withLocalePrefix(`/ingredients/${slug}`, locale),
+    name,
+    alt: `${name} — ${ingredientAlt}`,
+    description: t(`home.ingredients.${slug}.description`, ing.description),
+  };
+});
+const readLabel = t("home.ingredients.read", "Read");
+const goToLabel = t("home.ingredients.goTo", "Go to botanical");
+---
+
+<section class="bg-paper border-forest/15 overflow-hidden border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <Reveal class="mb-12 flex flex-col items-start justify-between gap-6 sm:mb-16 md:flex-row md:items-end">
+      <div>
+        <h2 class="font-serif text-[clamp(2.25rem,4.4vw,3.8rem)] leading-[0.9] font-bold tracking-tight uppercase">
+          {t("home.ingredients.titleLine1", "Active")}
+          <br />
+          {t("home.ingredients.titleLine2", "Botanicals")}
+        </h2>
+      </div>
+      <p class="text-forest/55 max-w-sm text-xs leading-relaxed tracking-[0.1em] uppercase sm:text-sm">
+        {t(
+          "home.ingredients.subtitle",
+          "Five botanical extracts. Keystone actives targeting the biology of thinning.",
+        )}
+      </p>
+    </Reveal>
+
+    {/* Mobile swipe tiles */}
+    <div class="md:hidden" data-ingredient-tiles>
+      <div
+        data-tiles-track
+        class="scrollbar-hide flex snap-x snap-mandatory gap-3 overflow-x-auto pb-6"
+      >
+        {items.map((it) => (
+          <a
+            href={it.href}
+            class="bg-ivory border-forest/15 flex min-w-[80vw] snap-start flex-col border p-5"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <span class="text-moss font-mono text-[9px] tracking-[0.26em] uppercase">
+                {it.num}
+              </span>
+              <span class="text-moss font-mono text-[9px] tracking-[0.26em] uppercase">
+                {readLabel} →
+              </span>
+            </div>
+            {it.ing.image && (
+              <div class="bg-paper mb-4 flex aspect-square w-full items-center justify-center overflow-hidden">
+                <ResponsiveImage
+                  src={it.ing.image}
+                  alt={it.alt}
+                  title={it.name}
+                  sizes="80vw"
+                  class="h-full w-full object-contain p-3"
+                />
+              </div>
+            )}
+            <h3 class="mb-1 font-serif text-sm leading-tight font-bold tracking-tight uppercase">
+              {it.name}
+            </h3>
+            {it.ing.latin && (
+              <p class="text-forest/45 mb-3 font-mono text-[10px] tracking-[0.2em] uppercase">
+                {it.ing.latin}
+              </p>
+            )}
+            <p class="text-forest/65 text-xs leading-relaxed">{it.description}</p>
+          </a>
+        ))}
+      </div>
+      <div class="mt-2 flex justify-center gap-2">
+        {items.map((_, i) => (
+          <button
+            type="button"
+            data-tile-dot={i}
+            aria-label={`${goToLabel} ${i + 1}`}
+            class:list={["h-px w-8 transition-colors", i === 0 ? "bg-forest" : "bg-forest/20"]}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* Desktop grid */}
+    <Reveal
+      delay={100}
+      class="border-forest/15 hidden grid-cols-2 border-s border-t md:grid lg:grid-cols-5"
+    >
+      {items.map((it) => (
+        <a
+          href={it.href}
+          class="border-forest/15 group hover:bg-ivory flex flex-col border-e border-b p-6 transition-colors sm:p-7"
+        >
+          <div class="mb-5 flex items-center justify-between">
+            <span class="text-moss font-mono text-[9px] tracking-[0.26em] uppercase">{it.num}</span>
+            <span class="text-moss font-mono text-[9px] tracking-[0.26em] uppercase opacity-0 transition-opacity group-hover:opacity-100">
+              {readLabel} →
+            </span>
+          </div>
+          {it.ing.image && (
+            <div class="bg-ivory mb-5 flex aspect-square w-full items-center justify-center overflow-hidden">
+              <ResponsiveImage
+                src={it.ing.image}
+                alt={it.alt}
+                title={it.name}
+                sizes="(min-width: 1024px) 300px, 45vw"
+                class="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.04]"
+              />
+            </div>
+          )}
+          <h3 class="mb-1 font-serif text-sm leading-tight font-bold tracking-tight uppercase sm:text-base">
+            {it.name}
+          </h3>
+          {it.ing.latin && (
+            <p class="text-forest/45 mb-3 font-mono text-[10px] tracking-[0.2em] uppercase">
+              {it.ing.latin}
+            </p>
+          )}
+          <p class="text-forest/65 text-xs leading-relaxed sm:text-[13px]">{it.description}</p>
+        </a>
+      ))}
+    </Reveal>
+  </div>
+</section>
+
+<script>
+  const GAP = 12;
+
+  function initTiles(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>("[data-tiles-track]");
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tile-dot]"));
+    if (!track || !dots.length) return;
+    const isRtl = () => getComputedStyle(track).direction === "rtl";
+    const step = () => {
+      const card = track.firstElementChild as HTMLElement | null;
+      return card ? card.offsetWidth + GAP : 0;
+    };
+
+    const setActive = (active: number) =>
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("bg-forest", i === active);
+        dot.classList.toggle("bg-forest/20", i !== active);
+      });
+
+    track.addEventListener(
+      "scroll",
+      () => {
+        const s = step();
+        if (!s) return;
+        // scrollLeft is negative in RTL; the magnitude is the offset from the start.
+        const idx = Math.round(Math.abs(track.scrollLeft) / s);
+        setActive(Math.max(0, Math.min(idx, dots.length - 1)));
+      },
+      { passive: true },
+    );
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        const left = i * step() * (isRtl() ? -1 : 1);
+        track.scrollTo({ left, behavior: "smooth" });
+      }),
+    );
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-ingredient-tiles]").forEach(initTiles);
+</script>

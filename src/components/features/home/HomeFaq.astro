@@ -1,0 +1,57 @@
+---
+/**
+ * Homepage FAQ (first four of the hero product's FAQs). Native exclusive
+ * accordion: `<details name>` keeps one item open at a time with no JS, and the
+ * answers stay in the HTML for crawlers. The first item starts open.
+ */
+import Reveal from "@/components/common/Reveal.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const faqs = (hero.faqs ?? []).slice(0, 4);
+---
+
+<section class="bg-paper border-forest/15 border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <Reveal class="lg:col-span-4">
+        <h2 class="font-serif text-[clamp(2.25rem,4.4vw,3.4rem)] leading-[0.9] font-bold tracking-tight uppercase">
+          {t("home.faq.title", "Questions")}
+        </h2>
+        <a
+          href={withLocalePrefix("/faq", locale)}
+          class="text-moss border-forest/30 hover:text-forest mt-8 inline-block border-b pb-1 font-mono text-[9px] tracking-[0.26em] uppercase transition-colors"
+        >
+          {t("home.faq.all", "All questions")} →
+        </a>
+      </Reveal>
+      <Reveal delay={100} class="lg:col-span-8">
+        <div class="border-forest/20 border-t">
+          {faqs.map((f, i) => (
+            <details name="home-faq" open={i === 0} class="group border-forest/20 border-b">
+              <summary class="flex w-full cursor-pointer list-none items-center justify-between gap-6 py-6 text-start sm:py-7 [&::-webkit-details-marker]:hidden">
+                <span class="font-serif text-base font-bold tracking-tight uppercase sm:text-lg">
+                  {t(`home.faq.${i}.q`, f.q)}
+                </span>
+                <span class="text-moss shrink-0 text-xl font-bold" aria-hidden="true">
+                  <span class="group-open:hidden">+</span>
+                  <span class="hidden group-open:inline">−</span>
+                </span>
+              </summary>
+              <p class="text-forest/65 max-w-3xl pb-6 text-sm leading-relaxed sm:pb-8 sm:text-base">
+                {t(`home.faq.${i}.a`, f.a)}
+              </p>
+            </details>
+          ))}
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

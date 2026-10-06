@@ -1,0 +1,242 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { lookupShipping, shippingCopy } from "@/data/shipping";
+import { productImageAlt, productImageTitle } from "@/data/products";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getCountryLandingBySlug, getCountryLandings, getProducts } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const ar = locale === "ar";
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const c = await getCountryLandingBySlug(Astro.params.slug ?? "");
+if (!c) Astro.response.status = 404;
+
+const SLUG_TO_CODE: Record<string, string> = {
+  uae: "AE",
+  "saudi-arabia": "SA",
+  qatar: "QA",
+  kuwait: "KW",
+  "united-kingdom": "GB",
+  india: "IN",
+};
+
+const [products, countries] = c
+  ? await Promise.all([getProducts(), getCountryLandings()])
+  : [[], []];
+
+const k = (field: string) => `misc.countries.${c?.slug}.${field}`;
+const name = c ? t(k("name"), c.name) : "";
+const heroLine = c ? t(k("heroLine"), c.heroLine) : "";
+const shippingNote = c ? t(k("shippingNote"), c.shippingNote) : "";
+const cities = c ? c.cities.map((city, i) => t(k(`city.${i}`), city)) : [];
+const testimonials = c
+  ? c.testimonials.map((tm, i) => ({
+      name: t(k(`testimonial.${i}.name`), tm.name),
+      city: t(k(`testimonial.${i}.city`), tm.city),
+      body: t(k(`testimonial.${i}.body`), tm.body),
+    }))
+  : [];
+const faqs = c
+  ? c.faqs.map((f, i) => ({ q: t(k(`faq.${i}.q`), f.q), a: t(k(`faq.${i}.a`), f.a) }))
+  : [];
+const ship = lookupShipping(c ? SLUG_TO_CODE[c.slug] : undefined);
+
+const title = !c
+  ? ar
+    ? "المنطقة غير موجودة — جرين ولث"
+    : "Region not found — Green Wealth"
+  : ar
+    ? `جرين ولث في ${name} — لوشن نيو للشعر والعناية النباتية بالشعر`
+    : `Green Wealth ${c.name} — Neo Hair Lotion & Botanical Care`;
+const description = !c
+  ? undefined
+  : ar
+    ? `تسوّق لوشن نيو للشعر® الأصلي من جرين ولث في ${name}. ${shippingNote} الأسعار بعملة ${c.currency}.`
+    : `Buy authentic Green Wealth Neo Hair Lotion® in ${c.name}. ${c.shippingNote} Prices in ${c.currency}.`;
+
+const jsonLd = c
+  ? [
+      breadcrumbLd([
+        { name: ar ? "الرئيسية" : "Home", path: "/" },
+        { name: ar ? "المناطق" : "Regions", path: "/" },
+        { name, path: `/countries/${c.slug}` },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      },
+    ]
+  : [];
+
+const facts = [
+  { k: t("misc.countries.currencyLabel", "Currency"), v: c?.currency ?? "" },
+  { k: t("misc.countries.deliveryLabel", "Delivery"), v: ship.days },
+  { k: t("misc.countries.shippingLabel", "Shipping"), v: `${ship.symbol}${ship.fee}` },
+  {
+    k: t("misc.countries.freeOverLabel", "Free over"),
+    v:
+      ship.freeOver === null
+        ? t("misc.countries.flatRate", "Flat rate")
+        : `${ship.symbol}${ship.freeOver}`,
+  },
+];
+---
+
+{!c ? (
+  <SiteLayout title={title} noindex>
+    <div class="container-editorial py-24 text-center">
+      <h1 class="text-forest font-serif text-3xl">
+        {t("misc.countries.notFound.title", "Region not available")}
+      </h1>
+      <a
+        href={href("/shop")}
+        class="text-forest border-forest/40 mt-6 inline-block border-b font-mono text-[11px] tracking-[0.24em] uppercase"
+      >
+        {t("misc.countries.shopAll", "Shop all")}
+      </a>
+    </div>
+  </SiteLayout>
+) : (
+  <SiteLayout title={title} description={description} path={`/countries/${c.slug}`} jsonLd={jsonLd}>
+    <div class="hairline bg-paper border-b">
+      <div class="container-editorial py-6">
+        <nav class="text-forest/60 font-mono text-[10px] tracking-[0.24em] uppercase">
+          <a href={href("/")} class="hover:text-forest">
+            {t("misc.countries.breadcrumbHome", "Home")}
+          </a>
+          <span class="mx-2">/</span>
+          <span class="text-forest">{name}</span>
+        </nav>
+      </div>
+    </div>
+
+    <PageHeader
+      eyebrow={`${t("misc.countries.deliveringTo", "Delivering to")} ${name}`}
+      title={`${t("misc.countries.heroPrefix", "Green Wealth in")} ${name}`}
+      intro={heroLine}
+    />
+
+    <div class="container-editorial py-8 md:py-14">
+      <div class="bg-ink/10 hairline grid grid-cols-2 gap-px border md:grid-cols-4">
+        {facts.map((s) => (
+          <div class="bg-paper p-4 md:p-6">
+            <span class="text-moss font-mono text-[10px] tracking-[0.28em] uppercase">{s.k}</span>
+            <p class="text-forest mt-2 font-serif text-xl md:text-2xl">{s.v}</p>
+          </div>
+        ))}
+      </div>
+
+      <section class="mt-14">
+        <h2 class="text-forest font-serif text-2xl md:text-3xl">
+          {t("misc.countries.shopInPrefix", "Shop in")} {c.currency}
+        </h2>
+        <p class="text-forest/60 mt-2 font-mono text-[13px] tracking-[0.2em] uppercase">
+          {shippingNote} · {shippingCopy(ship)}
+        </p>
+        <div class="bg-ink/10 hairline mt-6 grid grid-cols-1 gap-px border md:grid-cols-3">
+          {products.map((p) => (
+            <a
+              href={href(`/product/${p.slug}`)}
+              class="group bg-paper hover:bg-ivory/60 block p-5 transition-colors"
+            >
+              <div class="bg-ivory hairline aspect-square overflow-hidden border">
+                <ResponsiveImage
+                  src={p.image}
+                  alt={productImageAlt(p, 0, t)}
+                  title={productImageTitle(p, t)}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  class="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div class="mt-4">
+                <span class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+                  {t(`product.category.${p.category}`, p.category)}
+                </span>
+                <h3 class="text-forest mt-1 font-serif text-lg leading-tight">
+                  {t(`product.${p.slug}.name`, p.name)}
+                </h3>
+                <p class="text-forest mt-2 font-mono text-[12px] tabular-nums" data-ltr>
+                  {formatMoney(getBasePrice(p.slug, c.currency), c.currency)}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-14">
+        <h2 class="text-forest font-serif text-2xl md:text-3xl">
+          {t("misc.countries.citiesPrefix", "Cities we serve in")} {name}
+        </h2>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {cities.map((city) => (
+            <span class="text-forest hairline bg-paper border px-3 py-1.5 font-mono text-[11px] tracking-[0.22em] uppercase">
+              {city}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-14">
+        <h2 class="text-forest font-serif text-2xl md:text-3xl">
+          {t("misc.countries.customersPrefix", "Customers in")} {name}
+        </h2>
+        <div class="bg-ink/10 hairline mt-6 grid grid-cols-1 gap-px border md:grid-cols-3">
+          {testimonials.map((tm) => (
+            <blockquote class="bg-paper p-6">
+              <p class="text-forest font-serif text-lg leading-snug">“{tm.body}”</p>
+              <footer class="text-moss mt-4 font-mono text-[10.5px] tracking-[0.24em] uppercase">
+                {tm.name} · {tm.city}
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-14">
+        <h2 class="text-forest font-serif text-2xl md:text-3xl">
+          {t("misc.countries.faqTitle", "Frequently asked")}
+        </h2>
+        <div class="hairline divide-ink/10 bg-paper mt-6 divide-y border">
+          {faqs.map((f) => (
+            <div class="p-5 md:p-6">
+              <h3 class="text-forest font-serif text-lg">{f.q}</h3>
+              <p class="text-forest/75 mt-2 text-[14px] leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {countries.length > 1 && (
+        <section class="hairline mt-14 border-t pt-10">
+          <h2 class="text-forest font-serif text-xl">
+            {t("misc.countries.otherRegions", "Other regions")}
+          </h2>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {countries
+              .filter((x) => x.slug !== c.slug)
+              .map((x) => (
+                <a
+                  href={href(`/countries/${x.slug}`)}
+                  class="text-forest hairline bg-paper hover:bg-ivory/60 border px-3 py-1.5 font-mono text-[11px] tracking-[0.22em] uppercase"
+                >
+                  {t(`misc.countries.${x.slug}.name`, x.name)}
+                </a>
+              ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </SiteLayout>
+)}

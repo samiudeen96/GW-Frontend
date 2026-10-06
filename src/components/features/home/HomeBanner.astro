@@ -1,0 +1,312 @@
+---
+/**
+ * Homepage campaign banner rotator (one responsive component).
+ *
+ * Each slide is an art-directed <picture>: portrait artwork below `lg`, wide
+ * artwork from `lg` up. Slides auto-advance every SLIDE_DURATION ms; the slide
+ * selector, swipe (touch) and CTA are driven by the small script below.
+ * Only the first slide is in the DOM at load (LCP); later slides live in a
+ * <template> and are mounted the first time they become active, so hidden
+ * banners never compete with the LCP image for bandwidth.
+ *
+ * Banner artwork is served from public/images (hero-{mobile,desktop}-N-*.webp).
+ */
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const SLIDE_DURATION = 6500;
+
+const SLIDES = [
+  {
+    id: 1,
+    alt: "Neo Hair Lotion 120 ml scalp spray with botanical extracts in laboratory glassware — five active botanicals that help block DHT",
+    path: "/product/neo-hair-lotion",
+    cta: "Shop Neo Hair Lotion",
+    label: "Neo Hair Lotion",
+  },
+  {
+    id: 2,
+    alt: "Neo Hair Shampoo 250 ml bottle held in a hand with botanical oil pouring over it — scalp care, root nourishment and hair regrowth",
+    path: "/product/neo-hair-shampoo",
+    cta: "Shop Neo Hair Shampoo",
+    label: "Neo Hair Shampoo",
+  },
+  {
+    id: 3,
+    alt: "Complete Green Wealth hair regrowth routine — Neo Hair Shampoo, Ghori derma roller and Neo Hair Lotion in a three-step ritual",
+    path: "/shop",
+    cta: "Shop the complete routine",
+    label: "Complete routine",
+  },
+  {
+    id: 4,
+    alt: "Before and after hair regrowth results grid from 500,000+ Green Wealth customers — 97% saw new hair growth in about three months",
+    path: "/reviews",
+    cta: "See verified results",
+    label: "Real results",
+  },
+];
+
+const slides = SLIDES.map((s) => ({
+  id: s.id,
+  alt: t(`home.banner.${s.id}.alt`, s.alt),
+  label: t(`home.banner.${s.id}.label`, s.label),
+  cta: t(`home.banner.${s.id}.cta`, s.cta),
+  href: withLocalePrefix(s.path, locale),
+  desktopSrcSet: `/images/hero-desktop-${s.id}-1600.webp 1600w, /images/hero-desktop-${s.id}-2400.webp 2400w`,
+  mobileSrc: `/images/hero-mobile-${s.id}-1200.webp`,
+  mobileSrcSet: `/images/hero-mobile-${s.id}-800.webp 800w, /images/hero-mobile-${s.id}-1200.webp 1200w`,
+}));
+const first = slides[0];
+// Keep the literal duration in sync with SLIDE_DURATION (Tailwind needs a static class).
+const fillClass =
+  "progress-fill absolute inset-y-0 start-0 w-full animate-[progress-fill_6500ms_linear] will-change-transform";
+---
+
+<section
+  data-home-banner
+  data-duration={SLIDE_DURATION}
+  class="bg-forest border-brass/40 relative border-b"
+  aria-label={t("home.banner.region", "Green Wealth campaign banners")}
+>
+  {/* Full artwork: preserve the complete native ratio, even when it extends below the viewport */}
+  <div
+    data-banner-stage
+    class="relative aspect-[5/8] w-full touch-pan-y overflow-hidden lg:aspect-[2400/1340]"
+  >
+    {slides.map((s, i) => {
+      const isActive = i === 0;
+      return (
+        <div
+          data-banner-slide
+          data-href={s.href}
+          data-cta={s.cta}
+          class:list={[
+            "absolute inset-0 transition-opacity duration-[900ms] ease-out",
+            isActive ? "opacity-100" : "pointer-events-none opacity-0",
+          ]}
+          aria-hidden={isActive ? "false" : "true"}
+        >
+          {isActive ? (
+            <picture>
+              <source
+                media="(min-width: 1024px)"
+                srcset={s.desktopSrcSet}
+                sizes="100vw"
+                width={2400}
+                height={1340}
+              />
+              <img
+                src={s.mobileSrc}
+                srcset={s.mobileSrcSet}
+                sizes="100vw"
+                alt={s.alt}
+                title={s.label}
+                width={1200}
+                height={1920}
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                class="absolute inset-0 h-full w-full object-contain object-center"
+              />
+            </picture>
+          ) : (
+            <template>
+              <picture>
+                <source
+                  media="(min-width: 1024px)"
+                  srcset={s.desktopSrcSet}
+                  sizes="100vw"
+                  width={2400}
+                  height={1340}
+                />
+                <img
+                  src={s.mobileSrc}
+                  srcset={s.mobileSrcSet}
+                  sizes="100vw"
+                  alt={s.alt}
+                  title={s.label}
+                  width={1200}
+                  height={1920}
+                  decoding="async"
+                  fetchpriority="low"
+                  class="absolute inset-0 h-full w-full object-contain object-center"
+                />
+              </picture>
+            </template>
+          )}
+        </div>
+      );
+    })}
+  </div>
+
+  {/* Mobile / tablet: slide selector (typographic rules) then a full-width CTA, below the artwork */}
+  <div class="bg-paper flex items-center justify-center gap-3 px-4 py-4 lg:hidden">
+    {slides.map((s, i) => (
+      <button
+        type="button"
+        data-banner-go={i}
+        aria-current={i === 0 ? "true" : "false"}
+        aria-label={s.label}
+        class="flex-1"
+      >
+        <span
+          class="bg-forest/30 relative block h-px w-full overflow-hidden rtl:-scale-x-100"
+          aria-hidden="true"
+        >
+          <span data-banner-fill class:list={[fillClass, "bg-forest"]} hidden={i !== 0} />
+        </span>
+      </button>
+    ))}
+  </div>
+  <div class="px-5 py-5 lg:hidden">
+    <a
+      data-banner-cta
+      href={first.href}
+      class="bg-brass text-forest block w-full px-6 py-4 text-center text-[10px] font-bold tracking-[0.22em] uppercase"
+    >
+      {first.cta}
+    </a>
+  </div>
+
+  {/* Desktop: CTA + labelled slide selector below the artwork — no overlay, no cropping */}
+  <div class="border-brass/30 hidden items-center justify-between gap-8 border-t px-8 py-5 lg:flex xl:px-12">
+    <a
+      data-banner-cta
+      href={first.href}
+      class="bg-brass text-forest border-brass hover:text-brass border px-10 py-4 text-[11px] font-bold tracking-[0.22em] uppercase transition-colors hover:bg-transparent"
+    >
+      {first.cta}
+    </a>
+
+    <div class="flex items-center gap-6">
+      {slides.map((s, i) => (
+        <button
+          type="button"
+          data-banner-go={i}
+          aria-current={i === 0 ? "true" : "false"}
+          class="group flex items-center gap-3"
+        >
+          <span
+            class="bg-brass/30 relative block h-px w-14 overflow-hidden rtl:-scale-x-100"
+            aria-hidden="true"
+          >
+            <span data-banner-fill class:list={[fillClass, "bg-brass"]} hidden={i !== 0} />
+          </span>
+          <span
+            data-banner-label
+            class:list={[
+              "text-[9px] tracking-[0.24em] uppercase transition-colors",
+              i === 0 ? "text-brass" : "text-brass/50 group-hover:text-brass/80",
+            ]}
+          >
+            {s.label}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const ACTIVE_LABEL = ["text-brass"];
+  const IDLE_LABEL = ["text-brass/50", "group-hover:text-brass/80"];
+
+  function initBanner(root: HTMLElement) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-banner-slide]"));
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-banner-go]"));
+    const ctas = Array.from(root.querySelectorAll<HTMLAnchorElement>("[data-banner-cta]"));
+    const stage = root.querySelector<HTMLElement>("[data-banner-stage]");
+    const duration = Number(root.dataset.duration) || 6500;
+    const isRtl = document.documentElement.dir === "rtl";
+    const n = slides.length;
+    if (n < 2) return;
+
+    let active = 0;
+    let timer: number | undefined;
+
+    // Mount a slide's artwork the first time it is shown.
+    const mount = (slide: HTMLElement) => {
+      const tpl = slide.querySelector("template");
+      if (!tpl) return;
+      slide.append(tpl.content.cloneNode(true));
+      tpl.remove();
+    };
+
+    const show = (index: number) => {
+      active = (index + n) % n;
+      slides.forEach((slide, i) => {
+        const on = i === active;
+        if (on) mount(slide);
+        slide.classList.toggle("opacity-100", on);
+        slide.classList.toggle("opacity-0", !on);
+        slide.classList.toggle("pointer-events-none", !on);
+        slide.setAttribute("aria-hidden", String(!on));
+      });
+      buttons.forEach((btn) => {
+        const on = Number(btn.dataset.bannerGo) === active;
+        btn.setAttribute("aria-current", String(on));
+        const fill = btn.querySelector<HTMLElement>("[data-banner-fill]");
+        if (fill) {
+          fill.hidden = !on;
+          if (on) {
+            // Restart the progress animation.
+            fill.style.animation = "none";
+            void fill.offsetWidth;
+            fill.style.animation = "";
+          }
+        }
+        const label = btn.querySelector<HTMLElement>("[data-banner-label]");
+        if (label) {
+          ACTIVE_LABEL.forEach((c) => label.classList.toggle(c, on));
+          IDLE_LABEL.forEach((c) => label.classList.toggle(c, !on));
+        }
+      });
+      const current = slides[active];
+      ctas.forEach((a) => {
+        a.href = current.dataset.href ?? a.href;
+        a.textContent = current.dataset.cta ?? a.textContent;
+      });
+    };
+
+    const restartTimer = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show(active + 1), duration);
+    };
+
+    buttons.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        show(Number(btn.dataset.bannerGo));
+        restartTimer();
+      }),
+    );
+
+    let touch: { x: number; y: number } | null = null;
+    stage?.addEventListener(
+      "touchstart",
+      (e) => {
+        const p = e.touches[0];
+        touch = { x: p.clientX, y: p.clientY };
+      },
+      { passive: true },
+    );
+    stage?.addEventListener("touchend", (e) => {
+      const start = touch;
+      touch = null;
+      if (!start) return;
+      const p = e.changedTouches[0];
+      const dx = p.clientX - start.x;
+      const dy = p.clientY - start.y;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+      const forward = isRtl ? dx > 0 : dx < 0;
+      show(active + (forward ? 1 : -1));
+      restartTimer();
+    });
+
+    restartTimer();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-home-banner]").forEach(initBanner);
+</script>
