@@ -1,0 +1,216 @@
+---
+import NewsletterForm from "@/components/islands/NewsletterForm";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher.astro";
+import TrustMicroBar from "@/components/social/TrustMicroBar.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const cols = [
+  {
+    key: "nav.shop",
+    title: "Shop",
+    links: [
+      { to: "/shop", label: "All Products" },
+      { to: "/product/neo-hair-lotion", label: "Neo Hair Lotion" },
+      { to: "/product/neo-hair-shampoo", label: "Neo Hair Shampoo" },
+      { to: "/product/ghori-rosemary-oil", label: "Rosemary Oil" },
+      { to: "/product/ghori-dermaroller", label: "Dermaroller" },
+    ],
+  },
+  {
+    key: "nav.hairScience",
+    title: "Hair Science",
+    links: [
+      { to: "/how-to-use", label: "How to Use" },
+      { to: "/hair-science", label: "Hair Science" },
+      { to: "/ingredients", label: "Ingredient Glossary" },
+      { to: "/comparison/neo-vs-minoxidil", label: "Neo vs Minoxidil" },
+      { to: "/reviews", label: "Testimonials" },
+      { to: "/faq", label: "FAQ" },
+    ],
+  },
+  {
+    key: "nav.authenticity",
+    title: "Authenticity",
+    links: [
+      { to: "/verify", label: "Verify Product" },
+      { to: "/real-vs-fake", label: "Real vs Fake" },
+      { to: "/about", label: "Authorized Distribution" },
+    ],
+  },
+  {
+    key: "footer.support",
+    title: "Customer Care",
+    links: [
+      { to: "/contact", label: "Contact" },
+      { to: "/track-order", label: "Track Order" },
+      { to: "/shipping-returns", label: "Shipping" },
+      { to: "/refund-policy", label: "Returns" },
+      { to: "/wholesale", label: "Wholesale" },
+    ],
+  },
+];
+
+const socials = [
+  { href: "https://www.instagram.com/the.ghori", label: "Instagram" },
+  { href: "https://www.facebook.com/ghoritrading", label: "Facebook" },
+  { href: "https://www.linkedin.com/showcase/ghoritrading/", label: "LinkedIn" },
+  { href: "https://www.youtube.com/channel/UCe5vs5q6xlmsEAE4B7i4A0Q", label: "YouTube" },
+  { href: "https://www.tiktok.com/@greenwealth", label: "TikTok" },
+  { href: "https://api.whatsapp.com/send/?phone=97180044674", label: "WhatsApp" },
+  { href: "https://www.snapchat.com/@ghori.official", label: "Snapchat" },
+];
+
+const payments = [
+  { label: "VISA", mark: "VISA" },
+  { label: "Mastercard", mark: "MC" },
+  { label: "AMEX", mark: "AMEX" },
+  { label: "Discover", mark: "DISC" },
+  { label: "Diners", mark: "DINERS" },
+  { label: "JCB", mark: "JCB" },
+  { label: "UnionPay", mark: "UPAY" },
+  { label: "Apple Pay", mark: " PAY" },
+  { label: "Google Pay", mark: "G PAY" },
+];
+
+const legal = [
+  { to: "/privacy", key: "footer.privacy", label: "Privacy" },
+  { to: "/terms", key: "footer.terms", label: "Terms" },
+  { to: "/legal", key: "footer.legalNotice", label: "Legal" },
+  { to: "/cookie-policy", key: "footer.cookies", label: "Cookies" },
+  { to: "/accessibility", key: "footer.accessibility", label: "Accessibility" },
+];
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const href = (to: string) => withLocalePrefix(to, locale);
+---
+
+<footer class="mt-24">
+  <TrustMicroBar />
+
+  <div class="bg-forest text-ivory">
+    <div class="container-editorial border-ivory/15 border-b">
+      <div class="grid items-end gap-8 py-12 md:grid-cols-12 md:gap-12 md:py-16">
+        <div class="md:col-span-7">
+          <div class="text-ivory/50 mb-4 text-[11px] tracking-[0.22em] uppercase">
+            {t("footer.newsletter", "The Circle")}
+          </div>
+          <h2 class="text-ivory font-serif text-3xl leading-[1.05] tracking-tight md:text-5xl">
+            {t(
+              "footer.newsletterCopy",
+              "Early access to restocks, hair-science notes & member offers.",
+            )}
+          </h2>
+        </div>
+        <div class="md:col-span-5">
+          <NewsletterForm
+            client:visible
+            labels={{
+              email: t("checkout.email", "Email address"),
+              join: t("footer.subscribe", "Join"),
+              joining: t("common.loading", "Joining"),
+              success: t(
+                "footer.subscribed",
+                "Welcome to the circle. Watch your inbox for first access.",
+              ),
+              error: t("common.error", "Something went wrong. Please try again."),
+            }}
+          />
+          <p class="text-ivory/40 mt-3 text-[11px] leading-relaxed">
+            {t("footer.noNoise", "No noise. Unsubscribe anytime.")}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-editorial">
+      <div class="border-ivory/15 grid grid-cols-2 border-b md:grid-cols-12 md:gap-0">
+        <div class="border-ivory/15 col-span-2 py-10 md:col-span-4 md:border-e md:py-14 md:pe-12">
+          <div class="font-serif text-2xl tracking-tight">
+            Green<span class="text-ivory/55">Wealth</span>
+          </div>
+          <p class="text-ivory/60 mt-4 max-w-xs text-sm leading-relaxed">
+            {t(
+              "footer.tagline",
+              "A modern botanical hair-care house. Formulated with tradition, delivered worldwide through authorized distribution.",
+            )}
+          </p>
+          <div class="text-ivory/40 mt-6 text-[11px] tracking-[0.2em] uppercase">
+            {t("footer.company", "United Arab Emirates · Global shipping")}
+          </div>
+          <div class="mt-8 flex flex-wrap gap-x-5 gap-y-2">
+            {socials.map((s) => (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="border-ivory/25 text-ivory/65 hover:text-ivory hover:border-ivory border-b pb-0.5 text-[11px] transition-colors"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="col-span-2 grid grid-cols-2 md:col-span-8 md:grid-cols-4">
+          {cols.map((c, i) => (
+            <div
+              class:list={[
+                "py-10 md:px-8 md:py-14",
+                i > 0 && "border-ivory/15 md:border-s",
+                i % 2 === 1 && "ps-6 md:ps-8",
+              ]}
+            >
+              <div class="text-ivory/45 mb-5 text-[11px] tracking-[0.22em] uppercase">
+                {t(c.key, c.title)}
+              </div>
+              <ul class="space-y-3 text-sm">
+                {c.links.map((l) => (
+                  <li>
+                    <a
+                      href={href(l.to)}
+                      class="text-ivory/75 hover:text-ivory inline-block transition-colors"
+                    >
+                      {t(`link.${l.to}`, l.label)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="container-editorial border-ivory/15 flex flex-col justify-between gap-5 border-b py-6 md:flex-row md:items-center">
+      <div class="flex flex-wrap items-center gap-1.5">
+        {payments.map((p) => (
+          <div
+            aria-label={p.label}
+            class="border-ivory/20 bg-ivory/5 text-ivory/70 flex h-7 w-11 items-center justify-center border"
+          >
+            <span class="text-[8px] font-bold tracking-wider">{p.mark}</span>
+          </div>
+        ))}
+      </div>
+      <div class="text-ivory/45 text-[11px] tracking-[0.2em] uppercase">
+        {t("footer.securePayments", "Secure payments · SSL encrypted")}
+      </div>
+    </div>
+
+    <div class="container-editorial text-ivory/45 flex flex-col items-start justify-between gap-4 py-6 text-[11px] md:flex-row md:items-center">
+      <div>
+        © {new Date().getFullYear()} Ghori Trading LLC · Green Wealth®.
+        {t("footer.rights", "All rights reserved.")}
+      </div>
+      <div class="flex flex-wrap gap-5">
+        {legal.map((l) => (
+          <a href={href(l.to)} class="hover:text-ivory transition-colors">
+            {t(l.key, l.label)}
+          </a>
+        ))}
+        <LanguageSwitcher class="!text-ivory/60 hover:!text-ivory" />
+      </div>
+    </div>
+  </div>
+</footer>

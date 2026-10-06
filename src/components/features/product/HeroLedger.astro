@@ -1,0 +1,171 @@
+---
+/**
+ * Desktop hero aside: "Series Nº" ledger and the full INCI declaration, switched
+ * by two tabs (tiny inline script, both panels server-rendered).
+ */
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+import LedgerSections from "./LedgerSections.astro";
+import { pad2, type LedgerData, type TranslatedReview } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+  sku: string;
+  data: LedgerData;
+  voices: TranslatedReview[];
+}
+
+const { product: p, sku, data, voices } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const tab =
+  "transition-colors bg-paper text-forest hover:bg-ivory aria-selected:bg-forest aria-selected:text-paper aria-selected:hover:bg-forest";
+const componentCount = (p.inciDetails ?? p.ingredients).length;
+---
+
+<aside
+  class="hairline hidden flex-col border-e lg:flex lg:h-[calc(100dvh-180px)] lg:overflow-y-auto"
+  data-ledger-tabs
+>
+  <div class="hairline flex items-stretch border-b" role="tablist">
+    <button
+      type="button"
+      role="tab"
+      aria-selected="true"
+      data-tab="ledger"
+      class:list={["flex flex-1 items-center justify-between gap-3 px-4 py-3 text-start", tab]}
+    >
+      <span class="text-gold font-mono text-[9.5px] tracking-[0.28em] uppercase">
+        {t("product.route.seriesNo", "Series Nº")}
+      </span>
+      <span class="font-mono text-[10.5px] tabular-nums">{sku}</span>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      aria-selected="false"
+      data-tab="ingredients"
+      class:list={[
+        "hairline border-s px-4 py-3 font-mono text-[9.5px] tracking-[0.28em] uppercase",
+        tab,
+      ]}
+    >
+      {t("product.route.ingredients", "Ingredients")}
+    </button>
+  </div>
+
+  <div class="flex-1 space-y-6 p-5" role="tabpanel" data-panel="ledger">
+    <LedgerSections data={data} variant="desktop" />
+
+    {voices.length > 0 && (
+      <div class="mt-auto pt-4">
+        <div class="mb-2 flex items-center justify-between">
+          <span class="text-forest/40 font-mono text-[9.5px] tracking-[0.28em] uppercase">
+            {t("product.route.voices", "Voices")}
+          </span>
+          <a
+            href={withLocalePrefix("/reviews", locale)}
+            class="text-gold hover:text-forest font-mono text-[9.5px] tracking-[0.24em] uppercase"
+          >
+            {t("product.route.allArrow", "All ›")}
+          </a>
+        </div>
+        <div class="hairline divide-forest/10 divide-y border">
+          {voices.map((r) => (
+            <div class="p-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex gap-0.5">
+                  {Array.from({ length: r.rating }).map(() => (
+                    <span class="bg-gold h-1.5 w-1.5" />
+                  ))}
+                </div>
+                <span class="text-forest/40 max-w-[60%] truncate text-end font-mono text-[8.5px] tracking-[0.2em] uppercase">
+                  {r.author}
+                  {r.country ? ` · ${r.country}` : ""}
+                </span>
+              </div>
+              <p class="text-forest/80 mt-1 line-clamp-2 text-[10.5px] leading-[1.35]">{r.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <div class="flex-1" role="tabpanel" data-panel="ingredients" hidden>
+    <div class="hairline border-b p-5">
+      <h2 class="text-forest/40 mb-2 font-mono text-[9.5px] tracking-[0.28em] uppercase">
+        {t("product.route.fullInciDeclaration", "Full INCI Declaration")}
+      </h2>
+      <p class="text-forest/70 text-[11.5px] leading-[1.55]">
+        {t(
+          "product.route.inciDeclarationBody",
+          "Every ingredient on the label, as printed on the box. Fragrance components marked ⚑ are EU-declared allergens naturally present in essential oils.",
+        )}
+      </p>
+    </div>
+    {p.inciDetails && p.inciDetails.length > 0 ? (
+      <ul class="divide-forest/10 divide-y">
+        {p.inciDetails.map((ing, i) => (
+          <li class="px-5 py-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-forest text-[11.5px] leading-tight font-medium">
+                    {ing.common ? t(`product.${p.slug}.inci.${i}.common`, ing.common) : ing.inci}
+                  </span>
+                  {ing.allergen && (
+                    <span
+                      title={t("product.route.euAllergenTitle", "EU-declared fragrance allergen")}
+                      class="text-gold border-gold/60 border px-1 py-[1px] font-mono text-[8.5px] leading-none"
+                    >
+                      ⚑
+                    </span>
+                  )}
+                </div>
+                {ing.common && (
+                  <div class="text-forest/45 mt-0.5 truncate font-mono text-[9.5px] tracking-[0.18em] uppercase">
+                    {ing.inci}
+                  </div>
+                )}
+                <div class="text-forest/70 mt-1 text-[10.5px] leading-snug">
+                  {t(`product.${p.slug}.inci.${i}.role`, ing.role)}
+                </div>
+              </div>
+              <span class="text-forest/35 shrink-0 font-mono text-[9px] tabular-nums">
+                {pad2(i + 1)}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <ul class="divide-forest/10 divide-y">
+        {p.ingredients.map((ing, i) => (
+          <li class="flex items-center justify-between gap-2 px-5 py-3">
+            <span class="text-forest text-[11.5px] leading-tight">{ing}</span>
+            <span class="text-forest/35 font-mono text-[9px] tabular-nums">{pad2(i + 1)}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+    <div class="hairline text-forest/50 border-t p-5 font-mono text-[10px] tracking-[0.2em] uppercase">
+      {pad2(componentCount)}
+      {t("product.route.componentsLabelAccurate", "components · label-accurate")}
+    </div>
+  </div>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-ledger-tabs]").forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-tab]");
+    const panels = root.querySelectorAll<HTMLElement>("[data-panel]");
+    tabs.forEach((tab) =>
+      tab.addEventListener("click", () => {
+        tabs.forEach((other) => other.setAttribute("aria-selected", String(other === tab)));
+        panels.forEach((panel) => (panel.hidden = panel.dataset.panel !== tab.dataset.tab));
+      }),
+    );
+  });
+</script>

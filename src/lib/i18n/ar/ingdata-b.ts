@@ -3,122 +3,170 @@ export const arIngDataB: Record<string, string> = {
   "ingdata.Non-ionic": "غير أيوني",
   "ingdata.Cold-processed melon pulp": "لب البطيخ المعالج على البارد",
   "ingdata.Aqueous extraction, low-heat": "استخلاص مائي بحرارة منخفضة",
-  "ingdata.Cold-processed melon extract rich in superoxide dismutase (SOD) — a powerful antioxidant that protects the follicle from oxidative stress.": "مستخلص لب البطيخ المعالج على البارد الغني بإنزيم SOD (ديسموتاز الفائق الأكسدة) — وهو مضاد أكسدة قوي يحمي بصيلة الشعر من الإجهاد التأكسدي.",
-  "ingdata.Cools and hydrates the scalp while neutralising free radicals produced by pollution, UV and heat styling.": "يبرّد ويرطّب فروة الرأس مع تحييد الجذور الحرة الناتجة عن التلوث والأشعة فوق البنفسجية وتصفيف الشعر بالحرارة.",
+  "ingdata.Cold-processed melon extract rich in superoxide dismutase (SOD) — a powerful antioxidant that protects the follicle from oxidative stress.":
+    "مستخلص لب البطيخ المعالج على البارد الغني بإنزيم SOD (ديسموتاز الفائق الأكسدة) — وهو مضاد أكسدة قوي يحمي بصيلة الشعر من الإجهاد التأكسدي.",
+  "ingdata.Cools and hydrates the scalp while neutralising free radicals produced by pollution, UV and heat styling.":
+    "يبرّد ويرطّب فروة الرأس مع تحييد الجذور الحرة الناتجة عن التلوث والأشعة فوق البنفسجية وتصفيف الشعر بالحرارة.",
   "ingdata.Soothing": "مهدئ",
   "ingdata.Barrier support": "دعم الحاجز الوقائي",
   "ingdata.Ripe Serenoa repens berries": "ثمار Serenoa repens الناضجة",
-  "ingdata.CO₂-extracted fatty acid fraction": "جزء الأحماض الدهنية المستخلص بثاني أكسيد الكربون فائق الحرجية",
-  "ingdata.Fatty-acid extract from saw palmetto berries — one of the few botanicals shown to help modulate 5-alpha-reductase activity at the follicle.": "مستخلص الأحماض الدهنية من ثمار السو بالميتو — أحد النباتات القليلة التي أثبتت قدرتها على المساعدة في تعديل نشاط إنزيم 5-alpha-reductase عند البصيلة.",
-  "ingdata.Delivered at the same 0.80% concentration used in the Neo Hair Lotion, so every wash reinforces the DHT-support pathway.": "يُستخدم بنفس تركيز 0.80% المعتمد في محلول Neo Hair Lotion، بحيث يعزز كل غسلة مسار دعم DHT.",
+  "ingdata.CO₂-extracted fatty acid fraction":
+    "جزء الأحماض الدهنية المستخلص بثاني أكسيد الكربون فائق الحرجية",
+  "ingdata.Fatty-acid extract from saw palmetto berries — one of the few botanicals shown to help modulate 5-alpha-reductase activity at the follicle.":
+    "مستخلص الأحماض الدهنية من ثمار السو بالميتو — أحد النباتات القليلة التي أثبتت قدرتها على المساعدة في تعديل نشاط إنزيم 5-alpha-reductase عند البصيلة.",
+  "ingdata.Delivered at the same 0.80% concentration used in the Neo Hair Lotion, so every wash reinforces the DHT-support pathway.":
+    "يُستخدم بنفس تركيز 0.80% المعتمد في محلول Neo Hair Lotion، بحيث يعزز كل غسلة مسار دعم DHT.",
   "ingdata.DHT support": "دعم DHT",
   "ingdata.Follicle protection": "حماية البصيلة",
   "ingdata.Free fatty acids": "الأحماض الدهنية الحرة",
   "ingdata.Panax ginseng root, sun-dried": "جذر Panax ginseng المجفف بالشمس",
   "ingdata.Traditional water-alcohol extraction": "استخلاص تقليدي بالماء والكحول",
-  "ingdata.Ginsenoside-rich extract from peeled, sun-dried white ginseng root — improves microcirculation and prepares the scalp to receive treatment.": "مستخلص غني بالجينسنوسيدات من جذر الجينسنغ الأبيض المقشر والمجفف بالشمس — يحسّن الدورة الدموية الدقيقة ويهيئ فروة الرأس لاستقبال العلاج.",
-  "ingdata.Awakens the scalp during every wash, supporting nutrient delivery to the follicle base and complementing the daily lotion step.": "ينشّط فروة الرأس مع كل غسلة، ويدعم وصول العناصر الغذائية إلى قاعدة البصيلة، مكملاً بذلك خطوة المحلول اليومي.",
+  "ingdata.Ginsenoside-rich extract from peeled, sun-dried white ginseng root — improves microcirculation and prepares the scalp to receive treatment.":
+    "مستخلص غني بالجينسنوسيدات من جذر الجينسنغ الأبيض المقشر والمجفف بالشمس — يحسّن الدورة الدموية الدقيقة ويهيئ فروة الرأس لاستقبال العلاج.",
+  "ingdata.Awakens the scalp during every wash, supporting nutrient delivery to the follicle base and complementing the daily lotion step.":
+    "ينشّط فروة الرأس مع كل غسلة، ويدعم وصول العناصر الغذائية إلى قاعدة البصيلة، مكملاً بذلك خطوة المحلول اليومي.",
   "ingdata.Adaptogen": "مقوٍّ تكيّفي",
   "ingdata.Vitality": "حيوية",
   "ingdata.Ginsenosides Rg1, Rb1": "جينسنوسيدات Rg1 وRb1",
   "ingdata.Mediterranean rosemary leaves": "أوراق إكليل الجبل المتوسطي",
   "ingdata.Steam-distilled + aqueous extract": "استخلاص بالتقطير بالبخار ومستخلص مائي",
-  "ingdata.Rosemary leaf extract shown in trials to rival minoxidil 2% for supporting hair density — added at cosmetic level to freshen and awaken the scalp.": "مستخلص أوراق إكليل الجبل الذي أظهرت التجارب منافسته لمينوكسيديل بتركيز 2% في دعم كثافة الشعر — يُضاف بمستوى تجميلي لإنعاش فروة الرأس وتنشيطها.",
-  "ingdata.Adds a clean herbal fragrance and boosts scalp circulation, supporting the daily lotion routine every time you wash.": "يضيف رائحة عشبية منعشة ويعزز الدورة الدموية في فروة الرأس، داعماً روتين المحلول اليومي مع كل غسلة.",
+  "ingdata.Rosemary leaf extract shown in trials to rival minoxidil 2% for supporting hair density — added at cosmetic level to freshen and awaken the scalp.":
+    "مستخلص أوراق إكليل الجبل الذي أظهرت التجارب منافسته لمينوكسيديل بتركيز 2% في دعم كثافة الشعر — يُضاف بمستوى تجميلي لإنعاش فروة الرأس وتنشيطها.",
+  "ingdata.Adds a clean herbal fragrance and boosts scalp circulation, supporting the daily lotion routine every time you wash.":
+    "يضيف رائحة عشبية منعشة ويعزز الدورة الدموية في فروة الرأس، داعماً روتين المحلول اليومي مع كل غسلة.",
   "ingdata.Anti-inflammatory": "مضاد للالتهاب",
   "ingdata.Freshness": "انتعاش",
   "ingdata.Carnosic acid": "حمض الكارنوسيك",
   "ingdata.Rosmarinic acid": "حمض الروزمارينيك",
   "ingdata.1,8-cineole": "1,8-سينيول",
   "ingdata.Cosmetic-grade chelator": "مخلّب من الدرجة التجميلية",
-  "ingdata.A trace-level chelator that binds hard-water minerals so the surfactants foam properly and the botanicals stay stable.": "مخلّب بمستوى ضئيل يرتبط بمعادن المياه العسرة ليتمكن السطحيّ من الرغوة بشكل صحيح وتبقى المستخلصات النباتية مستقرة.",
-  "ingdata.Prevents metal ions in tap water from dulling hair colour, reducing foam or degrading actives — used at the minimum effective level (0.10%).": "يمنع أيونات المعادن في مياه الصنبور من تعتيم لون الشعر أو تقليل الرغوة أو إتلاف المكونات الفعالة — يُستخدم بأدنى مستوى فعّال (0.10%).",
+  "ingdata.A trace-level chelator that binds hard-water minerals so the surfactants foam properly and the botanicals stay stable.":
+    "مخلّب بمستوى ضئيل يرتبط بمعادن المياه العسرة ليتمكن السطحيّ من الرغوة بشكل صحيح وتبقى المستخلصات النباتية مستقرة.",
+  "ingdata.Prevents metal ions in tap water from dulling hair colour, reducing foam or degrading actives — used at the minimum effective level (0.10%).":
+    "يمنع أيونات المعادن في مياه الصنبور من تعتيم لون الشعر أو تقليل الرغوة أو إتلاف المكونات الفعالة — يُستخدم بأدنى مستوى فعّال (0.10%).",
   "ingdata.Stabiliser": "مثبّت",
   "ingdata.Water-softening": "تلطيف المياه",
   "ingdata.Naturally occurring benzoic acid salt": "ملح حمض البنزويك الطبيعي",
-  "ingdata.A food-grade preservative (also used in soft drinks) that keeps the water-rich formula free of microbes without irritating the scalp.": "مادة حافظة بدرجة غذائية (تُستخدم أيضاً في المشروبات الغازية) تحافظ على خلو التركيبة الغنية بالماء من الميكروبات دون تهييج فروة الرأس.",
-  "ingdata.Paraben-free, formaldehyde-free preservation used at the minimum level required to maintain a safe shelf life.": "حفظ خالٍ من البارابين والفورمالدهيد، يُستخدم بأدنى مستوى مطلوب للحفاظ على مدة صلاحية آمنة.",
+  "ingdata.A food-grade preservative (also used in soft drinks) that keeps the water-rich formula free of microbes without irritating the scalp.":
+    "مادة حافظة بدرجة غذائية (تُستخدم أيضاً في المشروبات الغازية) تحافظ على خلو التركيبة الغنية بالماء من الميكروبات دون تهييج فروة الرأس.",
+  "ingdata.Paraben-free, formaldehyde-free preservation used at the minimum level required to maintain a safe shelf life.":
+    "حفظ خالٍ من البارابين والفورمالدهيد، يُستخدم بأدنى مستوى مطلوب للحفاظ على مدة صلاحية آمنة.",
   "ingdata.Preservative": "مادة حافظة",
   "ingdata.Paraben-free": "خالٍ من البارابين",
-  "ingdata.Distilled from Rosmarinus officinalis, Mediterranean-grown": "مقطّر من Rosmarinus officinalis، مزروع في منطقة البحر المتوسط",
-  "ingdata.Steam distillation, cold-blended into carrier oils": "تقطير بالبخار ثم مزج بارد مع الزيوت الناقلة",
+  "ingdata.Distilled from Rosmarinus officinalis, Mediterranean-grown":
+    "مقطّر من Rosmarinus officinalis، مزروع في منطقة البحر المتوسط",
+  "ingdata.Steam distillation, cold-blended into carrier oils":
+    "تقطير بالبخار ثم مزج بارد مع الزيوت الناقلة",
   "ingdata.A few drops massaged into the scalp": "بضع قطرات تُدلّك على فروة الرأس",
-  "ingdata.Rosemary oil has been clinically compared favourably to standard hair-growth treatments in published trials.": "أظهرت التجارب المنشورة مقارنة إيجابية لزيت إكليل الجبل مع علاجات نمو الشعر القياسية.",
-  "ingdata.One of the most studied botanicals for hair fullness. Warms the scalp micro-vasculature and delivers nutrients directly to the follicle.": "من أكثر النباتات دراسة لدعم كثافة الشعر. يُدفئ الأوعية الدقيقة في فروة الرأس ويوصل العناصر الغذائية مباشرة إلى البصيلة.",
-  "ingdata.Stimulates scalp circulation to feed the follicle at the root — where visible fullness actually begins.": "يحفّز الدورة الدموية في فروة الرأس لتغذية البصيلة من الجذر — حيث تبدأ الكثافة المرئية فعلياً.",
+  "ingdata.Rosemary oil has been clinically compared favourably to standard hair-growth treatments in published trials.":
+    "أظهرت التجارب المنشورة مقارنة إيجابية لزيت إكليل الجبل مع علاجات نمو الشعر القياسية.",
+  "ingdata.One of the most studied botanicals for hair fullness. Warms the scalp micro-vasculature and delivers nutrients directly to the follicle.":
+    "من أكثر النباتات دراسة لدعم كثافة الشعر. يُدفئ الأوعية الدقيقة في فروة الرأس ويوصل العناصر الغذائية مباشرة إلى البصيلة.",
+  "ingdata.Stimulates scalp circulation to feed the follicle at the root — where visible fullness actually begins.":
+    "يحفّز الدورة الدموية في فروة الرأس لتغذية البصيلة من الجذر — حيث تبدأ الكثافة المرئية فعلياً.",
   "ingdata.Circulation boost": "تعزيز الدورة الدموية",
   "ingdata.Follicle revival": "إحياء البصيلة",
   "ingdata.1,8-Cineole": "1,8-سينيول",
   "ingdata.Carnosic Acid": "حمض الكارنوسيك",
   "ingdata.α-Pinene": "ألفا-بينين",
-  "ingdata.1,8-cineole warms scalp capillaries so more oxygen and nutrients reach the papilla.": "يُدفئ 1,8-سينيول الشعيرات الدموية في فروة الرأس بحيث يصل مزيد من الأكسجين والعناصر الغذائية إلى الحليمة.",
-  "ingdata.Carnosic acid protects the follicle stem-cell niche from oxidative stress.": "يحمي حمض الكارنوسيك منطقة الخلايا الجذعية للبصيلة من الإجهاد التأكسدي.",
-  "ingdata.Supports a longer active growth phase, meaning fewer strands cycle into shedding.": "يدعم مرحلة نمو نشطة أطول، ما يعني دخول عدد أقل من الشعيرات في مرحلة التساقط.",
+  "ingdata.1,8-cineole warms scalp capillaries so more oxygen and nutrients reach the papilla.":
+    "يُدفئ 1,8-سينيول الشعيرات الدموية في فروة الرأس بحيث يصل مزيد من الأكسجين والعناصر الغذائية إلى الحليمة.",
+  "ingdata.Carnosic acid protects the follicle stem-cell niche from oxidative stress.":
+    "يحمي حمض الكارنوسيك منطقة الخلايا الجذعية للبصيلة من الإجهاد التأكسدي.",
+  "ingdata.Supports a longer active growth phase, meaning fewer strands cycle into shedding.":
+    "يدعم مرحلة نمو نشطة أطول، ما يعني دخول عدد أقل من الشعيرات في مرحلة التساقط.",
   "ingdata.Anchor": "تثبيت",
-  "ingdata.Improves the root's grip inside the follicle, reducing everyday fall.": "يحسّن ثبات الجذر داخل البصيلة، مما يقلل التساقط اليومي.",
+  "ingdata.Improves the root's grip inside the follicle, reducing everyday fall.":
+    "يحسّن ثبات الجذر داخل البصيلة، مما يقلل التساقط اليومي.",
   "ingdata.Cosmetic-grade Vitamin B7": "فيتامين B7 من الدرجة التجميلية",
-  "ingdata.Blended into the oil phase for scalp absorption": "يُمزج في الطور الزيتي لامتصاصه عبر فروة الرأس",
-  "ingdata.In-formula — one application delivers active dose": "ضمن التركيبة — يوفر تطبيق واحد الجرعة الفعالة",
-  "ingdata.A cofactor for keratin infrastructure. Biotin reinforces the strand from the inside — reducing breakage and improving resilience.": "عامل مساعد لبنية الكيراتين. يعزز البيوتين الشعرة من الداخل — مما يقلل التقصف ويحسّن المتانة.",
-  "ingdata.Supports the keratin scaffolding that gives each strand its thickness, elasticity and resistance to breakage.": "يدعم الهيكل البروتيني للكيراتين الذي يمنح كل شعرة سُمكها ومرونتها ومقاومتها للتقصف.",
+  "ingdata.Blended into the oil phase for scalp absorption":
+    "يُمزج في الطور الزيتي لامتصاصه عبر فروة الرأس",
+  "ingdata.In-formula — one application delivers active dose":
+    "ضمن التركيبة — يوفر تطبيق واحد الجرعة الفعالة",
+  "ingdata.A cofactor for keratin infrastructure. Biotin reinforces the strand from the inside — reducing breakage and improving resilience.":
+    "عامل مساعد لبنية الكيراتين. يعزز البيوتين الشعرة من الداخل — مما يقلل التقصف ويحسّن المتانة.",
+  "ingdata.Supports the keratin scaffolding that gives each strand its thickness, elasticity and resistance to breakage.":
+    "يدعم الهيكل البروتيني للكيراتين الذي يمنح كل شعرة سُمكها ومرونتها ومقاومتها للتقصف.",
   "ingdata.Strand fortification": "تقوية الشعرة",
   "ingdata.Anti-breakage": "مضاد للتقصف",
   "ingdata.Biotin (B7)": "البيوتين (B7)",
   "ingdata.Cortex": "القشرة الداخلية للشعرة (Cortex)",
-  "ingdata.Cofactor for the carboxylase enzymes that build keratin protein.": "عامل مساعد لإنزيمات الكربوكسيلاز التي تبني بروتين الكيراتين.",
+  "ingdata.Cofactor for the carboxylase enzymes that build keratin protein.":
+    "عامل مساعد لإنزيمات الكربوكسيلاز التي تبني بروتين الكيراتين.",
   "ingdata.Fibre": "الألياف",
-  "ingdata.Reinforces the internal scaffolding responsible for tensile strength.": "يعزز الهيكل الداخلي المسؤول عن قوة الشد.",
+  "ingdata.Reinforces the internal scaffolding responsible for tensile strength.":
+    "يعزز الهيكل الداخلي المسؤول عن قوة الشد.",
   "ingdata.Surface": "السطح",
-  "ingdata.Smooths the cuticle so light reflects evenly — visible gloss.": "ينعّم الطبقة الخارجية للشعرة بحيث ينعكس الضوء بانتظام — لمعان ملحوظ.",
-  "ingdata.Supports the metabolic activity of the follicle's rapidly-dividing cells.": "يدعم النشاط الأيضي لخلايا البصيلة سريعة الانقسام.",
+  "ingdata.Smooths the cuticle so light reflects evenly — visible gloss.":
+    "ينعّم الطبقة الخارجية للشعرة بحيث ينعكس الضوء بانتظام — لمعان ملحوظ.",
+  "ingdata.Supports the metabolic activity of the follicle's rapidly-dividing cells.":
+    "يدعم النشاط الأيضي لخلايا البصيلة سريعة الانقسام.",
   "ingdata.Peppermint leaves, steam-distilled": "أوراق النعناع المقطّرة بالبخار",
   "ingdata.Cold-blended into carrier oils": "مزج بارد مع الزيوت الناقلة",
   "ingdata.In-formula": "ضمن التركيبة",
-  "ingdata.Delivers a distinct menthol cool that soothes itch, balances sebum and wakes dormant follicles at the surface.": "يمنح إحساساً بارداً مميزاً بالمنثول يهدئ الحكة، ويوازن إفراز الزهم، وينشّط البصيلات الخاملة عند السطح.",
-  "ingdata.Cools and refreshes the scalp while its menthol activates follicles near the surface.": "يبرّد وينعش فروة الرأس بينما ينشّط المنثول البصيلات القريبة من السطح.",
+  "ingdata.Delivers a distinct menthol cool that soothes itch, balances sebum and wakes dormant follicles at the surface.":
+    "يمنح إحساساً بارداً مميزاً بالمنثول يهدئ الحكة، ويوازن إفراز الزهم، وينشّط البصيلات الخاملة عند السطح.",
+  "ingdata.Cools and refreshes the scalp while its menthol activates follicles near the surface.":
+    "يبرّد وينعش فروة الرأس بينما ينشّط المنثول البصيلات القريبة من السطح.",
   "ingdata.Cooling": "تبريد",
   "ingdata.Follicle activation": "تنشيط البصيلة",
   "ingdata.Menthol": "المنثول",
   "ingdata.Menthone": "المنثون",
   "ingdata.Sensory": "حسّي",
-  "ingdata.Menthol triggers TRPM8 cold-receptors — the instantly recognisable cool.": "يحفّز المنثول مستقبلات البرودة TRPM8 — الإحساس البارد المميز الفوري.",
+  "ingdata.Menthol triggers TRPM8 cold-receptors — the instantly recognisable cool.":
+    "يحفّز المنثول مستقبلات البرودة TRPM8 — الإحساس البارد المميز الفوري.",
   "ingdata.Vascular": "وعائي",
-  "ingdata.Encourages a brief vasodilation response that boosts blood flow to the scalp.": "يشجع استجابة توسع وعائي قصيرة تعزز تدفق الدم إلى فروة الرأس.",
+  "ingdata.Encourages a brief vasodilation response that boosts blood flow to the scalp.":
+    "يشجع استجابة توسع وعائي قصيرة تعزز تدفق الدم إلى فروة الرأس.",
   "ingdata.Sebum": "الزهم",
-  "ingdata.Astringent action helps normalise oil production between washes.": "يساعد التأثير القابض على تطبيع إفراز الزيت بين الغسلات.",
+  "ingdata.Astringent action helps normalise oil production between washes.":
+    "يساعد التأثير القابض على تطبيع إفراز الزيت بين الغسلات.",
   "ingdata.Comfort": "راحة",
-  "ingdata.Soothes itch and scalp tension linked to product build-up.": "يهدئ الحكة والتوتر في فروة الرأس المرتبطين بتراكم المنتجات.",
+  "ingdata.Soothes itch and scalp tension linked to product build-up.":
+    "يهدئ الحكة والتوتر في فروة الرأس المرتبطين بتراكم المنتجات.",
   "ingdata.Botanical Vitamin E complex": "مركب فيتامين E النباتي",
-  "ingdata.Neutralises daily oxidative stress on the scalp — a known driver of dulling, thinning and premature greying.": "يحيّد الإجهاد التأكسدي اليومي على فروة الرأس — وهو محرك معروف للتعتيم والترقق والشيب المبكر.",
-  "ingdata.Shields the scalp and strands from the daily oxidative load that accelerates dullness and thinning.": "يحمي فروة الرأس والشعيرات من الحمل التأكسدي اليومي الذي يسرّع التعتيم والترقق.",
+  "ingdata.Neutralises daily oxidative stress on the scalp — a known driver of dulling, thinning and premature greying.":
+    "يحيّد الإجهاد التأكسدي اليومي على فروة الرأس — وهو محرك معروف للتعتيم والترقق والشيب المبكر.",
+  "ingdata.Shields the scalp and strands from the daily oxidative load that accelerates dullness and thinning.":
+    "يحمي فروة الرأس والشعيرات من الحمل التأكسدي اليومي الذي يسرّع التعتيم والترقق.",
   "ingdata.Antioxidant defence": "دفاع مضاد للأكسدة",
   "ingdata.Shine": "لمعان",
   "ingdata.Tocopheryl Acetate": "أسيتات التوكوفيريل (Tocopheryl Acetate)",
-  "ingdata.Scavenges reactive oxygen species that damage follicular DNA.": "يلتقط أنواع الأكسجين التفاعلية التي تتلف الحمض النووي للبصيلة.",
+  "ingdata.Scavenges reactive oxygen species that damage follicular DNA.":
+    "يلتقط أنواع الأكسجين التفاعلية التي تتلف الحمض النووي للبصيلة.",
   "ingdata.Barrier": "حاجز",
-  "ingdata.Reinforces the scalp lipid barrier against pollution and UV.": "يعزز الحاجز الدهني لفروة الرأس ضد التلوث والأشعة فوق البنفسجية.",
-  "ingdata.Improves light-reflection on the cuticle — visible gloss.": "يحسّن انعكاس الضوء على الطبقة الخارجية للشعرة — لمعان ملحوظ.",
+  "ingdata.Reinforces the scalp lipid barrier against pollution and UV.":
+    "يعزز الحاجز الدهني لفروة الرأس ضد التلوث والأشعة فوق البنفسجية.",
+  "ingdata.Improves light-reflection on the cuticle — visible gloss.":
+    "يحسّن انعكاس الضوء على الطبقة الخارجية للشعرة — لمعان ملحوظ.",
   "ingdata.Preservation": "الحفظ",
-  "ingdata.Protects the delicate oil phase from oxidation over time.": "يحمي الطور الزيتي الدقيق من الأكسدة بمرور الوقت.",
+  "ingdata.Protects the delicate oil phase from oxidation over time.":
+    "يحمي الطور الزيتي الدقيق من الأكسدة بمرور الوقت.",
   "ingdata.Aloe barbadensis inner-leaf gel": "جل الورقة الداخلية لـ Aloe barbadensis",
   "ingdata.Cold-pressed, filtered extract": "مستخلص مضغوط على البارد ومُرشَّح",
-  "ingdata.Ultra-hydrating gel-extract that soothes irritation, calms redness and restores the scalp's moisture barrier without weight.": "مستخلص جل مرطّب للغاية يهدئ التهيج، ويخفف الاحمرار، ويستعيد حاجز الرطوبة لفروة الرأس دون ثقل.",
-  "ingdata.Delivers deep, non-greasy hydration to the scalp while soothing inflammation that can slow growth.": "يمنح فروة الرأس ترطيباً عميقاً وغير دهني مع تهدئة الالتهاب الذي قد يبطئ النمو.",
+  "ingdata.Ultra-hydrating gel-extract that soothes irritation, calms redness and restores the scalp's moisture barrier without weight.":
+    "مستخلص جل مرطّب للغاية يهدئ التهيج، ويخفف الاحمرار، ويستعيد حاجز الرطوبة لفروة الرأس دون ثقل.",
+  "ingdata.Delivers deep, non-greasy hydration to the scalp while soothing inflammation that can slow growth.":
+    "يمنح فروة الرأس ترطيباً عميقاً وغير دهني مع تهدئة الالتهاب الذي قد يبطئ النمو.",
   "ingdata.Hydration": "ترطيب",
   "ingdata.Barrier repair": "إصلاح الحاجز",
   "ingdata.Vitamins A, C, E": "فيتامينات A وC وE",
   "ingdata.Cold-pressed castor beans": "بذور الخروع المعصورة على البارد",
   "ingdata.Blended into the carrier phase": "مزج ضمن الطور الناقل",
-  "ingdata.Rich in ricinoleic acid — traditionally used to condition strands, seal the cuticle and add visible density along the lengths.": "غني بحمض الريسينوليك — يُستخدم تقليدياً لتكييف الشعيرات وإغلاق الطبقة الخارجية وإضافة كثافة مرئية على طول الشعرة.",
-  "ingdata.Coats and conditions each strand, sealing moisture and adding visible thickness and shine.": "يغلّف ويكيّف كل شعرة، ويحبس الرطوبة، ويضيف سُمكاً ولمعاناً ملحوظين.",
+  "ingdata.Rich in ricinoleic acid — traditionally used to condition strands, seal the cuticle and add visible density along the lengths.":
+    "غني بحمض الريسينوليك — يُستخدم تقليدياً لتكييف الشعيرات وإغلاق الطبقة الخارجية وإضافة كثافة مرئية على طول الشعرة.",
+  "ingdata.Coats and conditions each strand, sealing moisture and adding visible thickness and shine.":
+    "يغلّف ويكيّف كل شعرة، ويحبس الرطوبة، ويضيف سُمكاً ولمعاناً ملحوظين.",
   "ingdata.Conditioning": "تكييف",
   "ingdata.Anti-frizz": "مضاد للتجعد",
   "ingdata.Ricinoleic acid": "حمض الريسينوليك",
   "ingdata.Omega-9": "أوميغا-9",
   "ingdata.Cold-pressed coconut flesh": "لب جوز الهند المعصور على البارد",
   "ingdata.Refined virgin coconut oil": "زيت جوز الهند البكر المكرر",
-  "ingdata.One of the only oils shown to penetrate the hair shaft — reducing daily protein loss and protecting strands from breakage.": "أحد الزيوت القليلة التي أثبتت قدرتها على اختراق جذع الشعرة — مما يقلل فقدان البروتين اليومي ويحمي الشعيرات من التقصف.",
-  "ingdata.Penetrates the cortex to reduce protein loss and protect strands from mechanical damage.": "يخترق القشرة الداخلية للشعرة لتقليل فقدان البروتين وحماية الشعيرات من التلف الميكانيكي.",
+  "ingdata.One of the only oils shown to penetrate the hair shaft — reducing daily protein loss and protecting strands from breakage.":
+    "أحد الزيوت القليلة التي أثبتت قدرتها على اختراق جذع الشعرة — مما يقلل فقدان البروتين اليومي ويحمي الشعيرات من التقصف.",
+  "ingdata.Penetrates the cortex to reduce protein loss and protect strands from mechanical damage.":
+    "يخترق القشرة الداخلية للشعرة لتقليل فقدان البروتين وحماية الشعيرات من التلف الميكانيكي.",
   "ingdata.Protein defence": "دفاع بروتيني",
   "ingdata.Breakage guard": "واقٍ من التقصف",
   "ingdata.MCTs": "ثلاثي الغليسريد متوسط السلسلة (MCTs)",

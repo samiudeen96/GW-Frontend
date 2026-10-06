@@ -1,0 +1,170 @@
+---
+/** "Four Pathways": mechanism-of-action cards built from the hero product's `science` list. */
+import Reveal from "@/components/common/Reveal.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+// Pathway deep-dive: Latin actives (intentional Latin, kept in both locales),
+// the mechanism, and the observable sign — indexed to the science array order.
+const PATHWAY_DETAIL = [
+  {
+    actives: "Ginseng Radix Alba · Cucumis Melo",
+    mechanism:
+      "Follicles are fed by a web of tiny capillaries. Supported micro-circulation carries more oxygen and nutrients to the root during the growth phase.",
+    notice: "A gentle, comfortable feel after application and a calmer scalp.",
+  },
+  {
+    actives: "Serenoa Repens (Saw Palmetto)",
+    mechanism:
+      "DHT is a hormone by-product that can shrink follicles over time. Saw palmetto is traditionally used to help maintain healthy DHT activity at the follicle level.",
+    notice: "A gradual reduction in daily shedding over weeks of regular use.",
+  },
+  {
+    actives: "Eclipta Prostrata · Equisetum Arvense",
+    mechanism:
+      "Irritation and build-up can push follicles out of their growth cycle. A calm, balanced scalp lets the natural cycle continue undisturbed.",
+    notice: "Less itch and flaking, and a more comfortable application.",
+  },
+  {
+    actives: "Equisetum Arvense (Natural Silica)",
+    mechanism:
+      "Hair is over 95% keratin. Silica is a trace mineral traditionally associated with keratin integrity and strand resilience.",
+    notice: "Hair that feels less brittle and looks fuller at the ends.",
+  },
+];
+
+const { hero } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const science = hero.science ?? [];
+
+const pathways = science.map((s, i) => {
+  const full = t(`home.pathways.${i}`, s);
+  const sep = full.indexOf(":");
+  const d = PATHWAY_DETAIL[i];
+  return {
+    num: String(i + 1).padStart(2, "0"),
+    title: sep > -1 ? full.slice(0, sep) : full,
+    body: sep > -1 ? full.slice(sep + 1).trim() : "",
+    detail: d && {
+      actives: d.actives,
+      mechanism: t(`home.pathways.detail.${i}.mechanism`, d.mechanism),
+      notice: t(`home.pathways.detail.${i}.notice`, d.notice),
+    },
+  };
+});
+const pathwayLabel = t("home.pathways.label", "Pathway");
+---
+
+{science.length > 0 && (
+  <section class="bg-forest border-brass/30 border-t">
+    <div class="container-editorial py-16 sm:py-24 lg:py-28">
+      <Reveal class="mb-10 flex flex-col items-start justify-between gap-6 sm:mb-14 md:flex-row md:items-end">
+        <div>
+          <span class="text-brass mb-5 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+            {t("home.pathways.eyebrow", "Mechanism of Action")}
+          </span>
+          <h2 class="text-paper font-serif text-[clamp(2.25rem,4.4vw,3.8rem)] leading-[0.9] font-bold tracking-tight uppercase">
+            {t("home.pathways.titleLine1", "Four")}
+            <br />
+            <span class="text-brass">{t("home.pathways.titleLine2", "Pathways")}</span>
+          </h2>
+        </div>
+        <div class="md:text-end">
+          <div class="mb-4 flex gap-8 md:justify-end">
+            <div>
+              <div class="text-paper font-serif text-2xl leading-none font-bold sm:text-3xl">
+                {String(science.length).padStart(2, "0")}
+              </div>
+              <div class="text-paper/50 mt-1 font-mono text-[9px] tracking-[0.2em] uppercase">
+                {t("home.pathways.statPathways", "Pathways")}
+              </div>
+            </div>
+            <div>
+              <div class="text-paper font-serif text-2xl leading-none font-bold sm:text-3xl">
+                05
+              </div>
+              <div class="text-paper/50 mt-1 font-mono text-[9px] tracking-[0.2em] uppercase">
+                {t("home.pathways.statActives", "Botanical Actives")}
+              </div>
+            </div>
+          </div>
+          <p class="text-paper/60 max-w-xs text-sm leading-relaxed md:ms-auto">
+            {t(
+              "home.pathways.subtitle",
+              "Each botanical in the formula is selected for a distinct, documented role in scalp and follicle health.",
+            )}
+          </p>
+        </div>
+      </Reveal>
+      <Reveal delay={100} class="border-brass/25 grid grid-cols-1 border-s border-t md:grid-cols-2">
+        {pathways.map((p) => (
+          <div class="group border-brass/25 hover:bg-paper/5 relative overflow-hidden border-e border-b p-8 transition-colors duration-300 sm:p-12">
+            <span
+              aria-hidden="true"
+              class="text-paper/5 group-hover:text-brass/15 pointer-events-none absolute -top-4 end-4 font-serif text-[6rem] leading-none font-bold transition-colors duration-300 select-none sm:text-[8rem]"
+            >
+              {p.num}
+            </span>
+            <div class="relative">
+              <div class="text-brass mb-5 font-mono text-[9px] tracking-[0.26em] uppercase">
+                {pathwayLabel} {p.num}
+              </div>
+              <h3 class="text-paper mb-3 font-serif text-xl font-bold tracking-tight sm:text-2xl">
+                {p.title}
+              </h3>
+              {p.detail && (
+                <div class="text-paper/45 mb-5 font-mono text-[9px] leading-relaxed tracking-[0.18em] uppercase sm:text-[10px]">
+                  {t("home.pathways.keyActives", "Key Actives")} —{" "}
+                  <span class="text-brass/80">{p.detail.actives}</span>
+                </div>
+              )}
+              <p class="text-paper/70 mb-6 max-w-md text-sm leading-relaxed sm:text-base">
+                {p.body}
+              </p>
+              {p.detail && (
+                <div class="border-brass/15 mb-6 space-y-4 border-t pt-5">
+                  <div>
+                    <div class="text-paper/40 mb-1.5 font-mono text-[9px] tracking-[0.22em] uppercase">
+                      {t("home.pathways.mechanism", "The Mechanism")}
+                    </div>
+                    <p class="text-paper/60 max-w-md text-[13px] leading-relaxed">
+                      {p.detail.mechanism}
+                    </p>
+                  </div>
+                  <div>
+                    <div class="text-paper/40 mb-1.5 font-mono text-[9px] tracking-[0.22em] uppercase">
+                      {t("home.pathways.notice", "You May Notice")}
+                    </div>
+                    <p class="text-paper/60 max-w-md text-[13px] leading-relaxed">
+                      {p.detail.notice}
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div class="bg-brass/50 group-hover:bg-brass h-px w-10 transition-all duration-300 group-hover:w-16" />
+            </div>
+          </div>
+        ))}
+      </Reveal>
+      <Reveal
+        delay={150}
+        class="border-brass/25 mt-8 flex flex-col items-start justify-between gap-4 border px-6 py-5 sm:flex-row sm:items-center"
+      >
+        <p class="text-paper/55 font-mono text-[9px] tracking-[0.24em] uppercase sm:text-[10px]">
+          {t("home.pathways.footnote", "Traditional-use evidence · Full dossiers in the Journal")}
+        </p>
+        <a
+          href={withLocalePrefix("/blogs/series", locale)}
+          class="text-brass hover:text-paper font-mono text-[10px] tracking-[0.24em] uppercase transition-colors"
+        >
+          {t("home.pathways.cta", "Read the Science")} →
+        </a>
+      </Reveal>
+    </div>
+  </section>
+)}

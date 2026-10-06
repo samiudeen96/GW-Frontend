@@ -1,0 +1,22 @@
+---
+import { createT } from "@/lib/i18n";
+
+export interface Props {
+  n: number;
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+
+const { n, size = "sm", class: className } = Astro.props;
+const t = createT(Astro.locals.locale);
+const sz = size === "lg" ? "text-lg" : size === "md" ? "text-sm" : "text-[11px]";
+---
+
+<span
+  class:list={["inline-flex gap-0.5 tabular-nums", sz, className]}
+  aria-label={t("product.stars.outOf5", `${n} out of 5`).replace("{n}", String(n))}
+>
+  {[1, 2, 3, 4, 5].map((i) => (
+    <span class={i <= n ? "text-gold" : "text-ink/15"}>★</span>
+  ))}
+</span>

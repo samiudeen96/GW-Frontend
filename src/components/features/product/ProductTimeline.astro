@@ -1,0 +1,64 @@
+---
+/** "What to expect" — results timeline with an optional pro tip. */
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import { pad2, productT } from "./product-helpers";
+import SectionHead from "./SectionHead.astro";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const timeline = p.timeline ?? [];
+---
+
+{timeline.length > 0 && (
+  <section id="timeline" class="hairline bg-paper scroll-mt-32 border-t">
+    <div class="container-editorial py-7 md:py-14">
+      <SectionHead title={t("product.pdp.whatToExpect", "What to expect.")} />
+      <div class="relative">
+        <div class="bg-forest/20 absolute inset-x-3 top-3 h-px"></div>
+        <ol class="relative grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-3 lg:grid-cols-5">
+          {timeline.map((tl, i) => (
+            <li class="flex flex-col">
+              <div class="bg-paper border-forest relative z-10 flex size-6 items-center justify-center border-2">
+                <span class="bg-gold size-1.5"></span>
+              </div>
+              <div class="pt-3">
+                <div class="text-gold font-mono text-[10px] tracking-[0.24em] uppercase tabular-nums">
+                  {pad2(i + 1)}
+                </div>
+                <p class="text-forest mt-1 font-serif text-[16px] leading-[1.15] md:text-[18px]">
+                  {tp(`timeline.${i}.period`, tl.period)}
+                </p>
+                <p class="text-forest/75 mt-2 text-[12px] leading-[1.55]">
+                  {tp(`timeline.${i}.description`, tl.description)}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <p class="text-forest/50 mt-5 font-mono text-[10.5px] tracking-[0.18em] uppercase">
+        {t(
+          "product.pdp.resultsVary",
+          "Results vary with hair type, scalp condition and consistency of use.",
+        )}
+      </p>
+      {p.proTip && (
+        <div class="bg-ivory border-gold mt-5 flex items-start gap-4 border-s-2 p-4 md:p-5">
+          <span class="text-gold shrink-0 pt-1 font-mono text-[10px] tracking-[0.28em] uppercase">
+            {t("product.pdp.proTip", "Pro tip")}
+          </span>
+          <p class="text-forest/85 font-serif text-[13px] leading-[1.6] md:text-[14px]">
+            {tp("proTip", p.proTip)}
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+)}

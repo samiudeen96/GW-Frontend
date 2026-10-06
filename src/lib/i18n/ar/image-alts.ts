@@ -71,7 +71,8 @@ export const arImageAlts: Record<string, string> = {
     "عبوة شامبو نيو للشعر بجانب جذر الجينسنغ وأغصان الروزماري على خلفية فاتحة",
   "product.neo-hair-shampoo.aplusImages.2.alt":
     "شامبو نباتي خالٍ من السلفات ومتوازن الحموضة مصمّم لطقس يومي للعناية بفروة الرأس",
-  "product.neo-hair-shampoo.aplusImages.3.alt": "شامبو بلون العنبر يُسكب في راحة اليد — عناية تبدأ من الجذور",
+  "product.neo-hair-shampoo.aplusImages.3.alt":
+    "شامبو بلون العنبر يُسكب في راحة اليد — عناية تبدأ من الجذور",
   "product.neo-hair-shampoo.aplusImages.4.alt":
     "منظر مكبّر قبل وبعد لخصلات الشعر بعد التنظيف بشامبو نيو للشعر",
   "product.neo-hair-shampoo.aplusImages.5.alt":

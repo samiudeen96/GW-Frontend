@@ -1,0 +1,28 @@
+---
+/** Moyasar return URL: `/payment/callback/:intent`. Verification runs in the browser island. */
+import PageHeader from "@/components/common/PageHeader.astro";
+import PaymentCallback from "@/components/features/checkout/PaymentCallback";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, islandI18n } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const intent = Astro.params.intent ?? "";
+---
+
+<SiteLayout
+  title="Payment status — Green Wealth"
+  description="Confirming your Green Wealth payment."
+  path="/payment/callback"
+  robots="noindex, nofollow"
+>
+  <PageHeader
+    eyebrow={t("commerce.payment.eyebrow", "Secure Payment")}
+    title={t("commerce.payment.title", "Payment status")}
+  />
+  <PaymentCallback
+    client:load
+    intent={intent}
+    i18n={islandI18n(locale, ["commerce.payment.", "commerce.confirmation."])}
+  />
+</SiteLayout>

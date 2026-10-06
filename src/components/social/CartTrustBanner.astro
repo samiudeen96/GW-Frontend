@@ -1,0 +1,32 @@
+---
+/** Cart-page trust banner encouraging checkout completion. */
+import { stats } from "@/data/reviews";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+---
+
+<div class="border-ink/10 bg-forest text-paper flex items-center gap-4 border p-4 md:p-5">
+  <div class="flex-1">
+    <div class="text-paper/70 mb-1 text-[11px] tracking-[0.18em] uppercase">
+      {t("product.cartBanner.join", "Join {n} verified customers").replace(
+        "{n}",
+        String(stats.customers),
+      )}
+    </div>
+    <div class="font-serif text-sm md:text-base">
+      {t("product.cartBanner.ratedPrefix", "Rated")}
+      <span class="text-gold">{stats.rating} / 5</span>
+      {t("product.cartBanner.ratedSuffix", "across {count} ratings in {countries}+ countries.")
+        .replace("{count}", stats.count.toLocaleString())
+        .replace("{countries}", String(stats.countries))}
+    </div>
+  </div>
+  <a
+    href={withLocalePrefix("/reviews", locale)}
+    class="border-paper/40 hover:bg-paper hover:text-forest hidden border px-3 py-2 text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors md:inline-block"
+  >
+    {t("product.cartBanner.reviews", "Reviews")}
+  </a>
+</div>

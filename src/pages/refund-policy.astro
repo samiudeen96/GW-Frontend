@@ -1,0 +1,48 @@
+---
+import LegalSections from "@/components/common/LegalSections.astro";
+import PageHeader from "@/components/common/PageHeader.astro";
+import { refundSections } from "@/components/features/static/legal/refund-sections";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { translateLegalSections } from "@/lib/legal";
+import { breadcrumbLd } from "@/lib/seo";
+
+const t = createT(Astro.locals.locale);
+
+const EN = {
+  eyebrow: "Legal",
+  title: "Refund Policy",
+  intro:
+    "This policy explains when an item can be returned, how to request a return, who pays for return shipping, how we inspect returned goods, and how and when refunds are issued. It applies to all purchases made on greenwealth.com.",
+  seoTitle: "Refund Policy — Green Wealth",
+  seoDescription:
+    "Our detailed 7-day return and refund policy: eligibility, how to start a return, shipping costs, inspection, refund timing, exceptions and authenticity claims.",
+  ogTitle: "Refund Policy — Green Wealth",
+  ogDescription:
+    "7-day return window, refund method and timing, non-returnable items, damage claims and cancellations for greenwealth.com orders.",
+};
+
+const sections = translateLegalSections(t, "refund", refundSections);
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Refund Policy", path: "/refund-policy" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("legal.refund.seo.title", EN.seoTitle)}
+  description={t("legal.refund.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.refund.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.refund.seo.ogDescription", EN.ogDescription)}
+  path="/refund-policy"
+  noindex
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("legal.refund.eyebrow", EN.eyebrow)}
+    title={t("legal.refund.title", EN.title)}
+  />
+  <LegalSections intro={t("legal.refund.intro", EN.intro)} sections={sections} numbered />
+</SiteLayout>

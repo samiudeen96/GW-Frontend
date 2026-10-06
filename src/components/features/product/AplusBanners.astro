@@ -1,0 +1,67 @@
+---
+/**
+ * A+ dossier: full-width brand plates. When portrait plates exist they are
+ * served below `md` and the wide plates from `md` up — a pure CSS breakpoint
+ * swap (lazy images inside the hidden list are never fetched). The two sets
+ * are not 1:1 (different counts and order), so they stay two lists rather than
+ * one <picture> per plate.
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import SectionHead from "./SectionHead.astro";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const t = createT(Astro.locals.locale);
+const wide = p.aplusImages ?? [];
+const mobile = p.aplusImagesMobile ?? [];
+const hasMobile = mobile.length > 0;
+const list = "bg-forest/15 border-forest/15 grid-cols-1 gap-px border";
+---
+
+{wide.length > 0 && (
+  <section class="hairline bg-paper border-t">
+    <div class="container-editorial py-7 md:py-14">
+      <SectionHead
+        title={`${t(`product.${p.slug}.name`, p.name)} ${t("product.pdp.inDetail", "in detail")}`}
+        sub={t(
+          "product.pdp.dossierSub",
+          "Formulation, ritual and results, documented plate by plate.",
+        )}
+      />
+      {hasMobile && (
+        <div class:list={["grid md:hidden", list]}>
+          {mobile.map((img, ii) => (
+            <figure class="bg-paper">
+              <ResponsiveImage
+                src={img.src}
+                alt={t(`product.${p.slug}.aplusImagesMobile.${ii}.alt`, img.alt)}
+                sizes="100vw"
+                widths={[400, 640, 920]}
+                class="block h-auto w-full"
+              />
+            </figure>
+          ))}
+        </div>
+      )}
+      <div class:list={[hasMobile ? "hidden md:grid" : "grid", list]}>
+        {wide.map((img, ii) => (
+          <figure class="bg-paper">
+            <ResponsiveImage
+              src={img.src}
+              alt={t(`product.${p.slug}.aplusImages.${ii}.alt`, img.alt)}
+              sizes="(min-width: 1024px) 1200px, 100vw"
+              widths={[640, 900, 1200, 1464]}
+              class="block h-auto w-full"
+            />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

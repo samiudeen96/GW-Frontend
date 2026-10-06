@@ -18,8 +18,10 @@ export const arProductRouteA: Record<string, string> = {
   "product.route.box.scratchCard": "بطاقة تحقق بالرمز القابل للكشط",
   "product.route.box.tamperEvident": "مقاوم للعبث",
   "product.route.box.uniqueCode": "رمز فريد",
-  "product.route.brandNarrative.ghori": "GHORI® هي علامتنا الشقيقة للزيوت المعصورة على البارد وأدوات فروة الرأس الدقيقة. تُصنَّع كل دفعة وفق معايير GMP لصالح Ghori International، ميامي، فلوريدا، وتُرفق برمز قابل للكشط للتحقق من الأصالة في ثوانٍ.",
-  "product.route.brandNarrative.greenWealth": "أمضت Green Wealth® أكثر من عقد في صياغة العلاج المرجعي بالرش النباتي المحبوب من بانكوك إلى الرياض. كل زجاجة معتمدة، قابلة للتحقق من دفعتها، وتُشحن عالميًا من توزيعنا الرسمي.",
+  "product.route.brandNarrative.ghori":
+    "GHORI® هي علامتنا الشقيقة للزيوت المعصورة على البارد وأدوات فروة الرأس الدقيقة. تُصنَّع كل دفعة وفق معايير GMP لصالح Ghori International، ميامي، فلوريدا، وتُرفق برمز قابل للكشط للتحقق من الأصالة في ثوانٍ.",
+  "product.route.brandNarrative.greenWealth":
+    "أمضت Green Wealth® أكثر من عقد في صياغة العلاج المرجعي بالرش النباتي المحبوب من بانكوك إلى الرياض. كل زجاجة معتمدة، قابلة للتحقق من دفعتها، وتُشحن عالميًا من توزيعنا الرسمي.",
   "product.route.breadcrumb": "مسار التصفح",
   "product.route.buyItNow": "اشترِ الآن",
   "product.route.choosePackBulkPricing": "اختر عبوتك · أسعار الكميات",
@@ -72,7 +74,8 @@ export const arProductRouteA: Record<string, string> = {
   "product.route.countries": "الدول",
   "product.route.criterion": "المعيار",
   "product.route.currentlyUnavailable": "غير متوفر حاليًا",
-  "product.route.dailyProtocolBlurb": "بروتوكول نباتي يومي مصمم لدعم توازن فروة الرأس، وتقليل التساقط الملحوظ، وتشجيع نمو شعر أقوى وأكثر كثافة مع مرور الوقت.",
+  "product.route.dailyProtocolBlurb":
+    "بروتوكول نباتي يومي مصمم لدعم توازن فروة الرأس، وتقليل التساقط الملحوظ، وتشجيع نمو شعر أقوى وأكثر كثافة مع مرور الوقت.",
   "product.route.declared": "مصرّح به",
   "product.route.decrease": "إنقاص",
   "product.route.decreaseQuantity": "إنقاص الكمية",
@@ -110,6 +113,7 @@ export const arProductRouteA: Record<string, string> = {
   "product.route.home": "الرئيسية",
   "product.route.howItWorks": "كيف يعمل",
   "product.route.howItWorks.step1Actives": "الجينسنغ الأبيض، الشمام",
-  "product.route.howItWorks.step1Body": "يدعم الجينسنغ الأبيض الدورة الدموية الدقيقة لفروة الرأس؛ ويضيف إنزيم SOD من الشمام دفاعًا مضادًا للأكسدة.",
+  "product.route.howItWorks.step1Body":
+    "يدعم الجينسنغ الأبيض الدورة الدموية الدقيقة لفروة الرأس؛ ويضيف إنزيم SOD من الشمام دفاعًا مضادًا للأكسدة.",
   "product.route.howItWorks.step1Title": "تغذية الجذور",
 };

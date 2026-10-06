@@ -1,0 +1,128 @@
+---
+/** Home page: campaign banners, Neo Hair Lotion spotlight, verification, formulas and science. */
+import HomeBanner from "@/components/features/home/HomeBanner.astro";
+import HomeFaq from "@/components/features/home/HomeFaq.astro";
+import HomeIndications from "@/components/features/home/HomeIndications.astro";
+import HomeIngredients from "@/components/features/home/HomeIngredients.astro";
+import HomeNewsletter from "@/components/features/home/HomeNewsletter.astro";
+import HomePathways from "@/components/features/home/HomePathways.astro";
+import HomeProblemSolution from "@/components/features/home/HomeProblemSolution.astro";
+import HomeProductGrid from "@/components/features/home/HomeProductGrid.astro";
+import HomeSpotlight from "@/components/features/home/HomeSpotlight.astro";
+import HomeTimeline from "@/components/features/home/HomeTimeline.astro";
+import HomeVerify from "@/components/features/home/HomeVerify.astro";
+import ReviewStrip from "@/components/social/ReviewStrip.astro";
+import TrustBar from "@/components/social/TrustBar.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getProductBySlug, getProducts, getReviewStats } from "@/lib/api/catalog";
+import { createT } from "@/lib/i18n";
+import { imageUrl } from "@/lib/images";
+import { abs } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const products = await getProducts();
+const hero = await getProductBySlug("neo-hair-lotion");
+if (!hero) throw new Error("Home page: hero product 'neo-hair-lotion' is missing");
+const { productStats } = await getReviewStats();
+
+const title =
+  locale === "ar"
+    ? "لوشن نيو للشعر — بخاخ الشعر النباتي الأصلي"
+    : "Neo Hair Lotion — Original Botanical Hair Spray";
+const description =
+  locale === "ar"
+    ? "اشترِ لوشن نيو للشعر الأصلي بمستخلص الجينسنغ والسو بالميتو. بخاخ نباتي لإنبات الشعر من جرين ولث. أصالة موثقة وتوصيل لجميع أنحاء العالم."
+    : "Buy original Neo Hair Lotion with Ginseng & Saw Palmetto. Botanical hair regrowth spray by Green Wealth. Verified authentic, worldwide delivery.";
+const ogTitle =
+  locale === "ar"
+    ? "لوشن نيو للشعر — الأصلي من جرين ولث"
+    : "Neo Hair Lotion — Original by Green Wealth";
+const ogDescription =
+  locale === "ar"
+    ? "لوشن نيو للشعر الأصلي من جرين ولث — بخاخ نباتي للشعر بمستخلص الجينسنغ والسو بالميتو. تم التحقق من الأصالة عبر الكود، والشحن لجميع أنحاء العالم."
+    : "Original Neo Hair Lotion by Green Wealth — botanical hair spray with Ginseng & Saw Palmetto. Scratch-code verified, shipped worldwide.";
+
+const productLd = products.map((p) => {
+  const stat = productStats.find((s) => s.slug === p.slug);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    description: p.tagline || p.overview,
+    image: [abs(imageUrl(p.image))],
+    sku: p.slug,
+    brand: { "@type": "Brand", name: "Green Wealth" },
+    category: p.category,
+    offers: {
+      "@type": "Offer",
+      url: abs(`/product/${p.slug}`),
+      priceCurrency: p.currency || "USD",
+      price: p.price.toFixed(2),
+      availability: p.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+    aggregateRating: stat
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: stat.rating.toFixed(1),
+          reviewCount: stat.count,
+          bestRating: "5",
+          worstRating: "1",
+        }
+      : undefined,
+  };
+});
+---
+
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  path="/"
+  type="website"
+  jsonLd={productLd}
+>
+  <Fragment slot="head">
+    {/* LCP: preload the first banner for the art direction that will render. */}
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-mobile-1-1200.webp"
+      imagesrcset="/images/hero-mobile-1-800.webp 800w, /images/hero-mobile-1-1200.webp 1200w"
+      imagesizes="100vw"
+      fetchpriority="high"
+      media="(max-width: 1023px)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-desktop-1-2400.webp"
+      imagesrcset="/images/hero-desktop-1-1600.webp 1600w, /images/hero-desktop-1-2400.webp 2400w"
+      imagesizes="100vw"
+      fetchpriority="high"
+      media="(min-width: 1024px)"
+    />
+  </Fragment>
+
+  <div class="bg-paper text-forest w-full">
+    <HomeBanner />
+    <TrustBar variant="ivory" />
+    <HomeSpotlight hero={hero} />
+    <HomeVerify />
+    <HomeProductGrid products={products} />
+    <HomeProblemSolution hero={hero} />
+    <HomeIngredients hero={hero} />
+    <HomePathways hero={hero} />
+    <HomeTimeline hero={hero} />
+    <HomeIndications hero={hero} />
+    <HomeFaq hero={hero} />
+    <ReviewStrip
+      title={t("home.reviews.title", "Real people. Real regrowth. Real photos.")}
+      bg="bg-ivory"
+    />
+    <HomeNewsletter />
+  </div>
+</SiteLayout>

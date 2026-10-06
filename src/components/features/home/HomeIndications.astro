@@ -1,0 +1,49 @@
+---
+/** Two-panel "Indicated For" list and "Free From" chips for the hero product. */
+import Reveal from "@/components/common/Reveal.astro";
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const t = createT(Astro.locals.locale);
+---
+
+<Reveal
+  as="section"
+  class="bg-moss text-paper border-brass/30 grid grid-cols-1 border-t md:grid-cols-2"
+>
+  <div class="border-brass/25 border-b p-10 sm:p-16 md:border-e md:border-b-0 lg:p-20">
+    <span class="text-brass mb-7 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+      {t("home.indications.eyebrow", "Indicated For")}
+    </span>
+    <ul class="border-brass/25 border-t">
+      {(hero.perfectFor ?? []).map((item, idx) => (
+        <li class="border-brass/25 border-b py-4 font-serif text-base font-bold tracking-tight uppercase sm:text-lg">
+          {t(`home.indications.item.${idx}`, item)}
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="bg-forest p-10 sm:p-16 lg:p-20">
+    <span class="text-brass mb-7 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+      {t("home.freeFrom.eyebrow", "Free From")}
+    </span>
+    <div class="flex flex-wrap gap-2 sm:gap-3">
+      {(hero.freeFrom ?? []).map((f, idx) => (
+        <span class="border-brass/50 text-paper/85 border px-3 py-2 text-[10px] font-bold tracking-[0.18em] uppercase sm:px-4 sm:text-xs">
+          {t(`home.freeFrom.item.${idx}`, f)}
+        </span>
+      ))}
+    </div>
+    <p class="text-paper/65 mt-8 max-w-md text-sm leading-relaxed">
+      {t(
+        "home.freeFrom.body",
+        "No pharmaceutical actives. No withdrawal shedding. Manufactured under GMP-certified conditions in Thailand.",
+      )}
+    </p>
+  </div>
+</Reveal>

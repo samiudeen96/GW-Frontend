@@ -1,0 +1,38 @@
+---
+/** Storefront page shell: header, main, footer, cart drawer and WhatsApp button. */
+import CartDrawer from "@/components/islands/CartDrawer";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import WhatsAppButton from "@/components/layout/WhatsAppButton.astro";
+import BaseLayout, { type Props as BaseProps } from "@/layouts/BaseLayout.astro";
+import { buildCartCatalog } from "@/lib/cart-catalog";
+import { islandI18n } from "@/lib/i18n";
+
+export type Props = BaseProps;
+
+const { locale, currency } = Astro.locals;
+const catalog = await buildCartCatalog(locale, currency);
+---
+
+<BaseLayout {...Astro.props}>
+  <slot name="head" slot="head" />
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+  <CartDrawer
+    client:idle
+    catalog={catalog}
+    currency={currency}
+    i18n={islandI18n(locale, ["commerce.cart", "commerce.summary"])}
+  />
+  <WhatsAppButton />
+</BaseLayout>
+
+<script>
+  import "@/scripts/reveal";
+  import { autoDetectCurrency } from "@/lib/stores/currency";
+
+  autoDetectCurrency(document.documentElement.dataset.currency ?? "USD");
+</script>

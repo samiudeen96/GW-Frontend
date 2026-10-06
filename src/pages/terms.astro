@@ -1,0 +1,48 @@
+---
+import LegalSections from "@/components/common/LegalSections.astro";
+import PageHeader from "@/components/common/PageHeader.astro";
+import { termsSections } from "@/components/features/static/legal/terms-sections";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { translateLegalSections } from "@/lib/legal";
+import { breadcrumbLd } from "@/lib/seo";
+
+const t = createT(Astro.locals.locale);
+
+const EN = {
+  eyebrow: "Legal",
+  title: "Terms of Service",
+  intro:
+    'This website is operated by Ghori Trading LLC. By using our site or making a purchase, you engage in our "Service" and agree to the terms and conditions below, together with our Privacy Policy, Cookie Policy, Shipping Policy and Refund Policy, which are incorporated by reference. These apply to all users of the site — browsers, vendors, customers, merchants, and contributors of content.',
+  seoTitle: "Terms of Service — Green Wealth",
+  seoDescription:
+    "Full terms and conditions for using greenwealth.com and purchasing Green Wealth products: orders, payment, accounts, delivery, liability, intellectual property and governing law.",
+  ogTitle: "Terms of Service — Green Wealth",
+  ogDescription:
+    "Detailed terms and conditions for using greenwealth.com, operated by Ghori Trading LLC.",
+};
+
+const sections = translateLegalSections(t, "terms", termsSections);
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Terms of Service", path: "/terms" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("legal.terms.seo.title", EN.seoTitle)}
+  description={t("legal.terms.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.terms.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.terms.seo.ogDescription", EN.ogDescription)}
+  path="/terms"
+  noindex
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("legal.terms.eyebrow", EN.eyebrow)}
+    title={t("legal.terms.title", EN.title)}
+  />
+  <LegalSections intro={t("legal.terms.intro", EN.intro)} sections={sections} numbered />
+</SiteLayout>

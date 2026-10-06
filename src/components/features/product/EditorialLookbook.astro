@@ -1,0 +1,53 @@
+---
+/** "See it in use" — four look-book plates drawn from the product gallery. */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import type { EditorialCopy } from "./editorial-copy";
+import Eyebrow from "./Eyebrow.astro";
+import { productGallery } from "./product-helpers";
+import SectionHead from "./SectionHead.astro";
+
+export interface Props {
+  product: Product;
+  copy: EditorialCopy;
+}
+
+const { product: p, copy: c } = Astro.props;
+const t = createT(Astro.locals.locale);
+const gallery = productGallery(p);
+const pName = t(`product.${p.slug}.name`, p.name);
+
+const plates = c.lookbook.map(([kicker, title, body], i) => ({
+  kicker: t(`product.${p.slug}.lookbook.${i}.kicker`, kicker),
+  title: t(`product.${p.slug}.lookbook.${i}.title`, title),
+  body: t(`product.${p.slug}.lookbook.${i}.body`, body),
+  img: gallery[(i + 1) % gallery.length] ?? gallery[0],
+}));
+---
+
+<section class="hairline bg-paper border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <SectionHead title={t("product.pdp.seeItInUse", "See it in use.")} />
+    <div class="bg-forest/15 border-forest/15 grid grid-cols-1 gap-px border md:grid-cols-2">
+      {plates.map((l) => (
+        <article class="bg-paper">
+          <div class="bg-ivory aspect-[4/3] overflow-hidden">
+            <ResponsiveImage
+              src={l.img}
+              alt={`${pName} — ${l.kicker}`}
+              sizes="(min-width: 768px) 600px, 100vw"
+              class="h-full w-full object-contain"
+            />
+          </div>
+          <div class="p-5 md:p-7">
+            <Eyebrow tone="gold">{l.kicker}</Eyebrow>
+            <h3 class="text-forest mt-2 font-serif text-xl leading-[1.1] md:text-2xl">{l.title}</h3>
+            <p class="text-forest/75 mt-3 text-[13px] leading-[1.7] md:text-[13.5px]">{l.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,183 @@
+---
+/** "Expected Timeline": the hero product's phases as a ledger (md+) or vertical rail (mobile). */
+import Reveal from "@/components/common/Reveal.astro";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const phases = (hero.timeline ?? []).map((tl, i) => ({
+  key: tl.period,
+  num: String(i + 1).padStart(2, "0"),
+  days: t(`home.timeline.${i}.days`, tl.days ?? tl.period),
+  title: t(`home.timeline.${i}.title`, tl.title ?? tl.period),
+  period: t(`home.timeline.${i}.period`, tl.period),
+  description: t(`home.timeline.${i}.description`, tl.description),
+  signs: (tl.signs ?? []).map((s, j) => t(`home.timeline.${i}.signs.${j}`, s)),
+  tip: t(`home.timeline.${i}.tip`, tl.tip ?? ""),
+}));
+const phaseCount = String(phases.length).padStart(2, "0");
+const phaseLabel = t("home.timeline.phaseLabel", "Phase");
+const signsLabel = t("home.timeline.signsLabel", "Observable signs");
+const stats = [
+  { v: phaseCount, l: t("home.timeline.statPhases", "Phases") },
+  { v: "365", l: t("home.timeline.statDays", "Days Mapped") },
+  { v: "2×", l: t("home.timeline.statDaily", "Daily") },
+];
+---
+
+<section class="bg-paper border-forest/15 border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <Reveal class="mb-10 flex flex-col items-start justify-between gap-6 sm:mb-14 md:flex-row md:items-end">
+      <div>
+        <span class="text-moss mb-5 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+          {t("home.timeline.eyebrow", "The 120-Day Protocol")}
+        </span>
+        <h2 class="font-serif text-[clamp(2.25rem,4.4vw,3.8rem)] leading-[0.9] font-bold tracking-tight uppercase">
+          {t("home.timeline.titleLine1", "Expected")}
+          <br />
+          {t("home.timeline.titleLine2", "Timeline")}
+        </h2>
+      </div>
+      <div class="md:text-end">
+        <div class="mb-4 hidden gap-8 md:flex md:justify-end">
+          {stats.map((s) => (
+            <div>
+              <div class="font-serif text-2xl leading-none font-bold sm:text-3xl">{s.v}</div>
+              <div class="text-forest/50 mt-1 font-mono text-[9px] tracking-[0.2em] uppercase">
+                {s.l}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="text-forest/55 max-w-xs text-xs leading-relaxed tracking-[0.1em] uppercase sm:text-sm">
+          {t(
+            "home.timeline.subtitle",
+            "Consistency compounds. The follicular cycle rewards patience.",
+          )}
+        </p>
+      </div>
+    </Reveal>
+
+    {/* Desktop — five-column phase ledger with rail */}
+    <Reveal delay={100} class="border-forest/15 hidden border-s border-t md:block">
+      <div class="grid grid-cols-5">
+        {phases.map((ph) => (
+          <div class="border-forest/15 flex items-center gap-3 border-e border-b px-5 py-4">
+            <span class="bg-forest h-2 w-2 shrink-0" aria-hidden="true" />
+            <span class="bg-forest/25 h-px flex-1" aria-hidden="true" />
+            <span class="text-forest/60 font-mono text-[9px] tracking-[0.18em] whitespace-nowrap uppercase">
+              {ph.days}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div class="grid grid-cols-5">
+        {phases.map((ph) => (
+          <article class="border-forest/15 hover:bg-ivory flex flex-col border-e border-b p-5 transition-colors lg:p-6">
+            <div class="text-moss mb-4 font-mono text-[9px] tracking-[0.26em] uppercase">
+              {phaseLabel} {ph.num}
+            </div>
+            <h3 class="mb-1 font-serif text-base leading-tight font-bold tracking-tight uppercase lg:text-lg">
+              {ph.title}
+            </h3>
+            <div class="text-forest/45 mb-4 font-mono text-[9px] tracking-[0.2em] uppercase">
+              {ph.period}
+            </div>
+            <p class="text-forest/70 mb-5 text-xs leading-relaxed">{ph.description}</p>
+            <div class="text-forest/45 mb-2 font-mono text-[8px] tracking-[0.22em] uppercase">
+              {signsLabel}
+            </div>
+            <ul class="mb-5">
+              {ph.signs.map((s) => (
+                <li class="text-forest/65 flex gap-2 text-[11px] leading-relaxed">
+                  <span class="text-moss shrink-0" aria-hidden="true">
+                    —
+                  </span>
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="border-forest/10 text-forest/50 mt-auto border-t pt-4 font-mono text-[10px] leading-relaxed tracking-[0.06em] uppercase">
+              {ph.tip}
+            </p>
+          </article>
+        ))}
+      </div>
+    </Reveal>
+
+    {/* Mobile — vertical rail ledger */}
+    <Reveal delay={100} class="md:hidden">
+      <div class="mb-6 grid grid-cols-3 gap-x-3 gap-y-2">
+        {stats.map((s) => (
+          <div>
+            <div class="font-serif text-xl leading-none font-bold">{s.v}</div>
+            <div class="text-forest/50 mt-1 font-mono text-[8px] tracking-[0.18em] uppercase">
+              {s.l}
+            </div>
+          </div>
+        ))}
+      </div>
+      <ol class="border-forest/20 relative ms-1 space-y-0 border-s">
+        {phases.map((ph) => (
+          <li class="relative ps-5 pb-7 last:pb-0">
+            <span class="bg-forest absolute -start-[4.5px] top-1 h-2 w-2" aria-hidden="true" />
+            <div class="mb-2 flex items-baseline justify-between gap-3">
+              <span class="text-moss font-mono text-[8px] tracking-[0.22em] uppercase">
+                {phaseLabel} {ph.num}
+              </span>
+              <span class="text-forest/50 font-mono text-[8px] tracking-[0.16em] uppercase">
+                {ph.days}
+              </span>
+            </div>
+            <h3 class="font-serif text-base leading-tight font-bold tracking-tight uppercase">
+              {ph.title}
+            </h3>
+            <p class="text-forest/70 mt-2 mb-3 text-xs leading-relaxed">{ph.description}</p>
+            <div class="text-forest/45 mb-1.5 font-mono text-[8px] tracking-[0.22em] uppercase">
+              {signsLabel}
+            </div>
+            <ul class="mb-3">
+              {ph.signs.map((s) => (
+                <li class="text-forest/65 flex gap-2 text-[11px] leading-relaxed">
+                  <span class="text-moss shrink-0" aria-hidden="true">
+                    —
+                  </span>
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="border-forest/10 text-forest/50 border-t pt-3 font-mono text-[9px] leading-relaxed tracking-[0.06em] uppercase">
+              {ph.tip}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </Reveal>
+
+    {/* Footnote strip */}
+    <Reveal
+      delay={150}
+      class="border-forest/15 bg-ivory mt-10 flex flex-col justify-between gap-4 border px-6 py-5 sm:mt-12 sm:flex-row sm:items-center sm:px-8"
+    >
+      <p class="text-forest/65 max-w-xl text-xs leading-relaxed sm:text-sm">
+        {t(
+          "home.timeline.footnote",
+          "Results vary by individual and by starting point. Twice-daily consistency is the single strongest predictor of outcome — missed applications compound as delays.",
+        )}
+      </p>
+      <a
+        href={withLocalePrefix("/hair-science", locale)}
+        class="text-forest border-forest/40 hover:text-moss border-b pb-0.5 font-mono text-[10px] tracking-[0.22em] whitespace-nowrap uppercase transition-colors"
+      >
+        {t("home.timeline.footnoteCta", "Read the full protocol")}
+      </a>
+    </Reveal>
+  </div>
+</section>

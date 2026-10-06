@@ -1,0 +1,131 @@
+---
+/**
+ * Document shell: <html lang/dir>, fonts and every SEO tag (title, description,
+ * canonical, hreflang, Open Graph, Twitter, JSON-LD). Pages normally use
+ * SiteLayout, which wraps this.
+ */
+import "@/styles/global.css";
+
+import { createT, LOCALE_META } from "@/lib/i18n";
+import {
+  abs,
+  canonicalFor,
+  DEFAULT_OG_IMAGE,
+  hreflangLinks,
+  organizationLd,
+  SITE_NAME,
+  SITE_ORIGIN,
+  websiteLd,
+} from "@/lib/seo";
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Locale-agnostic path used for canonical + hreflang. Defaults to the current path. */
+  path?: string;
+  image?: string;
+  type?: "website" | "article" | "product";
+  /** Shorthand for `robots="noindex, follow"`. */
+  noindex?: boolean;
+  /** Explicit robots directive; overrides `noindex`. */
+  robots?: string;
+  /** Social-card title/description when they differ from the page's. */
+  ogTitle?: string;
+  ogDescription?: string;
+  /** Page-specific JSON-LD objects. */
+  jsonLd?: object[];
+}
+
+const DEFAULT_DESCRIPTION =
+  "Buy original Neo Hair Lotion with Ginseng & Saw Palmetto. Botanical hair regrowth spray by Green Wealth. Verified authentic, worldwide delivery from Thailand.";
+
+const { locale, pathname, currency } = Astro.locals;
+const t = createT(locale);
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  path = pathname,
+  image = DEFAULT_OG_IMAGE,
+  type = "website",
+  noindex = false,
+  robots = noindex ? "noindex, follow" : undefined,
+  ogTitle = title,
+  ogDescription = description,
+  jsonLd = [],
+} = Astro.props;
+
+const indexable = !robots?.includes("noindex");
+
+const meta = LOCALE_META[locale];
+const canonical = canonicalFor(path, locale);
+const ogImage = abs(image);
+
+const fontFamilies = [
+  "Urbanist:wght@400;500;600;700",
+  "Epilogue:wght@300;400;500;600",
+  ...(locale === "ar" ? ["IBM+Plex+Sans+Arabic:wght@300;400;500;600;700"] : []),
+];
+const fontsHref = `https://fonts.googleapis.com/css2?${fontFamilies.map((f) => `family=${f}`).join("&")}&display=swap`;
+const structured = [organizationLd, websiteLd, ...jsonLd];
+---
+
+<!doctype html>
+<html
+  lang={meta.htmlLang}
+  dir={meta.dir}
+  class={locale === "ar" ? "locale-ar" : undefined}
+  data-currency={currency}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE_NAME} />
+    <meta name="theme-color" content="#064e3b" />
+    {robots && <meta name="robots" content={robots} />}
+
+    <link rel="canonical" href={canonical} />
+    {indexable &&
+      hreflangLinks(path).map((l) => <link rel="alternate" hreflang={l.hreflang} href={l.href} />)}
+
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={locale === "ar" ? "ar_AR" : "en_US"} />
+    <meta property="og:locale:alternate" content={locale === "ar" ? "en_US" : "ar_AR"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontsHref} />
+    <link rel="alternate" type="text/plain" href={`${SITE_ORIGIN}/llms.txt`} title="llms.txt" />
+    <link
+      rel="alternate"
+      type="text/plain"
+      href={`${SITE_ORIGIN}/llms-full.txt`}
+      title="llms-full.txt"
+    />
+
+    {structured.map((ld) => (
+      <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    ))}
+    <slot name="head" />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="focus:bg-forest focus:text-ivory sr-only focus:not-sr-only focus:fixed focus:start-2 focus:top-2 focus:z-50 focus:px-4 focus:py-2"
+    >
+      {t("header.skip", "Skip to content")}
+    </a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,44 @@
+---
+/** Two-panel problem / solution statement (dormant follicles vs anagen signaling). */
+import Reveal from "@/components/common/Reveal.astro";
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+export interface Props {
+  hero: Product;
+}
+
+const { hero } = Astro.props;
+const t = createT(Astro.locals.locale);
+const heading =
+  "font-serif uppercase font-bold tracking-tight leading-[0.9] text-[clamp(2.25rem,4.2vw,3.6rem)] mb-7";
+---
+
+<Reveal
+  as="section"
+  class="bg-forest text-paper border-brass/30 grid grid-cols-1 border-t md:grid-cols-2"
+>
+  <div class="border-brass/25 border-b p-10 sm:p-16 md:border-e md:border-b-0 lg:p-20">
+    <h2 class={heading}>
+      {t("home.problem.titleLine1", "Dormant")}
+      <br />
+      <span class="text-brass">{t("home.problem.titleLine2", "Follicles")}</span>
+    </h2>
+    <p class="text-paper/70 max-w-md text-sm leading-relaxed sm:text-base">
+      {t(
+        "home.problem.body",
+        "Hair loss isn't just genetic. It's a failure of signaling. When the scalp loses its ability to send growth proteins, follicles enter a prolonged resting phase.",
+      )}
+    </p>
+  </div>
+  <div class="bg-moss p-10 sm:p-16 lg:p-20">
+    <h2 class={heading}>
+      {t("home.solution.titleLine1", "Anagen")}
+      <br />
+      <span class="text-brass">{t("home.solution.titleLine2", "Signaling")}</span>
+    </h2>
+    <p class="text-paper/75 max-w-md text-sm leading-relaxed sm:text-base">
+      {t("home.solution.body", hero.whyDifferent ?? "")}
+    </p>
+  </div>
+</Reveal>

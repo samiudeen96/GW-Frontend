@@ -4,15 +4,19 @@
 export const arCommerce: Record<string, string> = {
   // Auth / OTP sign-in
   "commerce.auth.changeEmail": "تغيير البريد الإلكتروني",
-  "commerce.auth.connectionDropped": "انقطع الاتصال أثناء إرسال رمز التحقق. يرجى الضغط على «إرسال رمز التحقق عبر البريد» مرة أخرى.",
-  "commerce.auth.credentialsMismatch": "البريد الإلكتروني وكلمة المرور غير متطابقين. إذا لم تُعِدّ كلمة مرور من قبل، فسجّل الدخول برمز تحقق بدلاً من ذلك.",
+  "commerce.auth.connectionDropped":
+    "انقطع الاتصال أثناء إرسال رمز التحقق. يرجى الضغط على «إرسال رمز التحقق عبر البريد» مرة أخرى.",
+  "commerce.auth.credentialsMismatch":
+    "البريد الإلكتروني وكلمة المرور غير متطابقين. إذا لم تُعِدّ كلمة مرور من قبل، فسجّل الدخول برمز تحقق بدلاً من ذلك.",
   "commerce.auth.emailMeOtp": "أرسل لي رمز تحقق",
   "commerce.auth.emailOtp": "رمز التحقق عبر البريد",
   "commerce.auth.enterFullOtp": "أدخل رمز التحقق المكوّن من 6 أرقام كاملاً.",
   "commerce.auth.enterPassword": "أدخل كلمة المرور.",
   "commerce.auth.invalidEmail": "أدخل بريدًا إلكترونيًا صحيحًا.",
-  "commerce.auth.noPasswordNeeded": "لا حاجة إلى كلمة مرور. إذا لم يسبق لك الطلب معنا، سيُنشأ حسابك تلقائيًا.",
-  "commerce.auth.noPasswordYet": "لا تملك كلمة مرور بعد؟ سجّل الدخول برمز تحقق عبر البريد، ثم عيّن كلمة مرور من صفحة حسابك.",
+  "commerce.auth.noPasswordNeeded":
+    "لا حاجة إلى كلمة مرور. إذا لم يسبق لك الطلب معنا، سيُنشأ حسابك تلقائيًا.",
+  "commerce.auth.noPasswordYet":
+    "لا تملك كلمة مرور بعد؟ سجّل الدخول برمز تحقق عبر البريد، ثم عيّن كلمة مرور من صفحة حسابك.",
   "commerce.auth.otpExpires": "تنتهي صلاحيته خلال 10 دقائق.",
   "commerce.auth.otpInvalid": "رمز التحقق غير صحيح أو منتهي الصلاحية.",
   "commerce.auth.otpSentPrefix": "تم إرسال رمز تحقق Green Wealth إلى",
@@ -93,7 +97,8 @@ export const arCommerce: Record<string, string> = {
   "commerce.confirmation.reference": "رقم الطلب",
   "commerce.confirmation.title": "تم تأكيد الطلب",
   "commerce.confirmation.trackOrder": "تتبّع طلبك",
-  "commerce.confirmation.body": "رسالة تأكيد في طريقها إليك تتضمّن تفاصيل طلبك ومعلومات التتبّع ودليل بروتوكول الاستخدام لمدة 120 يومًا.",
+  "commerce.confirmation.body":
+    "رسالة تأكيد في طريقها إليك تتضمّن تفاصيل طلبك ومعلومات التتبّع ودليل بروتوكول الاستخدام لمدة 120 يومًا.",
 
   // Reset password
   "commerce.resetPassword.eyebrow": "الحساب",
@@ -152,16 +157,19 @@ export const arCommerce: Record<string, string> = {
   "commerce.payment.cod": "الدفع عند الاستلام",
   "commerce.payment.payAtStore": "الدفع في المتجر",
   "commerce.payment.moyasarTitle": "دفع آمن مستضاف · Moyasar",
-  "commerce.payment.moyasarBody": "تتم معالجة مدفوعات مدى وفيزا / ماستركارد بالريال السعودي عبر صفحة الدفع الآمنة من Moyasar. سيتم تحويلك لإتمام الدفع وإعادتك إلى هذه الصفحة فور تأكيده. لا تُدخَل بيانات البطاقة ولا تُخزَّن على هذا الموقع.",
+  "commerce.payment.moyasarBody":
+    "تتم معالجة مدفوعات مدى وفيزا / ماستركارد بالريال السعودي عبر صفحة الدفع الآمنة من Moyasar. سيتم تحويلك لإتمام الدفع وإعادتك إلى هذه الصفحة فور تأكيده. لا تُدخَل بيانات البطاقة ولا تُخزَّن على هذا الموقع.",
   "commerce.payment.startFailed": "تعذّر بدء عملية الدفع. يرجى المحاولة مرة أخرى.",
   "commerce.payment.recordFailed": "تعذّر تسجيل طلبك. يرجى المحاولة مرة أخرى.",
   "commerce.checkout.fields.cardNumber": "رقم البطاقة",
   "commerce.checkout.fields.cardName": "الاسم على البطاقة",
   "commerce.checkout.fields.cardExpiry": "تاريخ الانتهاء (شهر/سنة)",
   "commerce.checkout.fields.cardCvc": "رمز التحقق CVC",
-  "commerce.checkout.codNotice": "ادفع نقدًا للمندوب عند الاستلام. سيتصل بك فريقنا لتأكيد طلبك قبل الشحن.",
+  "commerce.checkout.codNotice":
+    "ادفع نقدًا للمندوب عند الاستلام. سيتصل بك فريقنا لتأكيد طلبك قبل الشحن.",
   "commerce.checkout.codHandlingFee": "+ {amount} رسوم مناولة",
-  "commerce.checkout.payOnSiteNotice": "احجز عبر الإنترنت وادفع في المتجر. الاستلام من Ghori Trading LLC · 2003, One By Omniyat, Business Bay, دبي، الإمارات. اتصل على +971 800 44674 للمساعدة.",
+  "commerce.checkout.payOnSiteNotice":
+    "احجز عبر الإنترنت وادفع في المتجر. الاستلام من Ghori Trading LLC · 2003, One By Omniyat, Business Bay, دبي، الإمارات. اتصل على +971 800 44674 للمساعدة.",
   "commerce.checkout.fields.notes": "هل هناك ما ينبغي أن نعرفه؟",
   "commerce.checkout.paySecurely": "الدفع الآمن",
   "commerce.checkout.placeOrder": "إتمام الطلب",
@@ -216,12 +224,14 @@ export const arCommerce: Record<string, string> = {
   // ---------------- Account ----------------
   "commerce.account.title": "حسابي",
   "commerce.account.eyebrow": "بوابة العميل",
-  "commerce.account.intro": "سجلّك الكامل لدى Green Wealth — الطلبات والشحنات والعناوين المحفوظة والملف الشخصي وأمان تسجيل الدخول.",
+  "commerce.account.intro":
+    "سجلّك الكامل لدى Green Wealth — الطلبات والشحنات والعناوين المحفوظة والملف الشخصي وأمان تسجيل الدخول.",
   "commerce.account.checkingSession": "جارٍ التحقق من الجلسة…",
   "commerce.account.signIn": "تسجيل الدخول",
   "commerce.account.signInHint": "اختر رمزًا مكوّنًا من 6 أرقام عبر البريد أو كلمة المرور.",
   "commerce.account.lookupWithoutSignIn": "البحث عن الطلب بدون تسجيل الدخول",
-  "commerce.account.lookupHint": "استخدم رقم طلبك مع البريد الإلكتروني أو الهاتف المستخدم عند الدفع.",
+  "commerce.account.lookupHint":
+    "استخدم رقم طلبك مع البريد الإلكتروني أو الهاتف المستخدم عند الدفع.",
   "commerce.account.goToTracking": "الانتقال إلى تتبّع الطلبات",
   "commerce.account.signedIn": "تم تسجيل الدخول",
   "commerce.account.signOut": "تسجيل الخروج",
@@ -275,8 +285,10 @@ export const arCommerce: Record<string, string> = {
   "commerce.account.mostRecent": "الأحدث",
   "commerce.account.viewAllOrders": "عرض جميع الطلبات ({n})",
   "commerce.account.empty.noOrdersTitle": "لا توجد طلبات بعد",
-  "commerce.account.empty.noOrdersOverviewBody": "عندما تُقدّم طلبًا، سيظهر هنا مع كامل تفاصيل المنتجات وحالة الشحن.",
-  "commerce.account.empty.noOrdersHistoryBody": "الطلبات التي قُدّمت بهذا البريد الإلكتروني — بما في ذلك مشتريات greenwealth.com السابقة — تظهر هنا تلقائيًا.",
+  "commerce.account.empty.noOrdersOverviewBody":
+    "عندما تُقدّم طلبًا، سيظهر هنا مع كامل تفاصيل المنتجات وحالة الشحن.",
+  "commerce.account.empty.noOrdersHistoryBody":
+    "الطلبات التي قُدّمت بهذا البريد الإلكتروني — بما في ذلك مشتريات greenwealth.com السابقة — تظهر هنا تلقائيًا.",
   "commerce.account.empty.shopCollection": "تسوّق المجموعة",
   "commerce.account.orders.title": "سجلّ الطلبات",
   "commerce.account.orders.of": "من أصل {total}",
@@ -304,31 +316,37 @@ export const arCommerce: Record<string, string> = {
   "commerce.account.addresses.title": "دفتر العناوين",
   "commerce.account.addresses.onFile": "{n} مسجَّلة",
   "commerce.account.addresses.empty.title": "لا توجد عناوين بعد",
-  "commerce.account.addresses.empty.body": "تُحفَظ العناوين تلقائيًا من طلباتك، ما يجعل عملية الدفع القادمة أسرع.",
+  "commerce.account.addresses.empty.body":
+    "تُحفَظ العناوين تلقائيًا من طلباتك، ما يجعل عملية الدفع القادمة أسرع.",
   "commerce.account.addresses.default": "افتراضي · الأحدث",
   "commerce.account.addresses.previous": "سابق",
   "commerce.account.addresses.usedTimes": "استُخدم {n}×",
   "commerce.account.addresses.lastUsed": "آخر استخدام",
   "commerce.account.addresses.noAddress": "لا يوجد عنوان مسجَّل.",
-  "commerce.account.addresses.footerNote": "لإضافة عنوان أو تغييره، أدخله عند الدفع — يُحفظ مع الطلب ويظهر هنا.",
+  "commerce.account.addresses.footerNote":
+    "لإضافة عنوان أو تغييره، أدخله عند الدفع — يُحفظ مع الطلب ويظهر هنا.",
   "commerce.account.profile.title": "الملف الشخصي",
   "commerce.account.profile.email": "البريد الإلكتروني",
   "commerce.account.profile.ordersPlaced": "الطلبات المقدَّمة",
   "commerce.account.profile.firstOrder": "أول طلب",
   "commerce.account.profile.latestOrder": "آخر طلب",
   "commerce.account.profile.needChange": "هل تحتاج إلى تغيير؟",
-  "commerce.account.profile.needChangeBody": "بريدك الإلكتروني هو هوية حسابك. لتغيير الاسم أو الهاتف أو البريد الإلكتروني، تواصل مع فريقنا وسنقوم بتحديث سجلّك.",
+  "commerce.account.profile.needChangeBody":
+    "بريدك الإلكتروني هو هوية حسابك. لتغيير الاسم أو الهاتف أو البريد الإلكتروني، تواصل مع فريقنا وسنقوم بتحديث سجلّك.",
   "commerce.account.profile.contactSupport": "تواصل مع الدعم",
   "commerce.account.security.title": "الأمان",
   "commerce.account.security.methodTitle": "طريقة تسجيل الدخول",
-  "commerce.account.security.methodBody": "يمكنك دائمًا تسجيل الدخول برمز Green Wealth المكوّن من 6 أرقام المُرسَل إلى بريدك. تعيين كلمة مرور أدناه يضيف خيارًا ثانيًا أسرع.",
+  "commerce.account.security.methodBody":
+    "يمكنك دائمًا تسجيل الدخول برمز Green Wealth المكوّن من 6 أرقام المُرسَل إلى بريدك. تعيين كلمة مرور أدناه يضيف خيارًا ثانيًا أسرع.",
   "commerce.account.password.title": "تعيين كلمة مرور",
-  "commerce.account.password.hint": "اختياري — استمر باستخدام الرموز عبر البريد، أو عيّن كلمة مرور لتسجيل دخول أسرع.",
+  "commerce.account.password.hint":
+    "اختياري — استمر باستخدام الرموز عبر البريد، أو عيّن كلمة مرور لتسجيل دخول أسرع.",
   "commerce.account.password.new": "كلمة مرور جديدة",
   "commerce.account.password.confirm": "تأكيد كلمة المرور",
   "commerce.account.password.save": "حفظ كلمة المرور",
   "commerce.account.password.saving": "جارٍ الحفظ…",
   "commerce.account.password.tooShort": "استخدم 8 أحرف على الأقل.",
   "commerce.account.password.mismatch": "كلمتا المرور غير متطابقتين.",
-  "commerce.account.password.saved": "تم حفظ كلمة المرور. يمكنك الآن تسجيل الدخول بالبريد الإلكتروني وكلمة المرور.",
+  "commerce.account.password.saved":
+    "تم حفظ كلمة المرور. يمكنك الآن تسجيل الدخول بالبريد الإلكتروني وكلمة المرور.",
 };

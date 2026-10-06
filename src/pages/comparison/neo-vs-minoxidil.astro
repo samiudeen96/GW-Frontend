@@ -1,0 +1,242 @@
+---
+import PageHeader from "@/components/common/PageHeader.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const ROWS: { key: string; attr: string; neo: string; minox: string }[] = [
+  {
+    key: "row1",
+    attr: "Formulation type",
+    neo: "Botanical leave-in scalp spray",
+    minox: "Pharmaceutical vasodilator",
+  },
+  {
+    key: "row2",
+    attr: "Active mechanism",
+    neo: "Multi-botanical follicle nourishment (ginseng, saw palmetto, cantaloupe, Fallopia, horsetail)",
+    minox: "Single-molecule increase of blood flow to the follicle",
+  },
+  {
+    key: "row3",
+    attr: "Origin",
+    neo: "Traditional Thai herbal formulation",
+    minox: "Originally developed as a blood-pressure medication",
+  },
+  {
+    key: "row4",
+    attr: "Prescription required",
+    neo: "No — cosmetic leave-in product",
+    minox: "Over-the-counter in most markets; some strengths need a prescription",
+  },
+  {
+    key: "row5",
+    attr: "Application",
+    neo: "Spray onto a dry scalp, 5–7 sprays, no rinse",
+    minox: "Dropper application twice daily; must be left to dry",
+  },
+  {
+    key: "row6",
+    attr: "Sensory texture",
+    neo: "Herbal, light, fast-absorbing, no residue",
+    minox: "Alcohol / propylene glycol carrier, can feel tacky",
+  },
+  {
+    key: "row7",
+    attr: "Commonly reported side effects",
+    neo: "Rare; occasional mild scalp sensitivity",
+    minox: "Shedding phase, scalp irritation, unwanted facial hair, dependence on continued use",
+  },
+  {
+    key: "row8",
+    attr: "If you stop using it",
+    neo: "Results are maintained by continuing the botanical routine",
+    minox: "Gains typically reverse within 3–6 months of stopping",
+  },
+  {
+    key: "row9",
+    attr: "Suitable during pregnancy",
+    neo: "Consult a physician; botanical cosmetic formulation",
+    minox: "Generally advised against without medical supervision",
+  },
+  {
+    key: "row10",
+    attr: "Used alongside",
+    neo: "Neo Hair Shampoo® + Ghori® Rosemary Oil",
+    minox: "Standalone regimen",
+  },
+  {
+    key: "row11",
+    attr: "Authenticity verification",
+    neo: "Scratch code on every bottle",
+    minox: "Varies by manufacturer",
+  },
+  {
+    key: "row12",
+    attr: "Timeline to visible change",
+    neo: "Commonly reported: added density from around 90–120 days",
+    minox: "Commonly reported: 3–6 months with strict adherence",
+  },
+];
+
+const rows = ROWS.map((r) => ({
+  key: r.key,
+  attr: t(`comparison.${r.key}.attr`, r.attr),
+  neo: t(`comparison.${r.key}.neo`, r.neo),
+  minox: t(`comparison.${r.key}.minox`, r.minox),
+}));
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Comparison", path: "/comparison/neo-vs-minoxidil" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t(
+    "comparison.head.title",
+    "Neo Hair Lotion vs Minoxidil — Honest Comparison | Green Wealth",
+  )}
+  description={t(
+    "comparison.head.description",
+    "Side-by-side comparison of Green Wealth Neo Hair Lotion® and minoxidil: formulation, mechanism, application, side effects, and long-term use.",
+  )}
+  path="/comparison/neo-vs-minoxidil"
+  type="article"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("comparison.hero.eyebrow", "Comparison")}
+    title={t("comparison.hero.title", "Neo Hair Lotion vs Minoxidil")}
+    intro={t(
+      "comparison.hero.intro",
+      "A candid, side-by-side look at two very different approaches to thinning hair — one a botanical leave-in spray, the other a pharmaceutical vasodilator. This page is educational; consult a physician for medical advice.",
+    )}
+  />
+
+  <div class="container-editorial py-8 md:py-14">
+    <div class="bg-ink/10 hairline hidden grid-cols-3 gap-px border md:grid">
+      <div class="bg-forest text-paper p-4">
+        <span class="font-mono text-[10px] tracking-[0.28em] uppercase opacity-70">
+          {t("comparison.col.attribute", "Attribute")}
+        </span>
+      </div>
+      <div class="bg-forest text-paper p-4">
+        <span class="font-mono text-[10px] tracking-[0.28em] uppercase opacity-70">
+          {t("comparison.col.greenwealth", "Green Wealth")}
+        </span>
+        <p class="mt-1 font-serif text-xl">{t("comparison.col.neo", "Neo Hair Lotion®")}</p>
+      </div>
+      <div class="bg-forest text-paper p-4">
+        <span class="font-mono text-[10px] tracking-[0.28em] uppercase opacity-70">
+          {t("comparison.col.alternative", "Alternative")}
+        </span>
+        <p class="mt-1 font-serif text-xl">{t("comparison.col.minoxidil", "Minoxidil")}</p>
+      </div>
+      {rows.map((r) => (
+        <>
+          <div class="bg-paper hairline border-t p-4">
+            <span class="text-moss font-mono text-[11px] tracking-[0.22em] uppercase">
+              {r.attr}
+            </span>
+          </div>
+          <div class="bg-paper hairline border-t p-4">
+            <p class="text-forest text-[13.5px] leading-relaxed">{r.neo}</p>
+          </div>
+          <div class="bg-paper hairline border-t p-4">
+            <p class="text-forest/75 text-[13.5px] leading-relaxed">{r.minox}</p>
+          </div>
+        </>
+      ))}
+    </div>
+
+    <div class="space-y-4 md:hidden">
+      {rows.map((r) => (
+        <div class="hairline bg-paper border">
+          <div class="bg-forest text-paper px-4 py-2">
+            <span class="font-mono text-[10px] tracking-[0.28em] uppercase">{r.attr}</span>
+          </div>
+          <div class="hairline border-b p-4">
+            <span class="text-moss font-mono text-[10px] tracking-[0.28em] uppercase">
+              {t("comparison.col.neo", "Neo Hair Lotion®")}
+            </span>
+            <p class="text-forest mt-1 text-[13.5px] leading-relaxed">{r.neo}</p>
+          </div>
+          <div class="p-4">
+            <span class="text-forest/50 font-mono text-[10px] tracking-[0.28em] uppercase">
+              {t("comparison.col.minoxidil", "Minoxidil")}
+            </span>
+            <p class="text-forest/75 mt-1 text-[13.5px] leading-relaxed">{r.minox}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <section class="bg-ink/10 hairline mt-14 grid grid-cols-1 gap-px border md:grid-cols-2">
+      <div class="bg-paper p-6">
+        <h2 class="text-forest font-serif text-2xl">
+          {t("comparison.why.title", "Why people choose Neo Hair Lotion")}
+        </h2>
+        <ul class="text-forest/80 mt-4 space-y-2 text-[14px] leading-relaxed">
+          <li>
+            {t(
+              "comparison.why.p1",
+              "— No prescription, no dependence on continued pharmaceutical use.",
+            )}
+          </li>
+          <li>
+            {t(
+              "comparison.why.p2",
+              "— Multi-botanical stack targets nourishment, calm and scalp barrier.",
+            )}
+          </li>
+          <li>
+            {t("comparison.why.p3", "— Fast-absorbing spray fits any morning or evening routine.")}
+          </li>
+          <li>{t("comparison.why.p4", "— Every bottle verified with a scratch code.")}</li>
+        </ul>
+        <a
+          href={withLocalePrefix("/product/neo-hair-lotion", locale)}
+          class="text-paper bg-forest hover:bg-forest/90 mt-6 inline-block px-5 py-3 font-mono text-[10.5px] tracking-[0.24em] uppercase"
+        >
+          {t("comparison.why.cta", "Shop Neo Hair Lotion →")}
+        </a>
+      </div>
+      <div class="bg-ivory/60 p-6">
+        <h2 class="text-forest font-serif text-2xl">
+          {t("comparison.when.title", "When minoxidil may make sense")}
+        </h2>
+        <ul class="text-forest/80 mt-4 space-y-2 text-[14px] leading-relaxed">
+          <li>
+            {t(
+              "comparison.when.p1",
+              "— When a physician has diagnosed androgenetic alopecia and recommends it.",
+            )}
+          </li>
+          <li>
+            {t("comparison.when.p2", "— When you're prepared for lifelong daily application.")}
+          </li>
+          <li>{t("comparison.when.p3", "— When tolerating known side effects is acceptable.")}</li>
+        </ul>
+        <p class="text-forest/60 mt-6 text-[12px] leading-relaxed">
+          {t(
+            "comparison.when.note",
+            "Green Wealth is a botanical brand and does not sell minoxidil. Speak with a qualified dermatologist about pharmaceutical options.",
+          )}
+        </p>
+      </div>
+    </section>
+
+    <p class="text-forest/60 mt-10 font-mono text-[11px] tracking-[0.24em] uppercase">
+      {t(
+        "comparison.footer.disclaimer",
+        "Educational content. Not medical advice. Individual results vary.",
+      )}
+    </p>
+  </div>
+</SiteLayout>

@@ -2,15 +2,18 @@
 export const arContentLibrary: Record<string, string> = {
   // ───────────────────────── Ingredients index page ─────────────────────────
   "ing.index.title.meta": "معجم المكونات — النباتات وراء Green Wealth",
-  "ing.index.desc.meta": "كل نبتة ومستخلص ومادة فعالة تُستخدم في تشكيلة Green Wealth — تاريخها وآلية عملها ودورها في صحة فروة الرأس ونمو الشعر.",
+  "ing.index.desc.meta":
+    "كل نبتة ومستخلص ومادة فعالة تُستخدم في تشكيلة Green Wealth — تاريخها وآلية عملها ودورها في صحة فروة الرأس ونمو الشعر.",
   "ing.index.ogTitle": "معجم المكونات — Green Wealth",
-  "ing.index.ogDesc": "النباتات وراء Neo Hair Lotion وNeo Hair Shampoo وزيت إكليل الجبل وجهاز الديرمارولر.",
+  "ing.index.ogDesc":
+    "النباتات وراء Neo Hair Lotion وNeo Hair Shampoo وزيت إكليل الجبل وجهاز الديرمارولر.",
   "ing.index.breadcrumb.home": "الرئيسية",
   "ing.index.breadcrumb.ingredients": "المكونات",
   "ing.index.ldName": "معجم مكونات Green Wealth",
   "ing.index.eyebrow": "المعجم · {count} مدخلاً · {families} فصيلة نباتية",
   "ing.index.title": "مكتبة النباتات",
-  "ing.index.intro": "كل مادة فعالة ومستخلص ومعدن يُستخدم في منتجات Green Wealth وGhori — مع تاريخه وآلية عمله ودوره في صحة فروة الرأس ونمو الشعر.",
+  "ing.index.intro":
+    "كل مادة فعالة ومستخلص ومعدن يُستخدم في منتجات Green Wealth وGhori — مع تاريخه وآلية عمله ودوره في صحة فروة الرأس ونمو الشعر.",
   "ing.index.featuredBadge": "نبتة مميزة",
   "ing.index.family": "الفصيلة",
   "ing.index.partUsed": "الجزء المستخدم",
@@ -81,16 +84,20 @@ export const arContentLibrary: Record<string, string> = {
 
   // ───────────────────────── Journal index (blogs.index) ─────────────────────────
   "journal.index.metaTitle": "المجلة — Green Wealth",
-  "journal.index.metaDesc": "ملاحظات ميدانية عن Neo Hair Lotion وNeo Hair Shampoo وجهاز Ghori Dermaroller — بروتوكولات، وعلم مكونات، وجداول زمنية من استوديو Green Wealth.",
+  "journal.index.metaDesc":
+    "ملاحظات ميدانية عن Neo Hair Lotion وNeo Hair Shampoo وجهاز Ghori Dermaroller — بروتوكولات، وعلم مكونات، وجداول زمنية من استوديو Green Wealth.",
   "journal.index.ogTitle": "المجلة — Green Wealth",
-  "journal.index.ogDesc": "بروتوكولات وعلم مكونات وجداول زمنية صادقة لمنظومة Green Wealth للعناية بالشعر.",
+  "journal.index.ogDesc":
+    "بروتوكولات وعلم مكونات وجداول زمنية صادقة لمنظومة Green Wealth للعناية بالشعر.",
   "journal.index.breadcrumb.home": "الرئيسية",
   "journal.index.breadcrumb.journal": "المجلة",
   "journal.index.ldName": "مجلة Green Wealth",
   "journal.index.vol": "المجلد الرابع · المجلة",
   "journal.index.est": "تأسست عام 2024 · إصدار عالمي",
-  "journal.index.headline": "ملاحظات ميدانية من الاستوديو — بروتوكولات، وعلم نبات، والمسار الطويل للشعر.",
-  "journal.index.subhead": "كل مقال هنا مكتوب حول المنتجات الثلاثة نفسها: Neo Hair Lotion وNeo Hair Shampoo وجهاز Ghori Dermaroller. لا حشو، ولا محتوى منسوخ.",
+  "journal.index.headline":
+    "ملاحظات ميدانية من الاستوديو — بروتوكولات، وعلم نبات، والمسار الطويل للشعر.",
+  "journal.index.subhead":
+    "كل مقال هنا مكتوب حول المنتجات الثلاثة نفسها: Neo Hair Lotion وNeo Hair Shampoo وجهاز Ghori Dermaroller. لا حشو، ولا محتوى منسوخ.",
   "journal.index.featuredLabel": "مميز",
   "journal.index.readSuffix": "قراءة",
   "journal.index.readEssay": "اقرأ المقال",
@@ -99,7 +106,8 @@ export const arContentLibrary: Record<string, string> = {
   "journal.index.entryNo": "رقم {n}",
   "journal.index.letter.eyebrow": "رسالة الاستوديو",
   "journal.index.letter.title": "مقال واحد كل شهر. يكتبه الفريق الذي يصنع المنتجات بنفسه.",
-  "journal.index.letter.body": "لا عروض ترويجية، ولا أكواد خصم، ولا بيانات صحفية معاد توجيهها. اشترك من تذييل أي صفحة.",
+  "journal.index.letter.body":
+    "لا عروض ترويجية، ولا أكواد خصم، ولا بيانات صحفية معاد توجيهها. اشترك من تذييل أي صفحة.",
 
   // ───────────────────────── Journal article (blogs.$slug) ─────────────────────────
   "journal.article.notFoundMeta": "المقال غير متاح — مجلة Green Wealth",

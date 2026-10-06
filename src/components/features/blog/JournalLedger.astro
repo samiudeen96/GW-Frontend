@@ -1,0 +1,151 @@
+---
+/**
+ * "The full index" ledger on /blogs: every essay server-rendered, with category
+ * tabs and a search box filtering the rows in place (small vanilla script).
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import type { BlogPost } from "@/data/blog-posts";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+import { formatDate, postCategory, postExcerpt, postTitle, readTime } from "./format";
+
+export interface Props {
+  /** Rows to list (every post except the featured one). */
+  posts: BlogPost[];
+  /** Category tabs to offer, `All` first. */
+  categories: string[];
+}
+
+const { posts, categories } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const searchLabel = t("blog.chrome.search", "Search the journal");
+---
+
+<section data-journal-ledger>
+  <div class="container-editorial py-10 md:py-16">
+    <div class="mb-8 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
+      <h2 class="font-serif text-2xl md:text-3xl">
+        {t("blog.chrome.fullIndex", "The full index")}
+      </h2>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div
+          role="tablist"
+          aria-label={t("blog.chrome.filter", "Filter by category")}
+          class="flex flex-wrap gap-2"
+        >
+          {categories.map((c) => (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={c === "All" ? "true" : "false"}
+              data-category={c}
+              class="hairline hover:border-forest aria-selected:bg-forest aria-selected:text-paper aria-selected:border-forest border px-3 py-2 text-[11px] tracking-[0.14em] uppercase transition-colors"
+            >
+              {c === "All" ? t("blog.chrome.all", "All") : postCategory(t, c)}
+            </button>
+          ))}
+        </div>
+        <input
+          type="search"
+          data-query
+          placeholder={searchLabel}
+          aria-label={searchLabel}
+          class="hairline bg-paper focus:border-forest w-full border px-3 py-2 text-base focus:outline-none sm:w-56 md:text-sm"
+        />
+      </div>
+    </div>
+    <p data-empty hidden class="text-muted-foreground py-10">
+      {t("blog.chrome.noResults", "No essays match your search.")}
+    </p>
+    <ol data-list>
+      {posts.map((post, i) => {
+        const title = postTitle(t, post.slug, post.title);
+        const excerpt = postExcerpt(t, post.slug, post.excerpt);
+        const hay = `${title} ${post.tags.join(" ")} ${excerpt}`.toLowerCase();
+        return (
+          <li
+            data-row
+            data-category={post.category}
+            data-hay={hay}
+            class="hairline border-t last:border-b [&.is-last]:border-b"
+          >
+            <a
+              href={withLocalePrefix(`/blogs/${post.slug}`, locale)}
+              class="group grid grid-cols-12 items-center gap-4 py-5 md:gap-6 md:py-7"
+            >
+              <div class="col-span-8 min-w-0 md:col-span-7">
+                <div class="eyebrow mb-1.5">{postCategory(t, post.category)}</div>
+                <h3 class="group-hover:text-forest font-serif text-lg leading-snug transition-colors md:text-3xl">
+                  {title}
+                </h3>
+                <p class="text-muted-foreground mt-2 line-clamp-2 text-sm leading-relaxed md:line-clamp-1">
+                  {excerpt}
+                </p>
+              </div>
+              <div class="bg-ivory col-span-4 aspect-square overflow-hidden md:col-span-3 md:aspect-[4/3]">
+                <ResponsiveImage
+                  src={post.cover}
+                  alt={title}
+                  sizes="(min-width: 768px) 25vw, 33vw"
+                  priority={i < 2}
+                  class="h-full w-full object-cover grayscale-[35%] transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
+                />
+              </div>
+              <div class="text-muted-foreground col-span-12 text-[11px] tracking-[0.14em] uppercase md:col-span-2 md:text-end">
+                {formatDate(post.date, locale)}
+                <span aria-hidden="true" class="mx-2">
+                  ·
+                </span>
+                {readTime(post.read, t)} {t("blog.chrome.readSuffix", "read")}
+                <span
+                  aria-hidden="true"
+                  class="text-forest ms-3 hidden opacity-0 transition-opacity group-hover:opacity-100 md:inline-block"
+                >
+                  &rarr;
+                </span>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-journal-ledger]")) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab][data-category]")];
+    const input = root.querySelector<HTMLInputElement>("[data-query]");
+    const rows = [...root.querySelectorAll<HTMLElement>("li[data-row]")];
+    const list = root.querySelector<HTMLElement>("[data-list]");
+    const empty = root.querySelector<HTMLElement>("[data-empty]");
+    let category = "All";
+
+    const apply = () => {
+      const q = (input?.value ?? "").trim().toLowerCase();
+      let last: HTMLElement | null = null;
+      for (const row of rows) {
+        const show =
+          (category === "All" || row.dataset.category === category) &&
+          (!q || (row.dataset.hay ?? "").includes(q));
+        row.hidden = !show;
+        row.classList.remove("is-last");
+        if (show) last = row;
+      }
+      last?.classList.add("is-last");
+      if (list) list.hidden = !last;
+      if (empty) empty.hidden = !!last;
+    };
+
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        category = tab.dataset.category ?? "All";
+        for (const other of tabs) other.setAttribute("aria-selected", String(other === tab));
+        apply();
+      });
+    }
+    input?.addEventListener("input", apply);
+    apply();
+  }
+</script>

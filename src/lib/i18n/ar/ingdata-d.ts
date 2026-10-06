@@ -7,47 +7,66 @@ export const arIngDataD: Record<string, string> = {
   "ingdata.Acemannan polysaccharides": "سكريات الأسيمانان المتعددة",
   "ingdata.Glucomannans": "الغلوكومانان",
   "ingdata.Plant sterols": "الستيرولات النباتية",
-  "ingdata.Aloe vera has been documented in skin and scalp care for more than 3,500 years. The Ebers Papyrus of ancient Egypt described aloe preparations, while Greek, Roman, Ayurvedic and Unani traditions used the fresh inner-leaf gel for heat, dryness and irritated skin. Modern cosmetic processing removes the yellow latex layer and purifies the clear gel so its water-binding polysaccharides can be used without the irritating anthraquinones found in whole-leaf sap.": "وُثّق استخدام الألوفيرا في العناية بالبشرة وفروة الرأس منذ أكثر من 3500 عام. وصفت بردية إيبرس المصرية القديمة مستحضرات الصبّار، بينما استخدمت التقاليد اليونانية والرومانية والأيورفيدية واليونانية-العربية جل الورقة الداخلي الطازج للحرارة والجفاف وتهيج الجلد. تزيل المعالجة التجميلية الحديثة طبقة اللاتكس الصفراء وتنقّي الجل الشفاف للاستفادة من السكريات المتعددة الرابطة للماء دون الأنثراكينونات المهيجة الموجودة في عصارة الورقة الكاملة.",
-  "ingdata.Cooling gel for sun-exposed or irritated skin": "جل مبرد للبشرة المعرّضة للشمس أو المتهيجة",
-  "ingdata.Ayurvedic scalp pack for heat, dryness and flaking": "قناع أيورفيدي لفروة الرأس للحرارة والجفاف والتقشر",
-  "ingdata.Unani preparation for soothing the skin barrier": "مستحضر يوناني-عربي لتهدئة حاجز البشرة",
-  "ingdata.Fresh-leaf hair mask used to improve softness and manageability": "قناع شعر من الورقة الطازجة لتحسين النعومة وسهولة التصفيف",
-  "ingdata.Aloe's best-supported topical role is moisturising and soothing rather than directly stimulating hair growth. Its acemannan-rich polysaccharide fraction forms a flexible, water-binding film and supports the appearance of barrier recovery. Laboratory and clinical skin research also describes anti-inflammatory and wound-supporting activity, but evidence for treating alopecia remains limited; in this formula aloe is used to improve scalp comfort and condition the application environment.": "الدور الموضعي الأكثر دعمًا للألوفيرا هو الترطيب والتهدئة لا تحفيز نمو الشعر مباشرة. يشكّل جزء السكريات المتعددة الغني بالأسيمانان غشاءً مرنًا رابطًا للماء ويدعم مظهر تعافي الحاجز. تصف أبحاث الجلد المخبرية والسريرية أيضًا نشاطًا مضادًا للالتهاب وداعمًا لالتئام الجروح، لكن الأدلة على علاج الثعلبة ما زالت محدودة؛ ويُستخدم الألوفيرا في هذه التركيبة لتحسين راحة فروة الرأس وتهيئة بيئة التطبيق.",
+  "ingdata.Aloe vera has been documented in skin and scalp care for more than 3,500 years. The Ebers Papyrus of ancient Egypt described aloe preparations, while Greek, Roman, Ayurvedic and Unani traditions used the fresh inner-leaf gel for heat, dryness and irritated skin. Modern cosmetic processing removes the yellow latex layer and purifies the clear gel so its water-binding polysaccharides can be used without the irritating anthraquinones found in whole-leaf sap.":
+    "وُثّق استخدام الألوفيرا في العناية بالبشرة وفروة الرأس منذ أكثر من 3500 عام. وصفت بردية إيبرس المصرية القديمة مستحضرات الصبّار، بينما استخدمت التقاليد اليونانية والرومانية والأيورفيدية واليونانية-العربية جل الورقة الداخلي الطازج للحرارة والجفاف وتهيج الجلد. تزيل المعالجة التجميلية الحديثة طبقة اللاتكس الصفراء وتنقّي الجل الشفاف للاستفادة من السكريات المتعددة الرابطة للماء دون الأنثراكينونات المهيجة الموجودة في عصارة الورقة الكاملة.",
+  "ingdata.Cooling gel for sun-exposed or irritated skin":
+    "جل مبرد للبشرة المعرّضة للشمس أو المتهيجة",
+  "ingdata.Ayurvedic scalp pack for heat, dryness and flaking":
+    "قناع أيورفيدي لفروة الرأس للحرارة والجفاف والتقشر",
+  "ingdata.Unani preparation for soothing the skin barrier":
+    "مستحضر يوناني-عربي لتهدئة حاجز البشرة",
+  "ingdata.Fresh-leaf hair mask used to improve softness and manageability":
+    "قناع شعر من الورقة الطازجة لتحسين النعومة وسهولة التصفيف",
+  "ingdata.Aloe's best-supported topical role is moisturising and soothing rather than directly stimulating hair growth. Its acemannan-rich polysaccharide fraction forms a flexible, water-binding film and supports the appearance of barrier recovery. Laboratory and clinical skin research also describes anti-inflammatory and wound-supporting activity, but evidence for treating alopecia remains limited; in this formula aloe is used to improve scalp comfort and condition the application environment.":
+    "الدور الموضعي الأكثر دعمًا للألوفيرا هو الترطيب والتهدئة لا تحفيز نمو الشعر مباشرة. يشكّل جزء السكريات المتعددة الغني بالأسيمانان غشاءً مرنًا رابطًا للماء ويدعم مظهر تعافي الحاجز. تصف أبحاث الجلد المخبرية والسريرية أيضًا نشاطًا مضادًا للالتهاب وداعمًا لالتئام الجروح، لكن الأدلة على علاج الثعلبة ما زالت محدودة؛ ويُستخدم الألوفيرا في هذه التركيبة لتحسين راحة فروة الرأس وتهيئة بيئة التطبيق.",
   "ingdata.Binds water at the scalp": "يربط الماء على سطح فروة الرأس",
-  "ingdata.Acemannan and glucomannans form a light hydrophilic film that slows moisture loss without leaving a heavy oily layer.": "يشكّل الأسيمانان والغلوكومانان غشاءً خفيفًا محبًا للماء يبطئ فقدان الرطوبة دون ترك طبقة زيتية ثقيلة.",
+  "ingdata.Acemannan and glucomannans form a light hydrophilic film that slows moisture loss without leaving a heavy oily layer.":
+    "يشكّل الأسيمانان والغلوكومانان غشاءً خفيفًا محبًا للماء يبطئ فقدان الرطوبة دون ترك طبقة زيتية ثقيلة.",
   "ingdata.Supports barrier comfort": "يدعم راحة الحاجز الوقائي",
-  "ingdata.Polysaccharides and plant sterols help calm the look of redness and support recovery from dryness or repeated cleansing.": "تساعد السكريات المتعددة والستيرولات النباتية على تهدئة مظهر الاحمرار ودعم التعافي من الجفاف أو التنظيف المتكرر.",
+  "ingdata.Polysaccharides and plant sterols help calm the look of redness and support recovery from dryness or repeated cleansing.":
+    "تساعد السكريات المتعددة والستيرولات النباتية على تهدئة مظهر الاحمرار ودعم التعافي من الجفاف أو التنظيف المتكرر.",
   "ingdata.Conditions the surface": "يكيّف السطح",
-  "ingdata.Amino acids and natural sugars improve slip, helping reduce friction between strands and making the scalp treatment easier to distribute.": "تحسّن الأحماض الأمينية والسكريات الطبيعية الانزلاق، مما يقلل الاحتكاك بين الخصلات ويسهّل توزيع علاج فروة الرأس.",
+  "ingdata.Amino acids and natural sugars improve slip, helping reduce friction between strands and making the scalp treatment easier to distribute.":
+    "تحسّن الأحماض الأمينية والسكريات الطبيعية الانزلاق، مما يقلل الاحتكاك بين الخصلات ويسهّل توزيع علاج فروة الرأس.",
   "ingdata.Dry or tight scalp": "فروة رأس جافة أو مشدودة",
   "ingdata.Visible flaking": "تقشر ظاهر",
   "ingdata.Scalp discomfort": "انزعاج فروة الرأس",
   "ingdata.Lightweight hydration": "ترطيب خفيف",
-  "ingdata.Purified, decolourised inner-leaf aloe is generally well tolerated topically. Patch test before first use, avoid broken skin, and discontinue if irritation occurs. This cosmetic use should not be confused with ingesting aloe latex.": "يُتحمّل جل الألوفيرا الداخلي المنقّى ومنزوع اللون جيدًا موضعيًا عادةً. يُنصح باختبار الحساسية قبل أول استخدام وتجنب الجلد المتشقق وإيقافه عند حدوث تهيج. ويجب عدم الخلط بين هذا الاستخدام التجميلي وتناول لاتكس الألوفيرا.",
+  "ingdata.Purified, decolourised inner-leaf aloe is generally well tolerated topically. Patch test before first use, avoid broken skin, and discontinue if irritation occurs. This cosmetic use should not be confused with ingesting aloe latex.":
+    "يُتحمّل جل الألوفيرا الداخلي المنقّى ومنزوع اللون جيدًا موضعيًا عادةً. يُنصح باختبار الحساسية قبل أول استخدام وتجنب الجلد المتشقق وإيقافه عند حدوث تهيج. ويجب عدم الخلط بين هذا الاستخدام التجميلي وتناول لاتكس الألوفيرا.",
   "ingdata.Occlusive": "عازل للرطوبة",
   "ingdata.Gloss": "لمعان",
   "ingdata.Ricinoleic Acid": "حمض الريسينوليك",
   "ingdata.Euphorbiaceae": "الفصيلة الفربيونية (Euphorbiaceae)",
-  "ingdata.Seeds — oil expressed and refined to cosmetic grade": "البذور — زيت معصور ومنقّى بدرجة تجميلية",
+  "ingdata.Seeds — oil expressed and refined to cosmetic grade":
+    "البذور — زيت معصور ومنقّى بدرجة تجميلية",
   "ingdata.Linoleic acid": "حمض اللينوليك",
   "ingdata.Tocopherols": "التوكوفيرولات",
-  "ingdata.Castor oil has an exceptionally long cosmetic record. Seeds of Ricinus communis have been found in ancient Egyptian sites, and the oil appears in Egyptian, Greek, Ayurvedic and later European preparations for skin and hair. Its unusually high ricinoleic-acid content gives it the dense, glossy texture that distinguished it from lighter seed oils. Modern cosmetic-grade castor oil is carefully expressed and refined; the toxic protein ricin remains in the seed residue and is not present in properly processed oil.": "لزيت الخروع سجل تجميلي طويل بصورة استثنائية. عُثر على بذور Ricinus communis في مواقع مصرية قديمة، وظهر الزيت في مستحضرات مصرية ويونانية وأيورفيدية ثم أوروبية للبشرة والشعر. يمنحه محتواه المرتفع بصورة غير معتادة من حمض الريسينوليك قوامه الكثيف اللامع. ويُعصر زيت الخروع التجميلي الحديث ويُنقّى بعناية؛ إذ يبقى بروتين الريسين السام في بقايا البذور ولا يوجد في الزيت المعالج بصورة صحيحة.",
+  "ingdata.Castor oil has an exceptionally long cosmetic record. Seeds of Ricinus communis have been found in ancient Egyptian sites, and the oil appears in Egyptian, Greek, Ayurvedic and later European preparations for skin and hair. Its unusually high ricinoleic-acid content gives it the dense, glossy texture that distinguished it from lighter seed oils. Modern cosmetic-grade castor oil is carefully expressed and refined; the toxic protein ricin remains in the seed residue and is not present in properly processed oil.":
+    "لزيت الخروع سجل تجميلي طويل بصورة استثنائية. عُثر على بذور Ricinus communis في مواقع مصرية قديمة، وظهر الزيت في مستحضرات مصرية ويونانية وأيورفيدية ثم أوروبية للبشرة والشعر. يمنحه محتواه المرتفع بصورة غير معتادة من حمض الريسينوليك قوامه الكثيف اللامع. ويُعصر زيت الخروع التجميلي الحديث ويُنقّى بعناية؛ إذ يبقى بروتين الريسين السام في بقايا البذور ولا يوجد في الزيت المعالج بصورة صحيحة.",
   "ingdata.Ancient Egyptian hair and skin conditioning oil": "زيت مصري قديم لتكييف الشعر والبشرة",
-  "ingdata.Ayurvedic scalp massage and protective hair packs": "تدليك أيورفيدي لفروة الرأس وأقنعة واقية للشعر",
-  "ingdata.Traditional pomade for edges, brows and dry ends": "مرهم تقليدي للحواف والحواجب والأطراف الجافة",
+  "ingdata.Ayurvedic scalp massage and protective hair packs":
+    "تدليك أيورفيدي لفروة الرأس وأقنعة واقية للشعر",
+  "ingdata.Traditional pomade for edges, brows and dry ends":
+    "مرهم تقليدي للحواف والحواجب والأطراف الجافة",
   "ingdata.Carrier oil for concentrated aromatic botanicals": "زيت ناقل للنباتات العطرية المركزة",
-  "ingdata.Castor oil is well established as an emollient and occlusive conditioner, but direct human evidence that it increases follicle number or growth rate is lacking. Its value in hair care comes from coating the cuticle, reducing moisture loss and friction, and increasing visible gloss. Ricinoleic acid also shows anti-inflammatory and antimicrobial activity in laboratory work, although these findings do not establish castor oil as a treatment for scalp disease or alopecia.": "زيت الخروع معروف جيدًا كمطرٍ ومكيّف عازل للرطوبة، لكن لا تتوفر أدلة بشرية مباشرة تثبت زيادة عدد البصيلات أو معدل النمو. تأتي قيمته في العناية بالشعر من تغليف القشرة الخارجية وتقليل فقدان الرطوبة والاحتكاك وزيادة اللمعان المرئي. ويُظهر حمض الريسينوليك نشاطًا مضادًا للالتهاب والميكروبات في الدراسات المخبرية، لكن هذه النتائج لا تثبت أن زيت الخروع علاج لأمراض فروة الرأس أو الثعلبة.",
+  "ingdata.Castor oil is well established as an emollient and occlusive conditioner, but direct human evidence that it increases follicle number or growth rate is lacking. Its value in hair care comes from coating the cuticle, reducing moisture loss and friction, and increasing visible gloss. Ricinoleic acid also shows anti-inflammatory and antimicrobial activity in laboratory work, although these findings do not establish castor oil as a treatment for scalp disease or alopecia.":
+    "زيت الخروع معروف جيدًا كمطرٍ ومكيّف عازل للرطوبة، لكن لا تتوفر أدلة بشرية مباشرة تثبت زيادة عدد البصيلات أو معدل النمو. تأتي قيمته في العناية بالشعر من تغليف القشرة الخارجية وتقليل فقدان الرطوبة والاحتكاك وزيادة اللمعان المرئي. ويُظهر حمض الريسينوليك نشاطًا مضادًا للالتهاب والميكروبات في الدراسات المخبرية، لكن هذه النتائج لا تثبت أن زيت الخروع علاج لأمراض فروة الرأس أو الثعلبة.",
   "ingdata.Seals the cuticle": "يغلق القشرة الخارجية",
-  "ingdata.Its viscous fatty-acid film fills surface irregularities, reducing roughness and improving reflected shine.": "يملأ غشاؤه اللزج من الأحماض الدهنية تفاوتات السطح، فيقلل الخشونة ويحسّن اللمعان المنعكس.",
+  "ingdata.Its viscous fatty-acid film fills surface irregularities, reducing roughness and improving reflected shine.":
+    "يملأ غشاؤه اللزج من الأحماض الدهنية تفاوتات السطح، فيقلل الخشونة ويحسّن اللمعان المنعكس.",
   "ingdata.Reduces moisture escape": "يقلل فقدان الرطوبة",
-  "ingdata.The occlusive layer slows water loss from dry fibres and helps ends remain flexible between washes.": "تبطئ الطبقة العازلة فقدان الماء من الألياف الجافة وتساعد الأطراف على البقاء مرنة بين الغسلات.",
+  "ingdata.The occlusive layer slows water loss from dry fibres and helps ends remain flexible between washes.":
+    "تبطئ الطبقة العازلة فقدان الماء من الألياف الجافة وتساعد الأطراف على البقاء مرنة بين الغسلات.",
   "ingdata.Lowers mechanical friction": "يخفض الاحتكاك الميكانيكي",
-  "ingdata.Improved lubrication reduces snagging during combing and styling, helping fragile lengths retain their apparent density.": "يقلل التزييت المحسّن التشابك أثناء التمشيط والتصفيف، مما يساعد الأطوال الهشة على الاحتفاظ بكثافتها الظاهرية.",
+  "ingdata.Improved lubrication reduces snagging during combing and styling, helping fragile lengths retain their apparent density.":
+    "يقلل التزييت المحسّن التشابك أثناء التمشيط والتصفيف، مما يساعد الأطوال الهشة على الاحتفاظ بكثافتها الظاهرية.",
   "ingdata.Dry or porous lengths": "أطوال جافة أو مسامية",
   "ingdata.Frizz and flyaways": "التجعد والشعيرات المتطايرة",
   "ingdata.Brittle ends": "أطراف هشة",
   "ingdata.Protective scalp-oil routines": "روتين زيوت واقٍ لفروة الرأس",
-  "ingdata.Cosmetic-grade castor oil is generally well tolerated, although its dense texture can cause buildup on fine or oily hair. Patch test before use and avoid applying to an actively inflamed scalp.": "يُتحمّل زيت الخروع التجميلي جيدًا عادةً، لكن قوامه الكثيف قد يسبب تراكمًا على الشعر الناعم أو الدهني. يُنصح باختبار الحساسية وتجنب وضعه على فروة رأس ملتهبة.",
+  "ingdata.Cosmetic-grade castor oil is generally well tolerated, although its dense texture can cause buildup on fine or oily hair. Patch test before use and avoid applying to an actively inflamed scalp.":
+    "يُتحمّل زيت الخروع التجميلي جيدًا عادةً، لكن قوامه الكثيف قد يسبب تراكمًا على الشعر الناعم أو الدهني. يُنصح باختبار الحساسية وتجنب وضعه على فروة رأس ملتهبة.",
   "ingdata.Protein Retention": "الحفاظ على البروتين",
   "ingdata.Cortex Penetration": "اختراق قشرة الشعرة",
   "ingdata.Lauric Acid": "حمض اللوريك",
@@ -55,39 +74,60 @@ export const arIngDataD: Record<string, string> = {
   "ingdata.Mature coconut kernel — expressed oil": "لب جوز الهند الناضج — زيت معصور",
   "ingdata.Caprylic acid": "حمض الكابريليك",
   "ingdata.Capric acid": "حمض الكابريك",
-  "ingdata.Coconut oil has been central to hair care across South and Southeast Asia, the Pacific and coastal East Africa for centuries. Traditional routines apply the oil before washing to protect long hair from water and handling. Modern fibre science has helped explain this practice: coconut oil's high lauric-acid content and straight molecular structure give it an affinity for hair proteins and allow part of the oil to penetrate beyond the cuticle.": "كان زيت جوز الهند محورًا للعناية بالشعر في جنوب وجنوب شرق آسيا والمحيط الهادئ وساحل شرق أفريقيا لقرون. تضع الروتينات التقليدية الزيت قبل الغسل لحماية الشعر الطويل من الماء والتعامل. وقد فسّر علم ألياف الشعر الحديث هذه الممارسة: يمنح المحتوى المرتفع من حمض اللوريك والبنية الجزيئية المستقيمة الزيت انجذابًا لبروتينات الشعر ويسمح لجزء منه باختراق القشرة الخارجية.",
-  "ingdata.Pre-wash oiling across South Asian hair traditions": "التزييت قبل الغسل في تقاليد الشعر بجنوب آسيا",
-  "ingdata.Pacific Island conditioning for sun- and salt-exposed hair": "تكييف من جزر المحيط الهادئ للشعر المعرّض للشمس والملح",
+  "ingdata.Coconut oil has been central to hair care across South and Southeast Asia, the Pacific and coastal East Africa for centuries. Traditional routines apply the oil before washing to protect long hair from water and handling. Modern fibre science has helped explain this practice: coconut oil's high lauric-acid content and straight molecular structure give it an affinity for hair proteins and allow part of the oil to penetrate beyond the cuticle.":
+    "كان زيت جوز الهند محورًا للعناية بالشعر في جنوب وجنوب شرق آسيا والمحيط الهادئ وساحل شرق أفريقيا لقرون. تضع الروتينات التقليدية الزيت قبل الغسل لحماية الشعر الطويل من الماء والتعامل. وقد فسّر علم ألياف الشعر الحديث هذه الممارسة: يمنح المحتوى المرتفع من حمض اللوريك والبنية الجزيئية المستقيمة الزيت انجذابًا لبروتينات الشعر ويسمح لجزء منه باختراق القشرة الخارجية.",
+  "ingdata.Pre-wash oiling across South Asian hair traditions":
+    "التزييت قبل الغسل في تقاليد الشعر بجنوب آسيا",
+  "ingdata.Pacific Island conditioning for sun- and salt-exposed hair":
+    "تكييف من جزر المحيط الهادئ للشعر المعرّض للشمس والملح",
   "ingdata.Ayurvedic carrier for infused herbs": "ناقل أيورفيدي للأعشاب المنقوعة",
-  "ingdata.Protective dressing for long, braided or textured hair": "طبقة واقية للشعر الطويل أو المضفّر أو المجعّد",
-  "ingdata.Among commonly tested cosmetic oils, coconut oil has some of the clearest evidence for reducing protein loss from hair fibres. Controlled fibre studies found benefits when it was used before or after washing on both damaged and undamaged hair. This is a strand-protection effect, not proof of new follicle growth: coconut oil helps preserve existing length by reducing swelling, porosity and grooming-related breakage.": "بين الزيوت التجميلية الشائعة الاختبار، يمتلك زيت جوز الهند بعض أوضح الأدلة على تقليل فقدان البروتين من ألياف الشعر. وجدت دراسات مضبوطة على الألياف فوائد عند استخدامه قبل الغسل أو بعده على الشعر المتضرر وغير المتضرر. هذا تأثير لحماية الشعرة وليس دليلاً على نمو بصيلات جديدة؛ إذ يساعد زيت جوز الهند على الحفاظ على الطول القائم بتقليل الانتفاخ والمسامية والتقصف المرتبط بالتصفيف.",
+  "ingdata.Protective dressing for long, braided or textured hair":
+    "طبقة واقية للشعر الطويل أو المضفّر أو المجعّد",
+  "ingdata.Among commonly tested cosmetic oils, coconut oil has some of the clearest evidence for reducing protein loss from hair fibres. Controlled fibre studies found benefits when it was used before or after washing on both damaged and undamaged hair. This is a strand-protection effect, not proof of new follicle growth: coconut oil helps preserve existing length by reducing swelling, porosity and grooming-related breakage.":
+    "بين الزيوت التجميلية الشائعة الاختبار، يمتلك زيت جوز الهند بعض أوضح الأدلة على تقليل فقدان البروتين من ألياف الشعر. وجدت دراسات مضبوطة على الألياف فوائد عند استخدامه قبل الغسل أو بعده على الشعر المتضرر وغير المتضرر. هذا تأثير لحماية الشعرة وليس دليلاً على نمو بصيلات جديدة؛ إذ يساعد زيت جوز الهند على الحفاظ على الطول القائم بتقليل الانتفاخ والمسامية والتقصف المرتبط بالتصفيف.",
   "ingdata.Penetrates the fibre": "يخترق ألياف الشعر",
-  "ingdata.Lauric acid has a low molecular weight and strong affinity for keratin, allowing it to move into the hair shaft rather than remaining only on the surface.": "يتميز حمض اللوريك بوزن جزيئي منخفض وانجذاب قوي للكيراتين، مما يسمح له بالدخول إلى ساق الشعرة بدل البقاء على السطح فقط.",
+  "ingdata.Lauric acid has a low molecular weight and strong affinity for keratin, allowing it to move into the hair shaft rather than remaining only on the surface.":
+    "يتميز حمض اللوريك بوزن جزيئي منخفض وانجذاب قوي للكيراتين، مما يسمح له بالدخول إلى ساق الشعرة بدل البقاء على السطح فقط.",
   "ingdata.Reduces wash-related protein loss": "يقلل فقدان البروتين المرتبط بالغسل",
-  "ingdata.Pre-wash oiling limits repeated water-driven swelling and contraction, helping the cuticle retain structural proteins.": "يحد التزييت قبل الغسل من الانتفاخ والانكماش المتكررين بفعل الماء، مما يساعد القشرة الخارجية على الاحتفاظ بالبروتينات البنيوية.",
+  "ingdata.Pre-wash oiling limits repeated water-driven swelling and contraction, helping the cuticle retain structural proteins.":
+    "يحد التزييت قبل الغسل من الانتفاخ والانكماش المتكررين بفعل الماء، مما يساعد القشرة الخارجية على الاحتفاظ بالبروتينات البنيوية.",
   "ingdata.Improves flexibility and slip": "يحسّن المرونة والانزلاق",
-  "ingdata.A thin lipid film lubricates neighbouring fibres, reducing combing force, tangling and breakage along the lengths.": "يزيّت غشاء دهني رقيق الألياف المتجاورة، فيقلل قوة التمشيط والتشابك والتقصف على طول الشعر.",
+  "ingdata.A thin lipid film lubricates neighbouring fibres, reducing combing force, tangling and breakage along the lengths.":
+    "يزيّت غشاء دهني رقيق الألياف المتجاورة، فيقلل قوة التمشيط والتشابك والتقصف على طول الشعر.",
   "ingdata.Porous or damaged hair": "الشعر المسامي أو المتضرر",
   "ingdata.Pre-wash protection": "حماية قبل الغسل",
   "ingdata.Long or textured hair": "الشعر الطويل أو المجعّد",
   "ingdata.Breakage-prone lengths": "أطوال معرّضة للتقصف",
-  "ingdata.Generally safe for topical cosmetic use. Coconut oil can feel heavy or contribute to buildup on fine hair and may not suit every acne-prone hairline. Patch test if coconut sensitivity is suspected.": "آمن عمومًا للاستخدام التجميلي الموضعي. قد يبدو زيت جوز الهند ثقيلاً أو يسبب تراكمًا على الشعر الناعم، وقد لا يناسب كل خط شعر معرّض للحبوب. يُنصح باختبار الحساسية عند الاشتباه بحساسية جوز الهند.",
-  "ingdata.Acemannan-rich polysaccharides bind water at the scalp surface and help reduce moisture loss.": "تربط السكريات المتعددة الغنية بالأسيمانان الماء بسطح فروة الرأس وتساعد على تقليل فقدان الرطوبة.",
-  "ingdata.Plant sterols and natural sugars support a calmer, more comfortable scalp barrier.": "تدعم الستيرولات النباتية والسكريات الطبيعية حاجز فروة رأس أكثر هدوءًا وراحة.",
-  "ingdata.Amino acids and polysaccharides add slip without the weight of a heavy occlusive oil.": "تضيف الأحماض الأمينية والسكريات المتعددة انزلاقًا دون ثقل الزيت العازل.",
-  "ingdata.Topical aloe is supported primarily for hydration and skin-soothing effects; evidence for direct hair regrowth remains limited.": "تدعم الأدلة الألوفيرا الموضعي أساسًا للترطيب وتهدئة البشرة؛ وما زالت أدلة إعادة نمو الشعر المباشر محدودة.",
+  "ingdata.Generally safe for topical cosmetic use. Coconut oil can feel heavy or contribute to buildup on fine hair and may not suit every acne-prone hairline. Patch test if coconut sensitivity is suspected.":
+    "آمن عمومًا للاستخدام التجميلي الموضعي. قد يبدو زيت جوز الهند ثقيلاً أو يسبب تراكمًا على الشعر الناعم، وقد لا يناسب كل خط شعر معرّض للحبوب. يُنصح باختبار الحساسية عند الاشتباه بحساسية جوز الهند.",
+  "ingdata.Acemannan-rich polysaccharides bind water at the scalp surface and help reduce moisture loss.":
+    "تربط السكريات المتعددة الغنية بالأسيمانان الماء بسطح فروة الرأس وتساعد على تقليل فقدان الرطوبة.",
+  "ingdata.Plant sterols and natural sugars support a calmer, more comfortable scalp barrier.":
+    "تدعم الستيرولات النباتية والسكريات الطبيعية حاجز فروة رأس أكثر هدوءًا وراحة.",
+  "ingdata.Amino acids and polysaccharides add slip without the weight of a heavy occlusive oil.":
+    "تضيف الأحماض الأمينية والسكريات المتعددة انزلاقًا دون ثقل الزيت العازل.",
+  "ingdata.Topical aloe is supported primarily for hydration and skin-soothing effects; evidence for direct hair regrowth remains limited.":
+    "تدعم الأدلة الألوفيرا الموضعي أساسًا للترطيب وتهدئة البشرة؛ وما زالت أدلة إعادة نمو الشعر المباشر محدودة.",
   "ingdata.Cuticle": "القشرة الخارجية",
-  "ingdata.Ricinoleic-acid-rich oil coats uneven cuticle edges, improving smoothness and gloss.": "يغلّف الزيت الغني بحمض الريسينوليك حواف القشرة غير المتساوية، فيحسّن النعومة واللمعان.",
+  "ingdata.Ricinoleic-acid-rich oil coats uneven cuticle edges, improving smoothness and gloss.":
+    "يغلّف الزيت الغني بحمض الريسينوليك حواف القشرة غير المتساوية، فيحسّن النعومة واللمعان.",
   "ingdata.Moisture": "الرطوبة",
-  "ingdata.Its occlusive film slows moisture loss from dry, porous lengths.": "يبطئ غشاؤه العازل فقدان الرطوبة من الأطوال الجافة والمسامية.",
+  "ingdata.Its occlusive film slows moisture loss from dry, porous lengths.":
+    "يبطئ غشاؤه العازل فقدان الرطوبة من الأطوال الجافة والمسامية.",
   "ingdata.Friction": "الاحتكاك",
-  "ingdata.Added lubrication reduces snagging and mechanical breakage during grooming.": "يقلل التزييت الإضافي التشابك والتقصف الميكانيكي أثناء التصفيف.",
-  "ingdata.Castor oil is an established cosmetic conditioner, although human evidence for direct hair-growth stimulation is currently insufficient.": "زيت الخروع مكيّف تجميلي معروف، رغم أن الأدلة البشرية على تحفيز نمو الشعر مباشرة غير كافية حاليًا.",
+  "ingdata.Added lubrication reduces snagging and mechanical breakage during grooming.":
+    "يقلل التزييت الإضافي التشابك والتقصف الميكانيكي أثناء التصفيف.",
+  "ingdata.Castor oil is an established cosmetic conditioner, although human evidence for direct hair-growth stimulation is currently insufficient.":
+    "زيت الخروع مكيّف تجميلي معروف، رغم أن الأدلة البشرية على تحفيز نمو الشعر مباشرة غير كافية حاليًا.",
   "ingdata.Penetration": "الاختراق",
-  "ingdata.Lauric acid has an affinity for keratin and can move beyond the cuticle into the hair fibre.": "لحمض اللوريك انجذاب للكيراتين ويمكنه تجاوز القشرة الخارجية إلى ألياف الشعر.",
+  "ingdata.Lauric acid has an affinity for keratin and can move beyond the cuticle into the hair fibre.":
+    "لحمض اللوريك انجذاب للكيراتين ويمكنه تجاوز القشرة الخارجية إلى ألياف الشعر.",
   "ingdata.Protein": "البروتين",
-  "ingdata.Pre-wash and post-wash use can reduce protein loss from damaged and undamaged hair.": "يمكن للاستخدام قبل الغسل وبعده تقليل فقدان البروتين من الشعر المتضرر وغير المتضرر.",
+  "ingdata.Pre-wash and post-wash use can reduce protein loss from damaged and undamaged hair.":
+    "يمكن للاستخدام قبل الغسل وبعده تقليل فقدان البروتين من الشعر المتضرر وغير المتضرر.",
   "ingdata.Protection": "الحماية",
-  "ingdata.The lipid film reduces water-driven swelling, friction and breakage along the lengths.": "يقلل الغشاء الدهني الانتفاخ الناتج عن الماء والاحتكاك والتقصف على طول الشعر.",
-  "ingdata.Controlled hair-fibre studies support coconut oil for reducing protein loss; this protects existing strands rather than proving new follicle growth.": "تدعم دراسات مضبوطة على ألياف الشعر استخدام زيت جوز الهند لتقليل فقدان البروتين؛ وهذا يحمي الشعر القائم ولا يثبت نمو بصيلات جديدة.",
+  "ingdata.The lipid film reduces water-driven swelling, friction and breakage along the lengths.":
+    "يقلل الغشاء الدهني الانتفاخ الناتج عن الماء والاحتكاك والتقصف على طول الشعر.",
+  "ingdata.Controlled hair-fibre studies support coconut oil for reducing protein loss; this protects existing strands rather than proving new follicle growth.":
+    "تدعم دراسات مضبوطة على ألياف الشعر استخدام زيت جوز الهند لتقليل فقدان البروتين؛ وهذا يحمي الشعر القائم ولا يثبت نمو بصيلات جديدة.",
 };

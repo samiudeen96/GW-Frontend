@@ -1,0 +1,48 @@
+---
+import LegalSections from "@/components/common/LegalSections.astro";
+import PageHeader from "@/components/common/PageHeader.astro";
+import { privacySections } from "@/components/features/static/legal/privacy-sections";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT } from "@/lib/i18n";
+import { translateLegalSections } from "@/lib/legal";
+import { breadcrumbLd } from "@/lib/seo";
+
+const t = createT(Astro.locals.locale);
+
+const EN = {
+  eyebrow: "Legal",
+  title: "Privacy Policy",
+  intro:
+    "At Ghori Trading LLC, we value your privacy. This policy sets out in detail the personal information we gather when you browse greenwealth.com, place an order, create an account or contact us; the reasons and legal bases for using it; who we share it with; how long we keep it; the security measures we apply; and the rights you can exercise at any time.",
+  seoTitle: "Privacy Policy — Green Wealth | Ghori Trading LLC",
+  seoDescription:
+    "How Ghori Trading LLC collects, uses, shares, retains and protects your personal information on greenwealth.com, and the data rights available to you.",
+  ogTitle: "Privacy Policy — Green Wealth",
+  ogDescription:
+    "Data we collect, why we use it, who we share it with, retention periods, security measures and your rights.",
+};
+
+const sections = translateLegalSections(t, "privacy", privacySections);
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Privacy Policy", path: "/privacy" },
+  ]),
+];
+---
+
+<SiteLayout
+  title={t("legal.privacy.seo.title", EN.seoTitle)}
+  description={t("legal.privacy.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.privacy.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.privacy.seo.ogDescription", EN.ogDescription)}
+  path="/privacy"
+  noindex
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("legal.privacy.eyebrow", EN.eyebrow)}
+    title={t("legal.privacy.title", EN.title)}
+  />
+  <LegalSections intro={t("legal.privacy.intro", EN.intro)} sections={sections} numbered />
+</SiteLayout>

@@ -1,0 +1,153 @@
+---
+/**
+ * /blogs/series — Journal Series overview: all journal essays in one ordered curriculum.
+ * Users: readers & search/AI crawlers. Key actions: start reading, jump to any entry.
+ */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { readTime } from "@/components/features/blog/format";
+import { pick, SERIES_INTRO, SERIES_ORDER, SERIES_PARTS, SERIES_TITLE } from "@/data/blog-series";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getPostBySlug } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { abs, breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const num = (n: number) => String(n).padStart(2, "0");
+const arrow = locale === "ar" ? "←" : "→";
+const first = SERIES_ORDER[0];
+
+// Resolve each part's posts up front and number them across the whole series.
+let counter = 0;
+const parts = await Promise.all(
+  SERIES_PARTS.map(async (part) => ({
+    part,
+    posts: (await Promise.all(part.slugs.map((slug) => getPostBySlug(slug)))).filter(
+      (p) => p !== undefined,
+    ),
+  })),
+);
+const numbered = parts.map(({ part, posts }) => ({
+  part,
+  entries: posts.map((post) => ({ post, n: ++counter })),
+}));
+
+const title = `${pick(SERIES_TITLE, locale)} — Green Wealth Journal`;
+const description = pick(SERIES_INTRO, locale);
+const totalMinutes = SERIES_ORDER.reduce((a, p) => a + (parseInt(p.read) || 0), 0);
+const stats: [string, string][] = [
+  [num(SERIES_ORDER.length), t("blog.series.essays", "Essays")],
+  [num(SERIES_PARTS.length), t("blog.series.parts", "Parts")],
+  [String(totalMinutes), t("blog.series.minutes", "Minutes")],
+];
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Journal", path: "/blogs" },
+    { name: "Series", path: "/blogs/series" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: SERIES_TITLE.en,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: SERIES_ORDER.length,
+    itemListElement: SERIES_ORDER.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: abs(`/blogs/${p.slug}`),
+      name: p.title,
+    })),
+  },
+];
+---
+
+<SiteLayout title={title} description={description} path="/blogs/series" jsonLd={jsonLd}>
+  <div>
+    <header class="bg-forest text-paper">
+      <div class="container-editorial py-14 md:py-24">
+        <div class="eyebrow text-paper/60 mb-5">
+          <a href={withLocalePrefix("/blogs", locale)} class="hover:text-paper">
+            {t("nav.journal", "Journal")}
+          </a>
+          · {t("blog.series.eyebrow", "Series")}
+        </div>
+        <h1 class="max-w-5xl font-serif text-[11vw] leading-[0.95] md:text-[6.5vw]">
+          {pick(SERIES_TITLE, locale)}
+        </h1>
+        <p class="text-paper/80 mt-6 max-w-2xl text-[15px] leading-relaxed md:text-lg">
+          {description}
+        </p>
+        <div class="border-paper/20 mt-10 grid max-w-lg grid-cols-3 border-t">
+          {stats.map(([v, l]) => (
+            <div class="pe-4 pt-4">
+              <div class="font-serif text-3xl md:text-4xl">{v}</div>
+              <div class="eyebrow text-paper/60 mt-1">{l}</div>
+            </div>
+          ))}
+        </div>
+        {first && (
+          <a
+            href={withLocalePrefix(`/blogs/${first.slug}`, locale)}
+            class="bg-paper text-forest hover:bg-ivory mt-10 inline-block px-7 py-3 text-xs tracking-[0.2em] uppercase"
+          >
+            {t("blog.series.start", "Start with essay 01")} {arrow}
+          </a>
+        )}
+      </div>
+    </header>
+
+    {numbered.map(({ part, entries }, pi) => (
+      <section class:list={["hairline border-b", pi % 2 ? "bg-ivory" : "bg-paper"]}>
+        <div class="container-editorial grid gap-8 py-12 md:grid-cols-[280px_1fr] md:gap-14 md:py-16">
+          <div>
+            <div class="text-forest/20 font-serif text-6xl leading-none md:text-7xl">
+              {num(pi + 1)}
+            </div>
+            <h2 class="text-ink mt-3 font-serif text-2xl md:text-3xl">
+              {pick(part.title, locale)}
+            </h2>
+            <p class="text-ink/70 mt-3 text-sm leading-relaxed">{pick(part.summary, locale)}</p>
+          </div>
+          <ol class="hairline border-t">
+            {entries.map(({ post, n }) => (
+              <li class="hairline border-b">
+                <a
+                  href={withLocalePrefix(`/blogs/${post.slug}`, locale)}
+                  class="group grid grid-cols-[44px_72px_1fr] items-center gap-4 py-4 md:grid-cols-[56px_110px_1fr_auto]"
+                >
+                  <span class="text-forest font-serif text-2xl">{num(n)}</span>
+                  <span class="bg-ivory aspect-square overflow-hidden md:aspect-[4/3]">
+                    <ResponsiveImage
+                      src={post.cover}
+                      alt={t(`blog.${post.slug}.title`, post.title)}
+                      sizes="(min-width: 768px) 110px, 72px"
+                      widths={[160, 400]}
+                      class="h-full w-full object-cover grayscale transition group-hover:grayscale-0"
+                    />
+                  </span>
+                  <span>
+                    <span class="eyebrow mb-1 block">
+                      {t(`blog.category.${post.category}`, post.category)} ·{" "}
+                      {readTime(post.read, t)}
+                    </span>
+                    <span class="text-ink group-hover:text-forest block font-serif text-lg leading-snug md:text-xl">
+                      {t(`blog.${post.slug}.title`, post.title)}
+                    </span>
+                    <span class="text-ink/65 mt-1 line-clamp-2 hidden text-sm md:block">
+                      {t(`blog.${post.slug}.excerpt`, post.excerpt)}
+                    </span>
+                  </span>
+                  <span class="eyebrow text-forest hidden md:block">
+                    {t("blog.chrome.read", "Read")} {arrow}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    ))}
+  </div>
+</SiteLayout>

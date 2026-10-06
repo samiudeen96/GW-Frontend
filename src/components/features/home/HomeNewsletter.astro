@@ -1,0 +1,35 @@
+---
+/** "The Lab Journal" newsletter band. */
+import Reveal from "@/components/common/Reveal.astro";
+import { createT } from "@/lib/i18n";
+
+import HomeNewsletterForm from "./HomeNewsletterForm";
+
+const t = createT(Astro.locals.locale);
+---
+
+<Reveal as="section" class="bg-forest border-brass/30 border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="text-brass mb-5 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+        {t("home.newsletter.subtitle", "Biological insights & priority access.")}
+      </span>
+      <h2 class="text-paper mb-10 font-serif text-[clamp(2.25rem,4.4vw,3.6rem)] leading-[0.9] font-bold tracking-tight uppercase">
+        {t("home.newsletter.title", "The Lab Journal")}
+      </h2>
+      <HomeNewsletterForm
+        client:visible
+        labels={{
+          email: t("home.newsletter.emailLabel", "Email address"),
+          placeholder: t("home.newsletter.emailPlaceholder", "EMAIL@ADDRESS.COM"),
+          submit: t("home.newsletter.submit", "Submit"),
+          success: t(
+            "footer.subscribed",
+            "Welcome to the circle. Watch your inbox for first access.",
+          ),
+          error: t("common.error", "Something went wrong. Please try again."),
+        }}
+      />
+    </div>
+  </div>
+</Reveal>

@@ -1,0 +1,326 @@
+---
+/** /blogs/:slug — a single journal essay. Unknown slugs render the 404 body with a 404 status. */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import ArticleNotFound from "@/components/features/blog/ArticleNotFound.astro";
+import { formatDate, readTime } from "@/components/features/blog/format";
+import ReadingProgress from "@/components/features/blog/ReadingProgress.astro";
+import SeriesNav from "@/components/features/blog/SeriesNav.astro";
+import { blogProductRefs, PRODUCT_LABEL } from "@/data/blog-product-links";
+import { seriesPosition } from "@/data/blog-series";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getPostBySlug, getPosts } from "@/lib/api/catalog";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { imageUrl } from "@/lib/images";
+import { abs, breadcrumbLd } from "@/lib/seo";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const post = await getPostBySlug(Astro.params.slug ?? "");
+if (!post) Astro.response.status = 404;
+
+const posts = post ? await getPosts() : [];
+const others = posts.filter((p) => p.slug !== post?.slug);
+const related = [
+  ...others.filter((p) => p.category === post?.category),
+  ...others.filter((p) => p.category !== post?.category),
+].slice(0, 3);
+const pos = post ? seriesPosition(post.slug) : null;
+const productRefs = post ? blogProductRefs(post.slug) : [];
+const lang = locale === "ar" ? "ar" : "en";
+
+const journal = t("blog.chrome.journal", "Green Wealth Journal");
+const title = post ? t(`blog.${post.slug}.title`, post.title) : "";
+const excerpt = post ? t(`blog.${post.slug}.excerpt`, post.excerpt) : "";
+const path = post ? `/blogs/${post.slug}` : Astro.locals.pathname;
+const url = abs(path);
+const cover = post ? abs(imageUrl(post.cover)) : undefined;
+
+const jsonLd = post
+  ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        description: excerpt,
+        image: [cover],
+        datePublished: post.date,
+        dateModified: post.date,
+        author: { "@type": "Organization", name: post.author },
+        publisher: {
+          "@type": "Organization",
+          name: "Green Wealth",
+          logo: { "@type": "ImageObject", url: abs("/favicon.ico") },
+        },
+        mainEntityOfPage: url,
+        articleSection: t(`blog.category.${post.category}`, post.category),
+        keywords: post.tags.join(", "),
+        ...(post.answer ? { abstract: t(`blog.${post.slug}.answer`, post.answer) } : {}),
+        inLanguage: lang,
+      },
+      ...(post.faqs?.length
+        ? [
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: post.faqs.map((f, fi) => ({
+                "@type": "Question",
+                name: t(`blog.${post.slug}.faq${fi}.q`, f.q),
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: t(`blog.${post.slug}.faq${fi}.a`, f.a),
+                },
+              })),
+            },
+          ]
+        : []),
+      breadcrumbLd([
+        { name: t("ing.breadcrumb.home", "Home"), path: "/" },
+        { name: t("blog.chrome.journal", "Journal"), path: "/blogs" },
+        { name: title, path },
+      ]),
+    ]
+  : [];
+---
+
+{!post ? (
+  <SiteLayout
+    title={`${t("blog.chrome.notFoundTitle", "Article unavailable")} — ${journal}`}
+    noindex
+  >
+    <ArticleNotFound />
+  </SiteLayout>
+) : (
+  <SiteLayout
+    title={`${title} — ${journal}`}
+    ogTitle={title}
+    description={excerpt}
+    path={path}
+    type="article"
+    image={cover}
+    jsonLd={jsonLd}
+  >
+    <Fragment slot="head">
+      <meta property="article:published_time" content={post.date} />
+      <meta property="article:author" content={post.author} />
+    </Fragment>
+    <article>
+      <ReadingProgress />
+
+      {/* Header */}
+      <header class="hairline bg-paper border-b">
+        <div class="container-editorial pt-10 pb-8 md:pt-16 md:pb-12">
+          <div class="eyebrow mb-6 flex items-center gap-3">
+            <a href={withLocalePrefix("/blogs", locale)} class="hover:text-forest">
+              {t("blog.chrome.journal", "Journal")}
+            </a>
+            <span aria-hidden="true">/</span>
+            <span>{t(`blog.category.${post.category}`, post.category)}</span>
+          </div>
+          <h1 class="display-lg max-w-4xl leading-[0.98]">{title}</h1>
+          <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-relaxed md:text-lg">
+            {excerpt}
+          </p>
+          <div class="text-muted-foreground mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs tracking-[0.14em] uppercase">
+            <span>{t(`blog.author.${post.author}`, post.author)}</span>
+            <span>{formatDate(post.date, locale)}</span>
+            <span>
+              {readTime(post.read, t)} {t("blog.chrome.readSuffix", "read")}
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {/* Cover */}
+      <div class="hairline border-b">
+        <div class="container-editorial py-6 md:py-10">
+          <div class="bg-ivory aspect-[16/9] overflow-hidden md:aspect-[21/9]">
+            <ResponsiveImage
+              src={post.cover}
+              alt={title}
+              sizes="(min-width: 1440px) 1312px, 100vw"
+              class="h-full w-full object-contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div class="container-editorial py-12 md:py-20">
+        <div class="grid gap-10 md:grid-cols-12">
+          <aside class="hidden md:col-span-3 md:block">
+            <div class="sticky top-28 space-y-6">
+              <div>
+                <div class="eyebrow mb-3">{t("blog.chrome.inThisEssay", "In this essay")}</div>
+                <ul class="space-y-2 text-sm">
+                  {post.sections.map((s, si) =>
+                    s.heading ? (
+                      <li class="text-muted-foreground leading-snug">
+                        {t(`blog.${post.slug}.s${si}.heading`, s.heading)}
+                      </li>
+                    ) : null,
+                  )}
+                </ul>
+              </div>
+              <div>
+                <div class="eyebrow mb-3">{t("blog.chrome.tagged", "Tagged")}</div>
+                <div class="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span class="hairline border px-2 py-1 text-[11px] tracking-[0.12em] uppercase">
+                      {t(`blog.tag.${tag}`, tag)}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="max-w-3xl md:col-span-9">
+            {post.answer && (
+              <section
+                aria-labelledby="quick-answer"
+                class="border-forest bg-ivory mb-10 border p-6 md:p-8"
+              >
+                <h2 id="quick-answer" class="eyebrow text-forest mb-3">
+                  {t("blog.chrome.quickAnswer", "The short answer")}
+                </h2>
+                <p class="text-ink text-[16px] leading-[1.75] md:text-[17px]">
+                  {t(`blog.${post.slug}.answer`, post.answer)}
+                </p>
+              </section>
+            )}
+            {post.takeaways?.length ? (
+              <section class="mb-12">
+                <h2 class="eyebrow mb-4">{t("blog.chrome.keyTakeaways", "Key takeaways")}</h2>
+                <ul class="bg-border hairline grid gap-px border sm:grid-cols-2">
+                  {post.takeaways.map((k, ki) => (
+                    <li class="bg-paper p-5 text-sm leading-relaxed">
+                      <span class="text-forest me-2 font-serif">+</span>
+                      {t(`blog.${post.slug}.tk${ki}`, k)}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            <div class="text-ink/85 space-y-8 text-[16px] leading-[1.8] md:text-[17px]">
+              {post.sections.map((section, i) => (
+                <section class="space-y-4">
+                  {section.heading && (
+                    <h2 class="text-ink mt-4 font-serif text-2xl md:text-3xl">
+                      {t(`blog.${post.slug}.s${i}.heading`, section.heading)}
+                    </h2>
+                  )}
+                  {section.body.map((paragraph, j) => (
+                    <p>{t(`blog.${post.slug}.s${i}.p${j}`, paragraph)}</p>
+                  ))}
+                </section>
+              ))}
+            </div>
+
+            {post.faqs?.length ? (
+              <section class="mt-16">
+                <h2 class="mb-6 font-serif text-2xl md:text-3xl">
+                  {t("blog.chrome.faqTitle", "Frequently asked questions")}
+                </h2>
+                <div class="hairline border-t">
+                  {post.faqs.map((f, fi) => (
+                    <details class="group hairline border-b py-5">
+                      <summary class="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-lg leading-snug">
+                        <span>{t(`blog.${post.slug}.faq${fi}.q`, f.q)}</span>
+                        <span
+                          aria-hidden="true"
+                          class="text-forest transition-transform group-open:rotate-45"
+                        >
+                          +
+                        </span>
+                      </summary>
+                      <p class="text-ink/80 mt-3 text-[15px] leading-[1.75]">
+                        {t(`blog.${post.slug}.faq${fi}.a`, f.a)}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            <section aria-labelledby="in-our-products" class="border-forest mt-14 border">
+              <div class="bg-forest px-6 py-4">
+                <h2 id="in-our-products" class="eyebrow text-ivory">
+                  {t("blog.chrome.inOurProducts", "Where this appears in Green Wealth products")}
+                </h2>
+              </div>
+              <ul class="hairline divide-y">
+                {productRefs.map((ref) => (
+                  <li class="grid gap-4 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-7">
+                    <div>
+                      <div class="mb-2 font-serif text-xl">{PRODUCT_LABEL[ref.slug][lang]}</div>
+                      <p class="text-ink/80 text-[15px] leading-[1.7]">{ref[lang]}</p>
+                    </div>
+                    <a
+                      href={withLocalePrefix(`/product/${ref.slug}`, locale)}
+                      class="border-forest text-forest justify-self-start border-b pb-1 text-sm tracking-[0.18em] whitespace-nowrap uppercase"
+                    >
+                      {t("blog.chrome.viewProduct", "View product")} {locale === "ar" ? "←" : "→"}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <p class="text-muted-foreground mt-10 text-xs leading-relaxed">
+              {t(
+                "blog.chrome.disclaimer",
+                "This article is for education only and is not medical advice. Consult a qualified clinician for diagnosis or treatment of hair loss.",
+              )}
+            </p>
+
+            <div class="hairline mt-14 flex flex-wrap items-center justify-between gap-4 border-t pt-8">
+              <div class="eyebrow">{t("blog.chrome.endOfEssay", "End of essay")}</div>
+              <a
+                href={withLocalePrefix("/shop", locale)}
+                class="border-forest text-forest border-b pb-1 text-sm tracking-[0.18em] uppercase"
+              >
+                {t("blog.chrome.shopTheSystem", "Shop the Green Wealth system")}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {pos && <SeriesNav pos={pos} />}
+
+      {/* Related */}
+      <section class="hairline bg-ivory border-t">
+        <div class="container-editorial py-12 md:py-16">
+          <div class="mb-8 flex items-baseline justify-between">
+            <h2 class="font-serif text-2xl md:text-3xl">
+              {t("blog.chrome.continueReading", "Continue reading")}
+            </h2>
+            <a href={withLocalePrefix("/blogs", locale)} class="eyebrow hover:text-forest">
+              {t("blog.chrome.allEssays", "All essays")}
+            </a>
+          </div>
+          <div class="grid gap-8 md:grid-cols-3">
+            {related.map((r) => (
+              <a href={withLocalePrefix(`/blogs/${r.slug}`, locale)} class="group block">
+                <div class="bg-paper mb-4 aspect-[4/3] overflow-hidden">
+                  <ResponsiveImage
+                    src={r.cover}
+                    alt={t(`blog.${r.slug}.title`, r.title)}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    class="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div class="eyebrow mb-2">
+                  {t(`blog.category.${r.category}`, r.category)} · {readTime(r.read, t)}
+                </div>
+                <h3 class="group-hover:text-forest font-serif text-lg leading-snug">
+                  {t(`blog.${r.slug}.title`, r.title)}
+                </h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </article>
+  </SiteLayout>
+)}

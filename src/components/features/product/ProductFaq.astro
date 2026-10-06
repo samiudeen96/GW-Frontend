@@ -1,0 +1,82 @@
+---
+/**
+ * PDP FAQ: sticky intro + native <details> accordions (first open). A closed
+ * item shows a two-line preview of its answer.
+ */
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+import Eyebrow from "./Eyebrow.astro";
+import { pad2 } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const faqs = (p.faqs ?? []).map((f, i) => ({
+  q: t(`product.${p.slug}.faq.${i}.q`, f.q),
+  a: t(`product.${p.slug}.faq.${i}.a`, f.a),
+}));
+---
+
+{faqs.length > 0 && (
+  <section class="hairline bg-paper border-t">
+    <div class="container-editorial grid grid-cols-1 gap-10 py-7 md:grid-cols-12 md:gap-14 md:py-14">
+      <div class="self-start md:sticky md:top-24 md:col-span-4">
+        <Eyebrow>{t("product.route.frequentlyAsked", "Frequently asked")}</Eyebrow>
+        <h2 class="text-forest mt-4 font-serif text-3xl leading-[1.02] tracking-[-0.015em] md:text-[2.8rem]">
+          {t("product.route.answersNotMarketing", "Answers, not marketing.")}
+        </h2>
+        <p class="text-forest/75 mt-5 font-serif text-[13.5px] leading-[1.7]">
+          {t(
+            "product.route.faqIntro",
+            "Everything most customers ask before their first bottle — answered without hedging.",
+          )}
+        </p>
+        <div class="border-forest/20 mt-8 border p-5">
+          <div class="text-gold mb-2 font-mono text-[10px] tracking-[0.24em] uppercase">
+            {t("product.route.stillUncertain", "Still uncertain?")}
+          </div>
+          <p class="text-forest/85 font-serif text-[13px] leading-[1.6]">
+            {t(
+              "product.route.specialistsReply",
+              "Our specialists reply within 24 hours — with a real answer, not a script.",
+            )}
+          </p>
+          <a
+            href={withLocalePrefix("/contact", locale)}
+            class="text-forest border-forest/40 hover:border-forest mt-4 inline-flex items-center gap-2 border-b pb-0.5 font-mono text-[11px] tracking-[0.22em] uppercase"
+          >
+            {t("product.route.contactASpecialist", "Contact a specialist")}
+          </a>
+        </div>
+      </div>
+      <div class="md:col-span-8">
+        {faqs.map((f, i) => (
+          <details class="group hairline border-b" open={i === 0}>
+            <summary class="flex w-full cursor-pointer list-none items-start justify-between gap-4 py-5 text-start [&::-webkit-details-marker]:hidden">
+              <span class="min-w-0 flex-1">
+                <span class="text-forest block font-mono text-[11px] tracking-[0.24em] uppercase">
+                  {pad2(i + 1)} · {f.q}
+                </span>
+                <span class="text-forest/60 mt-2 line-clamp-2 font-serif text-[12.5px] leading-[1.6] group-open:hidden">
+                  {f.a}
+                </span>
+              </span>
+              <span class="text-forest mt-0.5 shrink-0 font-mono text-[11px]" aria-hidden="true">
+                <span class="group-open:hidden">+</span>
+                <span class="hidden group-open:inline">−</span>
+              </span>
+            </summary>
+            <div class="text-ink/80 pb-6 text-[13.5px] leading-[1.75]">
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

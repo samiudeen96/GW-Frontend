@@ -1,0 +1,31 @@
+---
+/**
+ * Shared below-the-fold editorial for every PDP: story, look book, everything
+ * about (formula + INCI), ritual, what to expect, A+ dossier, made-for.
+ */
+import type { Product } from "@/data/products";
+
+import AplusBanners from "./AplusBanners.astro";
+import { editorialCopy } from "./editorial-copy";
+import EditorialEverything from "./EditorialEverything.astro";
+import EditorialLookbook from "./EditorialLookbook.astro";
+import EditorialMadeFor from "./EditorialMadeFor.astro";
+import EditorialRitual from "./EditorialRitual.astro";
+import EditorialStory from "./EditorialStory.astro";
+import ProductTimeline from "./ProductTimeline.astro";
+
+export interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const copy = editorialCopy(product.slug);
+---
+
+<EditorialStory product={product} copy={copy} />
+<EditorialLookbook product={product} copy={copy} />
+<EditorialEverything product={product} />
+<EditorialRitual product={product} copy={copy} />
+<ProductTimeline product={product} />
+<AplusBanners product={product} />
+<EditorialMadeFor product={product} copy={copy} />

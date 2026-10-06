@@ -1,0 +1,47 @@
+---
+/**
+ * Numbered legal/policy sections. Translate sections with `translateLegalSections`
+ * from `@/lib/legal` before passing them in.
+ */
+import type { LegalSection } from "@/lib/legal";
+
+export interface Props {
+  intro?: string;
+  sections: LegalSection[];
+  numbered?: boolean;
+}
+
+const { intro, sections, numbered = false } = Astro.props;
+
+const slugify = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+---
+
+<div class="container-editorial max-w-3xl py-12 md:py-20">
+  {intro && <p class="text-muted-foreground mb-10 text-sm leading-relaxed">{intro}</p>}
+  <div class="space-y-3">
+    {sections.map((s, index) => (
+      <article
+        id={slugify(s.title) || `section-${index + 1}`}
+        class="hairline bg-paper scroll-mt-24 border p-5 md:p-6"
+      >
+        <h2 class="mb-3 flex items-baseline gap-3 text-sm font-bold tracking-tight">
+          {numbered && (
+            <span class="text-muted-foreground font-serif font-normal">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          )}
+          <span>{s.title}</span>
+        </h2>
+        {/* Developer-authored constant HTML, not user input. */}
+        <div
+          class="text-ink/75 [&_a:hover]:text-forest [&_strong]:text-ink space-y-2 text-sm leading-relaxed [&_a]:underline [&_a]:underline-offset-2 [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:ps-5"
+          set:html={s.html}
+        />
+      </article>
+    ))}
+  </div>
+</div>

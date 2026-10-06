@@ -1,18 +1,22 @@
 export const arProductRouteB: Record<string, string> = {
   "product.route.howItWorks.step2Actives": "بالميتو المنشاري",
-  "product.route.howItWorks.step2Body": "يرتبط بالميتو المنشاري بنشاط صحي لهرمون DHT عند بصيلة الشعر.",
+  "product.route.howItWorks.step2Body":
+    "يرتبط بالميتو المنشاري بنشاط صحي لهرمون DHT عند بصيلة الشعر.",
   "product.route.howItWorks.step2Title": "تهدئة الهرمون",
   "product.route.howItWorks.step3Actives": "الإكلينيا البيضاء، ذيل الحصان",
-  "product.route.howItWorks.step3Body": "تهدئ الإكلينيا البيضاء فروة الرأس؛ ويسهم سيليكا ذيل الحصان في بنية الكيراتين.",
+  "product.route.howItWorks.step3Body":
+    "تهدئ الإكلينيا البيضاء فروة الرأس؛ ويسهم سيليكا ذيل الحصان في بنية الكيراتين.",
   "product.route.howItWorks.step3Title": "تهدئة فروة الرأس",
   "product.route.howItWorks.step4Actives": "ذيل الحصان، إنزيم السوبر أكسيد ديسميوتاز من الشمام",
-  "product.route.howItWorks.step4Body": "يساعد السيليكا ومركّب مضادات الأكسدة على أن يبدو النمو الجديد أكثر كثافة وأقل عرضة للتقصف.",
+  "product.route.howItWorks.step4Body":
+    "يساعد السيليكا ومركّب مضادات الأكسدة على أن يبدو النمو الجديد أكثر كثافة وأقل عرضة للتقصف.",
   "product.route.howItWorks.step4Title": "بناء خصلات أقوى",
   "product.route.howItWorksAtFollicle": "كيف تعمل عند بصيلة الشعر",
   "product.route.inStockShips": "متوفر — يُشحن إلى جميع أنحاء العالم",
   "product.route.inTheBox": "محتويات العلبة",
   "product.route.inYourDailyUse": "في استخدامك اليومي",
-  "product.route.inciDeclarationBody": "كل مكوّن مدرج على الملصق، كما هو مطبوع على العلبة. مكونات العطر المشار إليها بعلامة ⚑ هي مسببات حساسية معلنة وفق الاتحاد الأوروبي موجودة طبيعيًا في الزيوت العطرية.",
+  "product.route.inciDeclarationBody":
+    "كل مكوّن مدرج على الملصق، كما هو مطبوع على العلبة. مكونات العطر المشار إليها بعلامة ⚑ هي مسببات حساسية معلنة وفق الاتحاد الأوروبي موجودة طبيعيًا في الزيوت العطرية.",
   "product.route.incl": "شامل",
   "product.route.inclTaxes": "شامل الضرائب",
   "product.route.increase": "زيادة",
@@ -46,7 +50,8 @@ export const arProductRouteB: Record<string, string> = {
   "product.route.readReviews": "اقرأ التقييمات",
   "product.route.reviews": "تقييمات",
   "product.route.rxOtc": "وصفة طبية / بدون وصفة",
-  "product.route.sameRootMechanism": "تُعالَج كل مشكلة أدناه من خلال الآلية الجذرية نفسها: بيئة فروة رأس هادئة ومغذّاة، ودورة نمو صحية للبصيلة.",
+  "product.route.sameRootMechanism":
+    "تُعالَج كل مشكلة أدناه من خلال الآلية الجذرية نفسها: بيئة فروة رأس هادئة ومغذّاة، ودورة نمو صحية للبصيلة.",
   "product.route.save": "وفّر",
   "product.route.saved": "تم الحفظ",
   "product.route.scratchCodeVerified": "تم التحقق برمز الخدش",

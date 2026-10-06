@@ -7,79 +7,101 @@ export const arProductFillLotion: Record<string, string> = {
   "product.ghori-rosemary-oil.size": "60 مل",
   "product.ghori-dermaroller.size": "إبر تيتانيوم",
   "product.neo-hair-lotion.tagline": "120 مل · صنع في تايلاند",
-  "product.neo-hair-lotion.overview": "علاج نباتي مركز لفروة الرأس، مصنّع في تايلاند. يذكر الملصق الرسمي للمنتج خمسة مستخلصات عشبية ضمن قاعدة خفيفة سريعة الامتصاص، مصممة لإيصال المواد الفعالة مباشرة إلى فروة الرأس.",
+  "product.neo-hair-lotion.overview":
+    "علاج نباتي مركز لفروة الرأس، مصنّع في تايلاند. يذكر الملصق الرسمي للمنتج خمسة مستخلصات عشبية ضمن قاعدة خفيفة سريعة الامتصاص، مصممة لإيصال المواد الفعالة مباشرة إلى فروة الرأس.",
   "product.neo-hair-lotion.ingredients.0": "مستخلص Cucumis melo — 1%",
   "product.neo-hair-lotion.ingredients.1": "مستخلص نخيل المنشار (Saw palmetto) — 2%",
-  "product.neo-hair-lotion.ingredients.2": "مستخلص الجينسنغ الأبيض (Ginseng radix alba - Panax ginseng) — 2%",
+  "product.neo-hair-lotion.ingredients.2":
+    "مستخلص الجينسنغ الأبيض (Ginseng radix alba - Panax ginseng) — 2%",
   "product.neo-hair-lotion.ingredients.3": "مستخلص ذيل الحصان (Equisetum arvense) — 3%",
   "product.neo-hair-lotion.ingredients.4": "مستخلص Eclipta prostrata L. — 3%",
-  "product.neo-hair-lotion.indications.0": "الرجال والنساء الذين يلاحظون زيادة في تساقط الشعر أو ترقّقًا ملحوظًا فيه",
+  "product.neo-hair-lotion.indications.0":
+    "الرجال والنساء الذين يلاحظون زيادة في تساقط الشعر أو ترقّقًا ملحوظًا فيه",
   "product.neo-hair-lotion.indications.1": "ترقق الشعر في منطقة التاج أو الصدغين أو خط المقدمة",
-  "product.neo-hair-lotion.indications.2": "روتين للعناية مع تساقط الشعر بعد الولادة أو الناتج عن التوتر",
+  "product.neo-hair-lotion.indications.2":
+    "روتين للعناية مع تساقط الشعر بعد الولادة أو الناتج عن التوتر",
   "product.neo-hair-lotion.indications.3": "مناطق اللحية المتراجعة أو غير المتساوية",
   "product.neo-hair-lotion.indications.4": "كل من يبحث عن بديل نباتي لمادة المينوكسيديل",
-  "product.neo-hair-lotion.indications.5": "المتعافون من تساقط الشعر لأسباب طبية (تحت إشراف الطبيب)",
+  "product.neo-hair-lotion.indications.5":
+    "المتعافون من تساقط الشعر لأسباب طبية (تحت إشراف الطبيب)",
   "product.neo-hair-lotion.faq.0.q": "هل يناسب لوشن نيو للشعر جميع أنواع البشرة؟",
-  "product.neo-hair-lotion.faq.0.a": "تم اختباره جلديًا وصياغته ليكون لطيفًا على جميع أنواع البشرة، بما في ذلك البشرة الحساسة. نوصي بإجراء اختبار حساسية قبل الاستخدام الأول.",
+  "product.neo-hair-lotion.faq.0.a":
+    "تم اختباره جلديًا وصياغته ليكون لطيفًا على جميع أنواع البشرة، بما في ذلك البشرة الحساسة. نوصي بإجراء اختبار حساسية قبل الاستخدام الأول.",
   "product.neo-hair-lotion.faq.1.q": "كم من الوقت يستغرق ظهور النتائج؟",
-  "product.neo-hair-lotion.faq.1.a": "يلاحظ معظم العملاء تحسنًا ملموسًا خلال 2 إلى 4 أسابيع من الاستخدام اليومي المنتظم، مع نتائج أكثر وضوحًا بين الشهر الثالث والسادس.",
+  "product.neo-hair-lotion.faq.1.a":
+    "يلاحظ معظم العملاء تحسنًا ملموسًا خلال 2 إلى 4 أسابيع من الاستخدام اليومي المنتظم، مع نتائج أكثر وضوحًا بين الشهر الثالث والسادس.",
   "product.neo-hair-lotion.faq.2.q": "هل يمكنني استخدامه مع منتجات العناية بالشعر الأخرى؟",
-  "product.neo-hair-lotion.faq.2.a": "نعم. طبّقي لوشن نيو للشعر على فروة رأس نظيفة وجافة أو مجففة بالمنشفة قبل استخدام منتجات التصفيف الأثقل.",
+  "product.neo-hair-lotion.faq.2.a":
+    "نعم. طبّقي لوشن نيو للشعر على فروة رأس نظيفة وجافة أو مجففة بالمنشفة قبل استخدام منتجات التصفيف الأثقل.",
   "product.neo-hair-lotion.faq.3.q": "هل هذا المنتج خالٍ من التجارب على الحيوانات؟",
   "product.neo-hair-lotion.faq.3.a": "نعم — منتجات جرين ولث غير مختبرة على الحيوانات.",
   "product.neo-hair-lotion.faq.4.q": "ما الذي يميز لوشن نيو للشعر؟",
-  "product.neo-hair-lotion.faq.4.a": "يذكر ملصقه الرسمي خمسة مستخلصات نباتية بتركيزات محددة، دون احتوائه على المينوكسيديل أو الفيناسترايد.",
+  "product.neo-hair-lotion.faq.4.a":
+    "يذكر ملصقه الرسمي خمسة مستخلصات نباتية بتركيزات محددة، دون احتوائه على المينوكسيديل أو الفيناسترايد.",
   "product.neo-hair-lotion.faq.5.q": "ما هي سياسة الإرجاع لديكم؟",
   "product.neo-hair-lotion.faq.5.a": "تُطبَّق سياسة إرجاع سهلة خلال 7 أيام للمنتجات غير المفتوحة.",
   "product.neo-hair-lotion.active.name.0": "الشمام (Cucumis Melo)",
   "product.neo-hair-lotion.active.0.name.0": "الشمام (Cucumis Melo)",
-  "product.neo-hair-lotion.active.0.description.0": "غني بفيتامين A ومصدر طبيعي لإنزيم مضاد للأكسدة يُعرف بـ SOD، يساعد على حماية خلايا بصيلات الشعر من الإجهاد التأكسدي.",
+  "product.neo-hair-lotion.active.0.description.0":
+    "غني بفيتامين A ومصدر طبيعي لإنزيم مضاد للأكسدة يُعرف بـ SOD، يساعد على حماية خلايا بصيلات الشعر من الإجهاد التأكسدي.",
   "product.neo-hair-lotion.active.role.0": "مضاد للأكسدة · دعم إنزيم SOD",
   "product.neo-hair-lotion.active.0.role.0": "مضاد للأكسدة · دعم إنزيم SOD",
   "product.neo-hair-lotion.active.0.tagline.0": "الشمام المضاد للأكسدة",
-  "product.neo-hair-lotion.active.0.summary.0": "مصدر طبيعي لإنزيم SOD وفيتامين A وفيتامين C. التركيز: 1% مستخلص.",
+  "product.neo-hair-lotion.active.0.summary.0":
+    "مصدر طبيعي لإنزيم SOD وفيتامين A وفيتامين C. التركيز: 1% مستخلص.",
   "product.neo-hair-lotion.active.0.whatItDoes.3": "يوفر حماية مضادة للأكسدة ضد الإجهاد البيئي",
   "product.neo-hair-lotion.active.name.1": "نخيل المنشار (Saw Palmetto)",
   "product.neo-hair-lotion.active.1.name.1": "نخيل المنشار (Saw Palmetto)",
-  "product.neo-hair-lotion.active.1.description.1": "مستخلص من ثمار نخيل يحتوي على أحماض دهنية وبيتا-سيتوستيرول، يُستخدم تقليديًا للمساعدة في الحفاظ على توازن صحي لهرمون DHT على مستوى فروة الرأس.",
+  "product.neo-hair-lotion.active.1.description.1":
+    "مستخلص من ثمار نخيل يحتوي على أحماض دهنية وبيتا-سيتوستيرول، يُستخدم تقليديًا للمساعدة في الحفاظ على توازن صحي لهرمون DHT على مستوى فروة الرأس.",
   "product.neo-hair-lotion.active.role.1": "دعم نباتي لتوازن DHT",
   "product.neo-hair-lotion.active.1.role.1": "دعم نباتي لتوازن DHT",
   "product.neo-hair-lotion.active.1.tagline.1": "الدرع الهرموني",
-  "product.neo-hair-lotion.active.1.summary.1": "مستخلص ثمار يُستخدم تقليديًا للمساعدة في الحفاظ على نشاط صحي لهرمون DHT في فروة الرأس. التركيز: 2% مستخلص.",
-  "product.neo-hair-lotion.active.1.whatItDoes.3": "يُستخدم في روتين العناية بالشعر لكل من الرجال والنساء",
+  "product.neo-hair-lotion.active.1.summary.1":
+    "مستخلص ثمار يُستخدم تقليديًا للمساعدة في الحفاظ على نشاط صحي لهرمون DHT في فروة الرأس. التركيز: 2% مستخلص.",
+  "product.neo-hair-lotion.active.1.whatItDoes.3":
+    "يُستخدم في روتين العناية بالشعر لكل من الرجال والنساء",
   "product.neo-hair-lotion.active.name.2": "الجينسنغ الأبيض (Radix Alba)",
   "product.neo-hair-lotion.active.2.name.2": "الجينسنغ الأبيض (Radix Alba)",
-  "product.neo-hair-lotion.active.2.description.2": "جذر مجفف بالشمس من نبات Panax ginseng، معروف في الطب التقليدي باحتوائه على مركبات الجينسنوسيد، ويُستخدم لدعم الدورة الدموية الدقيقة في فروة الرأس.",
+  "product.neo-hair-lotion.active.2.description.2":
+    "جذر مجفف بالشمس من نبات Panax ginseng، معروف في الطب التقليدي باحتوائه على مركبات الجينسنوسيد، ويُستخدم لدعم الدورة الدموية الدقيقة في فروة الرأس.",
   "product.neo-hair-lotion.active.role.2": "تحسين الدورة الدموية الدقيقة",
   "product.neo-hair-lotion.active.2.role.2": "تحسين الدورة الدموية الدقيقة",
   "product.neo-hair-lotion.active.2.tagline.2": "جذر الدورة الدموية",
-  "product.neo-hair-lotion.active.2.summary.2": "جذر مجفف بالشمس من نبات Panax ginseng، يُستخدم تقليديًا لدعم تدفق الدم في فروة الرأس وحيوية البصيلات. التركيز: 2% مستخلص.",
+  "product.neo-hair-lotion.active.2.summary.2":
+    "جذر مجفف بالشمس من نبات Panax ginseng، يُستخدم تقليديًا لدعم تدفق الدم في فروة الرأس وحيوية البصيلات. التركيز: 2% مستخلص.",
   "product.neo-hair-lotion.active.2.whatItDoes.3": "يساهم في تعزيز حيوية بصيلات الشعر بشكل عام",
   "product.neo-hair-lotion.active.name.3": "مستخلص ذيل الحصان",
   "product.neo-hair-lotion.active.3.name.3": "مستخلص ذيل الحصان",
-  "product.neo-hair-lotion.active.3.description.3": "من أكثر المصادر الطبيعية تركيزًا للسيليكا الحيوية، وهي معدن مرتبط بقوة الكيراتين ومرونته.",
+  "product.neo-hair-lotion.active.3.description.3":
+    "من أكثر المصادر الطبيعية تركيزًا للسيليكا الحيوية، وهي معدن مرتبط بقوة الكيراتين ومرونته.",
   "product.neo-hair-lotion.active.role.3": "السيليكا · دعم البنية",
   "product.neo-hair-lotion.active.3.role.3": "السيليكا · دعم البنية",
   "product.neo-hair-lotion.active.3.tagline.3": "دعامة السيليكا",
-  "product.neo-hair-lotion.active.3.summary.3": "مصدر طبيعي للسيليكا، وهي معدن مرتبط ببنية الكيراتين وقوة الخصلة. التركيز: 3% مستخلص.",
+  "product.neo-hair-lotion.active.3.summary.3":
+    "مصدر طبيعي للسيليكا، وهي معدن مرتبط ببنية الكيراتين وقوة الخصلة. التركيز: 3% مستخلص.",
   "product.neo-hair-lotion.active.3.whatItDoes.3": "يدعم النسيج الضام في فروة الرأس",
   "product.neo-hair-lotion.active.name.4": "إكليبتا (بهرنغراج)",
   "product.neo-hair-lotion.active.4.name.4": "إكليبتا (بهرنغراج)",
-  "product.neo-hair-lotion.active.4.description.4": "عشبة أيورفيدية مبجّلة تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية للشعر، غنية بمركب الويدلولاكتون ومركبات مضادة للأكسدة.",
+  "product.neo-hair-lotion.active.4.description.4":
+    "عشبة أيورفيدية مبجّلة تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية للشعر، غنية بمركب الويدلولاكتون ومركبات مضادة للأكسدة.",
   "product.neo-hair-lotion.active.4.role": "تهدئة فروة الرأس · أيورفيدا",
   "product.neo-hair-lotion.active.role.4": "تهدئة فروة الرأس · أيورفيدا",
   "product.neo-hair-lotion.active.4.role.4": "تهدئة فروة الرأس · أيورفيدا",
   "product.neo-hair-lotion.active.4.tagline": "ملك الأعشاب الأيورفيدي",
   "product.neo-hair-lotion.active.4.tagline.4": "ملك الأعشاب الأيورفيدي",
-  "product.neo-hair-lotion.active.4.summary": "عشبة أيورفيدية تقليدية للشعر تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية. التركيز: 3% مستخلص.",
-  "product.neo-hair-lotion.active.4.summary.4": "عشبة أيورفيدية تقليدية للشعر تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية. التركيز: 3% مستخلص.",
+  "product.neo-hair-lotion.active.4.summary":
+    "عشبة أيورفيدية تقليدية للشعر تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية. التركيز: 3% مستخلص.",
+  "product.neo-hair-lotion.active.4.summary.4":
+    "عشبة أيورفيدية تقليدية للشعر تُستخدم لراحة فروة الرأس ودعم دورات نمو صحية. التركيز: 3% مستخلص.",
   "product.neo-hair-lotion.active.4.whatItDoes.0": "تُستخدم تقليديًا لتهدئة فروة الرأس",
   "product.neo-hair-lotion.active.4.whatItDoes.1": "تدعم دورات نمو صحية للشعر",
   "product.neo-hair-lotion.active.4.whatItDoes.2": "تساعد على الحفاظ على اللون الطبيعي للشعر",
   "product.neo-hair-lotion.active.4.whatItDoes.3": "تُستخدم في العناية الأيورفيدية بالشعر منذ قرون",
   "product.ghori-dermaroller.name": "جهاز ديرما رولر من غوري®",
   "product.ghori-dermaroller.tagline": "أداة تدقيق بالإبر الدقيقة لفروة الرأس من التيتانيوم",
-  "product.ghori-dermaroller.overview": "جهاز ديرما رولر من التيتانيوم مخصص لفروة الرأس، صُمم ليُستخدم إلى جانب لوشن نيو للشعر للمساعدة في تحضير سطح فروة الرأس كجزء من روتين عناية منتظم.",
+  "product.ghori-dermaroller.overview":
+    "جهاز ديرما رولر من التيتانيوم مخصص لفروة الرأس، صُمم ليُستخدم إلى جانب لوشن نيو للشعر للمساعدة في تحضير سطح فروة الرأس كجزء من روتين عناية منتظم.",
   "product.neo-hair-lotion.category": "مصل الشعر",
   "product.neo-hair-lotion.origin": "تايلاند",
   "product.neo-hair-lotion.size": "120 مل",
@@ -88,5 +110,6 @@ export const arProductFillLotion: Record<string, string> = {
   "product.neo-hair-lotion.active.2.pathwayTags.0": "الدورة الدموية",
   "product.neo-hair-lotion.active.3.pathwayTags.0": "البنية",
   "product.neo-hair-lotion.active.4.pathwayTags.0": "راحة فروة الرأس",
-  "product.neo-hair-lotion.mechanism": "علاج نباتي مركز لفروة الرأس، مصنّع في تايلاند، يعتمد على خمسة مستخلصات عشبية ضمن قاعدة خفيفة سريعة الامتصاص مصممة لإيصال المواد الفعالة مباشرة إلى فروة الرأس.",
+  "product.neo-hair-lotion.mechanism":
+    "علاج نباتي مركز لفروة الرأس، مصنّع في تايلاند، يعتمد على خمسة مستخلصات عشبية ضمن قاعدة خفيفة سريعة الامتصاص مصممة لإيصال المواد الفعالة مباشرة إلى فروة الرأس.",
 };

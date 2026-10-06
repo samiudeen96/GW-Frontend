@@ -1,0 +1,153 @@
+---
+/** "The Restoration System": formula ledger (md+) and stacked formula rows (mobile). */
+import Reveal from "@/components/common/Reveal.astro";
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { productImageAlt, productImageTitle, type Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+
+export interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+
+const items = products.map((p, i) => ({
+  p,
+  href: withLocalePrefix(`/product/${p.slug}`, locale),
+  num: String(i + 1).padStart(2, "0"),
+  name: t(`product.${p.slug}.name`, p.name),
+  size: t(`product.${p.slug}.size`, p.size),
+  tagline: t(`product.${p.slug}.tagline`, p.tagline),
+  alt: productImageAlt(p, 0, t),
+  title: productImageTitle(p, t),
+  price: formatMoney(getBasePrice(p.slug, currency), currency),
+}));
+const formulaLabel = t("home.grid.formulaLabel", "Formula");
+const viewLabel = t("home.grid.view", "View");
+---
+
+<section class="bg-paper border-forest/15 border-t">
+  <div class="container-editorial py-16 sm:py-24 lg:py-28">
+    <Reveal class="mb-10 flex flex-col items-start justify-between gap-6 sm:mb-14 md:flex-row md:items-end">
+      <div>
+        <span class="text-moss mb-5 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+          {t("home.grid.eyebrow", "HAIR CARE")}
+        </span>
+        <h2 class="font-serif text-[clamp(2.25rem,4.4vw,3.8rem)] leading-[0.9] font-bold tracking-tight uppercase">
+          {t("home.grid.titleLine1", "The Restoration")}
+          <br />
+          {t("home.grid.titleLine2", "System")}
+        </h2>
+      </div>
+      <div class="md:text-end">
+        <div class="mb-4 hidden gap-8 md:flex md:justify-end">
+          <div>
+            <div class="font-serif text-2xl leading-none font-bold sm:text-3xl">
+              {String(products.length).padStart(2, "0")}
+            </div>
+            <div class="text-forest/50 mt-1 font-mono text-[9px] tracking-[0.2em] uppercase">
+              {t("home.grid.statFormulas", "Formulas")}
+            </div>
+          </div>
+          <div>
+            <div class="font-serif text-2xl leading-none font-bold sm:text-3xl">19</div>
+            <div class="text-forest/50 mt-1 font-mono text-[9px] tracking-[0.2em] uppercase">
+              {t("home.grid.statBotanicals", "Botanicals")}
+            </div>
+          </div>
+        </div>
+        <p class="text-forest/55 max-w-xs text-xs leading-relaxed tracking-[0.1em] uppercase sm:text-sm">
+          {t(
+            "home.grid.subtitle",
+            "Four precision botanicals for density, strength, and longevity from the root.",
+          )}
+        </p>
+      </div>
+    </Reveal>
+
+    {/* Desktop — four-column formula ledger */}
+    <Reveal
+      delay={100}
+      class="border-forest/15 hidden grid-cols-2 border-s border-t md:grid lg:grid-cols-4"
+    >
+      {items.map((it) => (
+        <a
+          href={it.href}
+          class="border-forest/15 bg-paper hover:bg-ivory group flex flex-col border-e border-b p-6 transition-colors lg:p-8"
+        >
+          <div class="mb-5 flex items-center justify-between">
+            <span class="text-moss font-mono text-[9px] tracking-[0.26em] uppercase">
+              {formulaLabel} {it.num}
+            </span>
+            <span class="text-forest/45 font-mono text-[9px] tracking-[0.2em] uppercase">
+              {it.size}
+            </span>
+          </div>
+          <div class="bg-ivory border-forest/10 mb-6 overflow-hidden border">
+            <ResponsiveImage
+              src={it.p.image}
+              alt={it.alt}
+              title={it.title}
+              sizes="(min-width: 1024px) 320px, 50vw"
+              class="aspect-square w-full object-contain transition-transform duration-700 group-hover:scale-[1.04]"
+            />
+          </div>
+          <h3 class="mb-2 font-serif text-lg leading-tight font-bold tracking-tight uppercase lg:text-xl">
+            {it.name}
+          </h3>
+          <p class="text-forest/55 mb-6 flex-1 text-xs leading-relaxed">{it.tagline}</p>
+          <div class="border-forest/15 flex items-center justify-between border-t pt-4">
+            <span class="text-base font-bold tracking-tight" data-ltr>
+              {it.price}
+            </span>
+            <span class="text-moss group-hover:text-forest font-mono text-[9px] tracking-[0.26em] uppercase transition-colors">
+              {viewLabel} →
+            </span>
+          </div>
+        </a>
+      ))}
+    </Reveal>
+
+    {/* Mobile — stacked formula rows */}
+    <Reveal delay={100} class="border-forest/15 border-t md:hidden">
+      {items.map((it) => (
+        <a href={it.href} class="border-forest/15 group flex gap-4 border-b py-5">
+          <div class="bg-ivory border-forest/10 w-28 shrink-0 self-start overflow-hidden border">
+            <ResponsiveImage
+              src={it.p.image}
+              alt={it.alt}
+              title={it.title}
+              sizes="112px"
+              class="aspect-square w-full object-contain"
+            />
+          </div>
+          <div class="flex min-w-0 flex-1 flex-col">
+            <div class="mb-1.5 flex items-center justify-between">
+              <span class="text-moss font-mono text-[8px] tracking-[0.24em] uppercase">
+                {formulaLabel} {it.num}
+              </span>
+              <span class="text-forest/45 font-mono text-[8px] tracking-[0.18em] uppercase">
+                {it.size}
+              </span>
+            </div>
+            <h3 class="mb-1.5 font-serif text-base leading-tight font-bold tracking-tight uppercase">
+              {it.name}
+            </h3>
+            <p class="text-forest/55 mb-3 line-clamp-2 text-[11px] leading-relaxed">{it.tagline}</p>
+            <div class="border-forest/10 mt-auto flex items-center justify-between border-t pt-2.5">
+              <span class="text-sm font-bold tracking-tight" data-ltr>
+                {it.price}
+              </span>
+              <span class="text-moss font-mono text-[8px] tracking-[0.24em] uppercase">
+                {viewLabel} →
+              </span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </Reveal>
+  </div>
+</section>

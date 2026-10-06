@@ -1,0 +1,15 @@
+---
+/** Body for an unknown /blogs/:slug (rendered with a 404 status). */
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+---
+
+<div class="container-editorial py-24 text-center">
+  <div class="eyebrow mb-4">404 · {t("blog.chrome.journal", "Journal")}</div>
+  <h1 class="mb-4 font-serif text-3xl">{t("blog.chrome.notFoundTitle", "Article unavailable")}</h1>
+  <a href={withLocalePrefix("/blogs", locale)} class="underline underline-offset-4">
+    {t("blog.chrome.returnToJournal", "Return to the journal")}
+  </a>
+</div>

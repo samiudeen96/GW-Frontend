@@ -5,7 +5,8 @@
 export const arProductFillRmA: Record<string, string> = {
   "product.ghori-rosemary-oil.name": "زيت الروزماري والنعناع والبيوتين من غوري®",
   "product.ghori-rosemary-oil.tagline": "60 مل · زيت لفروة الرأس والشعر مضاد لتساقط الشعر",
-  "product.ghori-rosemary-oil.overview": "زيت لفروة الرأس يجمع بين الروزماري والنعناع والبيوتين، مصمم لدعم نمو الشعر الطبيعي وراحة فروة الرأس والكثافة اليومية ضمن روتين Green Wealth.",
+  "product.ghori-rosemary-oil.overview":
+    "زيت لفروة الرأس يجمع بين الروزماري والنعناع والبيوتين، مصمم لدعم نمو الشعر الطبيعي وراحة فروة الرأس والكثافة اليومية ضمن روتين Green Wealth.",
   "product.ghori-rosemary-oil.ingredients.0": "Glycine Soja Oil",
   "product.ghori-rosemary-oil.ingredients.1": "Ricinus Communis Seed Oil",
   "product.ghori-rosemary-oil.ingredients.2": "Aloe Barbadensis Leaf Extract",
@@ -36,19 +37,25 @@ export const arProductFillRmA: Record<string, string> = {
   "product.ghori-rosemary-oil.ingredients.27": "Linalool",
   "product.ghori-rosemary-oil.ingredients.28": "Citronellol",
   "product.ghori-rosemary-oil.indications.0": "لكل من يعاني من ترقق الشعر أو تساقطه أو بطء نموه",
-  "product.ghori-rosemary-oil.indications.1": "فروة الرأس الجافة أو المتهيجة أو التي تعاني من اختلال إفراز الزيوت",
+  "product.ghori-rosemary-oil.indications.1":
+    "فروة الرأس الجافة أو المتهيجة أو التي تعاني من اختلال إفراز الزيوت",
   "product.ghori-rosemary-oil.indications.2": "الشعر المعالج كيميائياً وتسريحات الحماية",
   "product.ghori-rosemary-oil.indications.3": "العناية اليومية للحصول على لمعان وقوة",
   "product.ghori-rosemary-oil.faq.0.q": "هل يجعل هذا الزيت شعري دهنياً أو ثقيلاً؟",
-  "product.ghori-rosemary-oil.faq.0.a": "لا — التركيبة خفيفة جداً وسريعة الامتصاص. صُممت لتترسخ على فروة الرأس دون أن تُثقل أطراف الشعر.",
+  "product.ghori-rosemary-oil.faq.0.a":
+    "لا — التركيبة خفيفة جداً وسريعة الامتصاص. صُممت لتترسخ على فروة الرأس دون أن تُثقل أطراف الشعر.",
   "product.ghori-rosemary-oil.faq.1.q": "هل يمكن أن يساعد فعلياً في نمو الشعر؟",
-  "product.ghori-rosemary-oil.faq.1.a": "يُعد الروزماري من أكثر النباتات التي خضعت للدراسة لدعم الدورة الدموية في فروة الرأس وكثافة الشعر. النتائج تراكمية — يلاحظ معظم المستخدمين تغيراً بدءاً من الأسبوع السادس فصاعداً.",
+  "product.ghori-rosemary-oil.faq.1.a":
+    "يُعد الروزماري من أكثر النباتات التي خضعت للدراسة لدعم الدورة الدموية في فروة الرأس وكثافة الشعر. النتائج تراكمية — يلاحظ معظم المستخدمين تغيراً بدءاً من الأسبوع السادس فصاعداً.",
   "product.ghori-rosemary-oil.faq.2.q": "هل هو آمن للشعر المصبوغ؟",
-  "product.ghori-rosemary-oil.faq.2.a": "نعم. التركيبة خالية من السيليكون والسلفات والبارابين وآمنة للشعر المعالج كيميائياً أو المصبوغ.",
+  "product.ghori-rosemary-oil.faq.2.a":
+    "نعم. التركيبة خالية من السيليكون والسلفات والبارابين وآمنة للشعر المعالج كيميائياً أو المصبوغ.",
   "product.ghori-rosemary-oil.faq.3.q": "كم مرة يجب استخدامه؟",
-  "product.ghori-rosemary-oil.faq.3.a": "للحصول على نتائج ملموسة، يُفضّل الاستخدام من 3 إلى 4 مرات مسائية أسبوعياً. اتركيه طوال الليل إن أمكن، ثم اغسليه بالشامبو.",
+  "product.ghori-rosemary-oil.faq.3.a":
+    "للحصول على نتائج ملموسة، يُفضّل الاستخدام من 3 إلى 4 مرات مسائية أسبوعياً. اتركيه طوال الليل إن أمكن، ثم اغسليه بالشامبو.",
   "product.ghori-rosemary-oil.faq.4.q": "هل هو مناسب لجميع أنواع الشعر؟",
-  "product.ghori-rosemary-oil.faq.4.a": "نعم — بما في ذلك الشعر الأملس والمموج والمجعد والملفوف وتسريحات الحماية مثل الضفائر واللحمات المستعارة.",
+  "product.ghori-rosemary-oil.faq.4.a":
+    "نعم — بما في ذلك الشعر الأملس والمموج والمجعد والملفوف وتسريحات الحماية مثل الضفائر واللحمات المستعارة.",
   "product.ghori-rosemary-oil.inci.0.common": "زيت فول الصويا",
   "product.ghori-rosemary-oil.inci.1.common": "زيت الخروع",
   "product.ghori-rosemary-oil.inci.2.common": "الألوفيرا",
@@ -72,11 +79,14 @@ export const arProductFillRmA: Record<string, string> = {
   "product.ghori-rosemary-oil.inci.23.common": "جنين القمح",
   "product.ghori-rosemary-oil.inci.24.common": "بذور العنب",
   "product.ghori-rosemary-oil.active.0.name": "زيت أوراق الروزماري",
-  "product.ghori-rosemary-oil.active.0.description": "ينشّط الدورة الدموية في فروة الرأس ليغذي بصيلة الشعر من جذرها — حيث تبدأ الكثافة الملموسة فعلياً.",
+  "product.ghori-rosemary-oil.active.0.description":
+    "ينشّط الدورة الدموية في فروة الرأس ليغذي بصيلة الشعر من جذرها — حيث تبدأ الكثافة الملموسة فعلياً.",
   "product.ghori-rosemary-oil.active.0.role": "تنشيط الدورة الدموية",
   "product.ghori-rosemary-oil.active.0.tagline": "عشبة تنشيط الدورة الدموية",
-  "product.ghori-rosemary-oil.active.0.summary": "من أكثر النباتات التي خضعت للدراسة لدعم كثافة الشعر. يدفئ الأوعية الدموية الدقيقة في فروة الرأس ويوصل العناصر الغذائية مباشرة إلى بصيلة الشعر.",
+  "product.ghori-rosemary-oil.active.0.summary":
+    "من أكثر النباتات التي خضعت للدراسة لدعم كثافة الشعر. يدفئ الأوعية الدموية الدقيقة في فروة الرأس ويوصل العناصر الغذائية مباشرة إلى بصيلة الشعر.",
   "product.ghori-rosemary-oil.active.0.whatItDoes.3": "يدعم الحصول على شعر أكثر سماكة وكثافة",
   "product.ghori-rosemary-oil.active.1.name": "البيوتين",
-  "product.ghori-rosemary-oil.active.1.description": "يدعم البنية الكيراتينية التي تمنح كل خصلة سماكتها ومرونتها ومقاومتها للتكسر.",
+  "product.ghori-rosemary-oil.active.1.description":
+    "يدعم البنية الكيراتينية التي تمنح كل خصلة سماكتها ومرونتها ومقاومتها للتكسر.",
 };

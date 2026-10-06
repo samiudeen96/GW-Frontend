@@ -1,0 +1,236 @@
+---
+/**
+ * Product detail page. Hero (ledger · gallery · buy box), trust strip,
+ * composition, indications, editorial, how-it-works / comparison (Neo only),
+ * details, FAQ, reviews and related products. Unknown slugs render the 404 page.
+ */
+import ComparisonTable from "@/components/features/product/ComparisonTable.astro";
+import CompactCta from "@/components/features/product/CompactCta.astro";
+import CompositionLedger from "@/components/features/product/CompositionLedger.astro";
+import HowItWorks from "@/components/features/product/HowItWorks.astro";
+import IndicationsDiagnostic from "@/components/features/product/IndicationsDiagnostic.astro";
+import MoreFromGreenWealth from "@/components/features/product/MoreFromGreenWealth.astro";
+import ProductEditorial from "@/components/features/product/ProductEditorial.astro";
+import ProductDetail from "@/components/features/product/ProductDetail.astro";
+import ProductFaq from "@/components/features/product/ProductFaq.astro";
+import ProductHero from "@/components/features/product/ProductHero.astro";
+import ProductReviews from "@/components/features/product/ProductReviews";
+import QuickView, { type QuickViewItem } from "@/components/features/product/QuickView";
+import ReadingProgress from "@/components/features/product/ReadingProgress.astro";
+import StickyCartBar from "@/components/features/product/StickyCartBar";
+import TrustStrip from "@/components/features/product/TrustStrip.astro";
+import UtilityBar from "@/components/features/product/UtilityBar.astro";
+import {
+  absImageUrl,
+  jsonLdReviews,
+  metaDescription,
+  productGallery,
+  productSku,
+  productStat,
+  productT,
+  ratingDistribution,
+  relatedProducts,
+  reviewsForProduct,
+  translateReview,
+} from "@/components/features/product/product-helpers";
+import { productImageAlt, productImageTitle } from "@/data/products";
+import { stats } from "@/data/reviews";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getProductBySlug, getProducts } from "@/lib/api/catalog";
+import { createT, islandI18n, withLocalePrefix } from "@/lib/i18n";
+import { islandImage } from "@/lib/images";
+import { getBasePrice, getTiers } from "@/lib/pricing";
+import { breadcrumbLd, canonicalFor } from "@/lib/seo";
+
+const { slug = "" } = Astro.params;
+const product = await getProductBySlug(slug);
+if (!product) return new Response(null, { status: 404 });
+
+const p = product;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const tp = productT(t, p.slug);
+const path = `/product/${p.slug}`;
+const url = canonicalFor(path, locale);
+const brand = t("brand.name", "Green Wealth");
+const pName = tp("name", p.name);
+const pTagline = tp("tagline", p.tagline ?? "");
+const pOverview = tp("overview", p.overview ?? "");
+const stat = productStat(p.slug);
+const allProducts = await getProducts();
+const related = relatedProducts(p, allProducts);
+const sku = productSku(p);
+const tiers = getTiers(p.slug, currency);
+
+// ── SEO ──────────────────────────────────────────────────────────────────
+const ogImage = await absImageUrl(p.image);
+const ldImages = await Promise.all(productGallery(p).map(absImageUrl));
+const ldReviews = jsonLdReviews(p);
+
+const productLd: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: pName,
+  description: pOverview,
+  category: p.category,
+  sku: p.slug,
+  brand: { "@type": "Brand", name: p.brand ?? "Green Wealth" },
+  image: ldImages,
+  offers: {
+    "@type": "Offer",
+    url,
+    price: p.price.toFixed(2),
+    priceCurrency: p.currency || "USD",
+    availability: p.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    itemCondition: "https://schema.org/NewCondition",
+    priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
+  },
+};
+if (stat) {
+  productLd.aggregateRating = {
+    "@type": "AggregateRating",
+    ratingValue: stat.rating.toFixed(1),
+    reviewCount: stat.count,
+    bestRating: "5",
+    worstRating: "1",
+  };
+}
+if (ldReviews.length) {
+  productLd.review = ldReviews.map((r) => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: r.name },
+    reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5 },
+    name: r.title,
+    reviewBody: r.body,
+  }));
+}
+
+const jsonLd: object[] = [
+  productLd,
+  breadcrumbLd([
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: pName, path: url },
+  ]),
+];
+if (p.faqs?.length) {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: p.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  });
+}
+
+// ── Reviews island ───────────────────────────────────────────────────────
+// TODO(api): replace the local seed reviews with approved reviews from the API.
+const reviewSummaryRating = stat?.rating ?? 4.8;
+const reviewSummary = {
+  avg: reviewSummaryRating,
+  total: stat?.count ?? stats.count,
+  dist: ratingDistribution(reviewSummaryRating).map((d) => d.pct),
+};
+const reviewItems = reviewsForProduct(p.slug).map((r) => translateReview(r, t));
+
+// ── Quick view island ────────────────────────────────────────────────────
+const quickItems: Record<string, QuickViewItem> = Object.fromEntries(
+  await Promise.all(
+    related.map(async (r): Promise<[string, QuickViewItem]> => [
+      r.slug,
+      {
+        slug: r.slug,
+        brand: r.brand ?? "Green Wealth",
+        name: t(`product.${r.slug}.name`, r.name),
+        overview: t(`product.${r.slug}.overview`, r.overview),
+        benefits: (r.benefits ?? [])
+          .slice(0, 3)
+          .map((b, i) => t(`product.${r.slug}.benefits.${i}`, b)),
+        image: await islandImage(r.image, { widths: [400, 800] }),
+        imageAlt: productImageAlt(r, 0, t),
+        imageTitle: productImageTitle(r, t),
+        price: getBasePrice(r.slug, currency),
+        available: r.available,
+        href: withLocalePrefix(`/product/${r.slug}`, locale),
+      },
+    ]),
+  ),
+);
+---
+
+<SiteLayout
+  title={`${pName} — ${brand}`}
+  description={metaDescription(pOverview || pTagline || "")}
+  ogTitle={`${pName} — ${brand}`}
+  ogDescription={pTagline || undefined}
+  path={path}
+  type="product"
+  image={ogImage}
+  jsonLd={jsonLd}
+>
+  <Fragment slot="head">
+    <meta property="product:price:amount" content={String(p.price)} />
+    <meta property="product:price:currency" content={p.currency} />
+  </Fragment>
+
+  <div class="bg-paper text-ink pb-28 lg:pb-0">
+    <ReadingProgress />
+    <UtilityBar name={pName} shareTitle={p.name} />
+    <ProductHero product={p} related={related} />
+    <TrustStrip />
+    <CompositionLedger product={p} />
+    {p.perfectFor && p.perfectFor.length > 0 && (
+      <IndicationsDiagnostic
+        items={p.perfectFor.map((item, i) => tp(`indications.${i}`, item))}
+        productName={pName}
+      />
+    )}
+    <CompactCta product={p} />
+    <ProductEditorial product={p} />
+    {p.slug === "neo-hair-lotion" && <HowItWorks />}
+    {p.slug === "neo-hair-lotion" && <ComparisonTable />}
+    <ProductDetail product={p} sku={sku} />
+    <ProductFaq product={p} />
+    <ProductReviews
+      client:visible
+      i18n={islandI18n(locale, ["product.reviews."])}
+      slug={p.slug}
+      productName={pName}
+      summary={reviewSummary}
+      items={reviewItems}
+    />
+    <MoreFromGreenWealth related={related} productSlug={p.slug} productName={pName} />
+
+    <QuickView
+      client:idle
+      items={quickItems}
+      currency={currency}
+      labels={{
+        dialog: t("shop.quickView.ariaQuickView", "Quick view"),
+        closeAria: t("shop.quickView.ariaClose", "Close quick view"),
+        close: t("shop.quickView.close", "Close"),
+        price: t("shop.quickView.price", "Price"),
+        decrease: t("shop.quickView.decreaseQty", "Decrease quantity"),
+        increase: t("shop.quickView.increaseQty", "Increase quantity"),
+        add: t("shop.quickView.add", "Add"),
+        unavailable: t("shop.quickView.unavailable", "Unavailable"),
+        viewFullDetails: t("shop.quickView.viewFullDetails", "View full details"),
+      }}
+    />
+    <StickyCartBar
+      client:idle
+      slug={p.slug}
+      available={p.available}
+      currency={currency}
+      tiers={tiers}
+      labels={{
+        decrease: t("product.route.decreaseQuantity", "Decrease quantity"),
+        increase: t("product.route.increaseQuantity", "Increase quantity"),
+        add: t("product.route.add", "Add"),
+        unavailable: t("product.route.unavailable", "Unavailable"),
+      }}
+    />
+  </div>
+</SiteLayout>

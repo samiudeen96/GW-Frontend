@@ -43,7 +43,8 @@ export const arPdpExtra: Record<string, string> = {
     "شامبو نيو للشعر: كيف يغيّر التنظيف الخالي من الكبريتات ما تستطيع فروة رأسك فعله",
   "blog.neo-hair-shampoo-why-sulfate-free-matters.excerpt":
     "الكبريتات فعّالة — وهنا تكمن المشكلة. نظرة قريبة على ما يزيله شامبو نيو للشعر، وما يحافظ عليه، ولماذا يصنع هذا الفرق على مدى فصل كامل.",
-  "blog.dermaroller-scalp-protocol.title": "الديرمارولر بالطريقة الصحيحة: بروتوكول لفروة الرأس بلا خرافات",
+  "blog.dermaroller-scalp-protocol.title":
+    "الديرمارولر بالطريقة الصحيحة: بروتوكول لفروة الرأس بلا خرافات",
   "blog.dermaroller-scalp-protocol.excerpt":
     "جهاز الإبر الدقيقة أداة جدّية. استخدامه بإتقان يضاعف أثر البروتوكول الموضعي، واستخدامه بإهمال يعطي النتيجة العكسية. هذه هي الطريقة الصحيحة.",
   "blog.lotion-vs-shampoo-vs-dermaroller.title": "اللوشن والشامبو والديرمارولر: ما وظيفة كل منها",
@@ -52,7 +53,8 @@ export const arPdpExtra: Record<string, string> = {
   "blog.reading-a-hair-growth-timeline.title": "كيف تقرأ الجدول الزمني لنمو الشعر بصدق مع نفسك",
   "blog.reading-a-hair-growth-timeline.excerpt":
     "التقدّم في أي بروتوكول حقيقي للشعر بطيء وغير خطي ويسهل إساءة قراءته. دليل عملي للقياس والتصوير والمراجعة الأمينة عند اليوم 120.",
-  "blog.the-five-botanicals-behind-neo-hair-lotion.title": "المستخلصات النباتية الخمسة وراء لوشن نيو للشعر",
+  "blog.the-five-botanicals-behind-neo-hair-lotion.title":
+    "المستخلصات النباتية الخمسة وراء لوشن نيو للشعر",
   "blog.the-five-botanicals-behind-neo-hair-lotion.excerpt":
     "الجينسنغ الأبيض، ونخيل السرينوا، وعشبة إكليبتا، وذيل الحصان، ومستخلص الشمّام — ما يفعله كل منها ولماذا اختارتها التركيبة معًا.",
 

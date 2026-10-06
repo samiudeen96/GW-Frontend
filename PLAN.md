@@ -1,26 +1,38 @@
 # GW-Frontend — Astro Migration Plan
 
-Goal: rebuild GW-Frontend in **Astro** as a frontend-only app. All content (products, banners, images, blogs, reviews, translations) comes from the backend API, which also handles auth. Pages render on the server, components are reusable, the layout is responsive, and all backend code is removed.
+Goal: rebuild GW-Frontend in **Astro** (v7) as a frontend-only app. All content (products, banners, images, blogs, reviews, translations) comes from the backend API, which also handles auth. Pages render on the server, components are reusable, the layout is responsive, and all backend code is removed.
+
+## Current status (2026-10-06)
+
+Phases 0–3, 5, 6 and 8 are done: every page is ported to Astro with local content behind `src/lib/api/`, and the old React code is deleted. Outstanding:
+
+- **Phase 4 – real API**: replace the `TODO(api)` placeholders in `src/lib/api/` (catalog reads, verify, orders/track, payments, auth/account/profile, contact, newsletter, wholesale, review submit) once the Swagger/Postman spec is available. Review photos and the authenticity sticker crop also need supplying.
+- **Phase 7 – i18n from API**: the Arabic dictionary is still local (`src/lib/i18n/ar`).
+- **Phase 9 – deploy**: method and Node version on the server still to be decided (`npm run build` → `node dist/server/entry.mjs`, Node ≥ 22.12).
+- Visual review of every page against the old site.
+
+The structure section below shows the original target; `CLAUDE.md` has the current layout.
 
 ## Decisions
 
-| Topic | Decision |
-| --- | --- |
-| Framework | Astro 5, `output: "server"` (server-side rendering) |
-| Server | `@astrojs/node` adapter (standalone) on our own server |
-| Components | `.astro` components by default (no JS shipped to the browser) |
-| Interactivity | React islands **only** where needed (cart, checkout, forms, carousels) |
-| Shared client state | `nanostores` (cart, currency); works across islands |
-| Styling | Tailwind CSS v4, mobile-first |
-| UI primitives | shadcn/ui (Radix) reused **inside React islands only** |
-| Data | Backend REST API, tested in Swagger/Postman |
-| API types | zod schemas per resource (or types generated from the Swagger JSON, if available) |
-| Auth | Handled by the backend; the frontend only forwards the session/token |
-| Content & translations | From the API; nothing hardcoded |
-| Admin pages | Removed |
-| Backend code | Removed (Supabase client, `*.functions.ts`, `rpc-client.ts`, `server.ts`, `@backend`/`@shared` aliases) |
-| Repo | GitHub only: https://github.com/samiudeen96/GW-Frontend.git (Azure remote removed) |
-| CI | GitHub Actions: install, lint, typecheck (`astro check`), build |
+| Topic                  | Decision                                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------------------- |
+| Framework              | Astro 7, `output: "server"` (server-side rendering)                                                     |
+| Runtime / tooling      | Node 22 (`.nvmrc`), npm, TypeScript 6.0 (Astro's checker does not support TS 7 yet)                     |
+| Server                 | `@astrojs/node` adapter (standalone) on our own server                                                  |
+| Components             | `.astro` components by default (no JS shipped to the browser)                                           |
+| Interactivity          | React islands **only** where needed (cart, checkout, forms, carousels)                                  |
+| Shared client state    | `nanostores` (cart, currency); works across islands                                                     |
+| Styling                | Tailwind CSS v4, mobile-first                                                                           |
+| UI primitives          | shadcn/ui (Radix) reused **inside React islands only**                                                  |
+| Data                   | Backend REST API, tested in Swagger/Postman                                                             |
+| API types              | zod schemas per resource (or types generated from the Swagger JSON, if available)                       |
+| Auth                   | Handled by the backend; the frontend only forwards the session/token                                    |
+| Content & translations | From the API; nothing hardcoded                                                                         |
+| Admin pages            | Removed                                                                                                 |
+| Backend code           | Removed (Supabase client, `*.functions.ts`, `rpc-client.ts`, `server.ts`, `@backend`/`@shared` aliases) |
+| Repo                   | GitHub only: https://github.com/samiudeen96/GW-Frontend.git (Azure remote removed)                      |
+| CI                     | GitHub Actions: install, lint, typecheck (`astro check`), build                                         |
 
 ## Target structure
 
@@ -82,18 +94,18 @@ src/
 
 ## Phases
 
-| # | Phase | Output |
-| --- | --- | --- |
-| 0 | Docs & repo | `PLAN.md`, `CLAUDE.md`, `LOG.md`, `.gitignore`, `.env.example`; git repo inside `GW-Frontend`; GitHub remote |
-| 1 | Baseline | Commit the current React code as a reference point, then start an `astro-migration` branch |
-| 2 | Astro scaffold | Astro + node adapter + React + Tailwind; remove TanStack, Lovable, Supabase and backend files and the admin pages |
-| 3 | CI workflow | `.github/workflows/ci.yml` |
-| 4 | API layer | Client, endpoints, zod schemas, env validation |
-| 5 | Layouts & common components | BaseLayout, PageLayout, Header, Footer, SEO, ResponsiveImage, Banner, ProductCard |
-| 6 | Pages (one at a time) | Home → Shop → Product → Combo → Blog → Ingredients → Cart/Checkout → Account → Verify/Track → static and legal pages |
-| 7 | i18n from API | Locale switching, RTL |
-| 8 | Remove dead code | Delete old React routes, hardcoded data files and unused images |
-| 9 | Deploy | Node server build; deploy step in CI (method TBD) |
+| #   | Phase                       | Output                                                                                                               |
+| --- | --------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 0   | Docs & repo                 | `PLAN.md`, `CLAUDE.md`, `LOG.md`, `.gitignore`, `.env.example`; git repo inside `GW-Frontend`; GitHub remote         |
+| 1   | Baseline                    | Commit the current React code as a reference point, then start an `astro-migration` branch                           |
+| 2   | Astro scaffold              | Astro + node adapter + React + Tailwind; remove TanStack, Lovable, Supabase and backend files and the admin pages    |
+| 3   | CI workflow                 | `.github/workflows/ci.yml`                                                                                           |
+| 4   | API layer                   | Client, endpoints, zod schemas, env validation                                                                       |
+| 5   | Layouts & common components | BaseLayout, PageLayout, Header, Footer, SEO, ResponsiveImage, Banner, ProductCard                                    |
+| 6   | Pages (one at a time)       | Home → Shop → Product → Combo → Blog → Ingredients → Cart/Checkout → Account → Verify/Track → static and legal pages |
+| 7   | i18n from API               | Locale switching, RTL                                                                                                |
+| 8   | Remove dead code            | Delete old React routes, hardcoded data files and unused images                                                      |
+| 9   | Deploy                      | Node server build; deploy step in CI (method TBD)                                                                    |
 
 Each phase is logged in `LOG.md`, and each phase needs approval before it starts.
 

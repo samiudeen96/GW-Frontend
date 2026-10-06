@@ -1,0 +1,69 @@
+---
+/** "The ritual": frequency facts, numbered usage steps and the amplified protocol. */
+import type { Product } from "@/data/products";
+import { createT } from "@/lib/i18n";
+
+import type { EditorialCopy } from "./editorial-copy";
+import { pad2, productT } from "./product-helpers";
+
+export interface Props {
+  product: Product;
+  copy: EditorialCopy;
+}
+
+const { product: p, copy: c } = Astro.props;
+const t = createT(Astro.locals.locale);
+const tp = productT(t, p.slug);
+const facts = [
+  [t("product.pdp.frequency", "Frequency"), tp("frequency", c.frequency)],
+  [t("product.pdp.oneUnit", "One unit"), tp("bottleLife", c.bottleLife)],
+  [t("product.pdp.bestAppliedTo", "Best applied to"), tp("bestAppliedTo", c.bestAppliedTo)],
+];
+---
+
+<section class="hairline border-t">
+  <div class="container-editorial py-7 md:py-14">
+    <div class="bg-forest text-paper p-7 md:p-14">
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-12">
+        <div class="md:col-span-4">
+          <span class="text-gold font-mono text-[10px] tracking-[0.28em] uppercase">
+            {t("product.pdp.theRitual", "The ritual")}
+          </span>
+          <h2 class="mt-3 font-serif text-3xl leading-[1.02] tracking-[-0.02em] md:text-[2.6rem]">
+            {tp("ritualTitle", c.ritualTitle)}
+          </h2>
+          <div class="bg-paper/20 border-paper/20 mt-6 grid grid-cols-1 gap-px border">
+            {facts.map(([k, v]) => (
+              <div class="bg-forest p-3.5">
+                <div class="text-gold font-mono text-[9.5px] tracking-[0.22em] uppercase">{k}</div>
+                <div class="text-paper/85 mt-1 text-[12.5px] leading-snug">{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <ol class="space-y-5 md:col-span-8">
+          {p.usage.map((step, i) => (
+            <li class="border-paper/20 grid grid-cols-[auto_1fr] gap-5 border-b pb-5 last:border-b-0">
+              <span class="text-gold font-serif text-4xl leading-none tabular-nums md:text-5xl">
+                {pad2(i + 1)}
+              </span>
+              <p class="text-paper/95 font-serif text-[15px] leading-[1.55] md:text-[18px]">
+                {tp(`usage.${i}`, step)}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+    {p.amplifiedProtocol && (
+      <div class="bg-ivory border-forest/15 mt-6 flex flex-col gap-4 border p-5 md:flex-row md:items-center md:gap-8 md:p-7">
+        <span class="text-gold shrink-0 font-mono text-[10px] tracking-[0.28em] uppercase">
+          {t("product.pdp.amplifyTheRoutine", "Amplify the routine")}
+        </span>
+        <p class="text-forest/85 font-serif text-[13.5px] leading-[1.7]">
+          {tp("amplifiedProtocol", p.amplifiedProtocol)}
+        </p>
+      </div>
+    )}
+  </div>
+</section>

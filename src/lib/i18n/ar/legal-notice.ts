@@ -14,7 +14,8 @@ export const arLegalNotice: Record<string, string> = {
 
   "legal.notice.hub.heading": "صفحات قانونية ذات صلة",
   "legal.notice.hub.terms.title": "شروط الخدمة",
-  "legal.notice.hub.terms.desc": "القواعد والشروط الخاصة باستخدام موقعنا الإلكتروني وشراء منتجاتنا.",
+  "legal.notice.hub.terms.desc":
+    "القواعد والشروط الخاصة باستخدام موقعنا الإلكتروني وشراء منتجاتنا.",
   "legal.notice.hub.privacy.title": "سياسة الخصوصية",
   "legal.notice.hub.privacy.desc": "كيفية جمعنا لمعلوماتك الشخصية واستخدامها وتخزينها وحمايتها.",
   "legal.notice.hub.refund.title": "سياسة الاسترداد",
@@ -22,7 +23,8 @@ export const arLegalNotice: Record<string, string> = {
   "legal.notice.hub.shipping.title": "الشحن والإرجاع",
   "legal.notice.hub.shipping.desc": "مواعيد التوصيل وتكاليف الشحن وتعليمات الإرجاع حسب المنطقة.",
   "legal.notice.hub.cookie.title": "سياسة ملفات تعريف الارتباط",
-  "legal.notice.hub.cookie.desc": "كيفية استخدامنا لملفات تعريف الارتباط والتقنيات المشابهة على موقع greenwealth.com.",
+  "legal.notice.hub.cookie.desc":
+    "كيفية استخدامنا لملفات تعريف الارتباط والتقنيات المشابهة على موقع greenwealth.com.",
   "legal.notice.hub.accessibility.title": "إمكانية الوصول",
   "legal.notice.hub.accessibility.desc": "التزامنا بجعل الموقع قابلاً للاستخدام من قِبل الجميع.",
 

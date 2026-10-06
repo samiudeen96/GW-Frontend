@@ -1,0 +1,17 @@
+---
+/** Mono uppercase kicker used above PDP section titles. */
+export interface Props {
+  tone?: "moss" | "gold";
+}
+
+const { tone = "moss" } = Astro.props;
+---
+
+<span
+  class:list={[
+    "font-mono text-[10px] tracking-[0.28em] uppercase",
+    tone === "gold" ? "text-gold" : "text-moss",
+  ]}
+>
+  <slot />
+</span>

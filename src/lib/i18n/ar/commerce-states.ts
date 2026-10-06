@@ -35,13 +35,15 @@ export const arCommerceStates: Record<string, string> = {
   "commerce.account.onFile": "محفوظ في الملف",
   "commerce.account.needChange": "تحتاج إلى تعديل؟",
   "commerce.account.signIn.title": "تسجيل الدخول",
-  "commerce.account.signIn.subtitle": "اختر رمزاً من ٦ أرقام يُرسل إلى بريدك أو استخدم كلمة المرور.",
+  "commerce.account.signIn.subtitle":
+    "اختر رمزاً من ٦ أرقام يُرسل إلى بريدك أو استخدم كلمة المرور.",
   "commerce.account.signInMethod": "طريقة تسجيل الدخول",
   "commerce.account.trackThisOrder": "تتبّع هذا الطلب",
   "commerce.account.moreCurrencyPrefix": "+",
   "commerce.account.moreCurrencySuffix": "عملة أخرى",
   "commerce.account.lookup.title": "تتبّع الطلب دون تسجيل الدخول",
-  "commerce.account.lookup.body": "استخدم رقم طلبك مع البريد الإلكتروني أو رقم الهاتف المستخدم عند إتمام الشراء.",
+  "commerce.account.lookup.body":
+    "استخدم رقم طلبك مع البريد الإلكتروني أو رقم الهاتف المستخدم عند إتمام الشراء.",
   "commerce.account.lookup.cta": "الانتقال إلى تتبّع الطلبات",
   // Empty and error states
   "commerce.account.empty.ordersTitle": "لا توجد طلبات بعد",

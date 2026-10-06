@@ -1,0 +1,17 @@
+---
+/** Body for an unknown /ingredients/:slug (rendered with a 404 status). */
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+---
+
+<div class="container-editorial py-24 text-center">
+  <h1 class="text-forest font-serif text-3xl">{t("ing.notFound.title", "Ingredient not found")}</h1>
+  <a
+    href={withLocalePrefix("/ingredients", locale)}
+    class="text-forest border-forest/40 mt-6 inline-block border-b font-mono text-[11px] tracking-[0.24em] uppercase"
+  >
+    {t("ing.notFound.back", "Back to glossary")}
+  </a>
+</div>

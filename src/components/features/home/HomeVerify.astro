@@ -1,0 +1,186 @@
+---
+/** Scratch-code verification strip: how it works, what it confirms, and the code form. */
+import Reveal from "@/components/common/Reveal.astro";
+import { createT, islandI18n, withLocalePrefix } from "@/lib/i18n";
+
+import HomeVerifyForm from "./HomeVerifyForm";
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const STEPS = [
+  {
+    n: "01",
+    t: "Find the scratch panel",
+    b: "Locate the silver scratch panel on the side or back of your box.",
+  },
+  {
+    n: "02",
+    t: "Scratch gently",
+    b: "Use a coin or your fingernail to reveal the full code beneath the panel.",
+  },
+  {
+    n: "03",
+    t: "Enter it exactly",
+    b: "Type the code exactly as shown, including any dashes. No spaces.",
+  },
+];
+
+const ASSURANCES = [
+  {
+    t: "Matched to production records",
+    b: "Every code is matched live to the batch it was filled in — not a static list.",
+  },
+  {
+    t: "One code per bottle",
+    b: "Codes are issued once, and repeat verifications are logged and flagged to us.",
+  },
+  {
+    t: "Authorized supply only",
+    b: "A genuine result also confirms the bottle came through an authorized distributor.",
+  },
+];
+---
+
+<section class="bg-ivory border-forest/15 border-t">
+  <div class="container-editorial py-16 sm:py-24">
+    <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-16">
+      {/* Left: concise authenticity summary */}
+      <Reveal class="lg:col-span-7">
+        <span class="text-moss mb-5 block font-mono text-[9px] tracking-[0.28em] uppercase sm:text-[10px]">
+          {t("home.verify.eyebrow", "PRODUCT AUTHENTICITY")}
+        </span>
+        <h2 class="font-serif text-[clamp(2rem,3.8vw,3.4rem)] leading-[0.92] font-bold tracking-tight uppercase">
+          {t("home.verify.h2", "Verify your product before first use.")}
+        </h2>
+        <p class="text-forest/60 mt-5 max-w-xl text-sm leading-relaxed sm:text-base">
+          {t(
+            "home.verify.introShort",
+            "Scratch the black panel on your box, reveal the 12 digit code, and enter it here.",
+          )}
+        </p>
+
+        {/* How it works */}
+        <h3 class="text-forest mt-10 font-serif text-xl">
+          {t("home.verify.howTitle", "HOW VERIFICATION WORKS")}
+        </h3>
+        <ol class="border-forest/15 mt-4 max-w-xl border-t">
+          {STEPS.map((s) => (
+            <li class="border-forest/15 flex gap-4 border-b py-4 sm:gap-6">
+              <span class="text-gold shrink-0 pt-1 font-mono text-[10px] sm:text-xs">{s.n}</span>
+              <div>
+                <p class="text-forest text-xs font-bold tracking-[0.14em] uppercase sm:text-sm">
+                  {t(`home.verify.step.${s.n}.title`, s.t)}
+                </p>
+                <p class="text-forest/60 mt-1 text-xs leading-relaxed sm:text-sm">
+                  {t(`home.verify.step.${s.n}.body`, s.b)}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        {/* What your code confirms */}
+        <h3 class="text-forest mt-10 font-serif text-xl">
+          {t("home.verify.checkTitle", "What the check tells you")}
+        </h3>
+        <div class="border-forest/15 mt-4 max-w-xl border-y">
+          {ASSURANCES.map((a, i) => (
+            <div class="border-forest/15 border-b py-4 last:border-b-0">
+              <p class="text-forest text-sm font-semibold">{t(`home.verify.assure.${i}.t`, a.t)}</p>
+              <p class="text-forest/60 mt-2 text-[11px] leading-relaxed sm:text-xs">
+                {t(`home.verify.assure.${i}.b`, a.b)}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+          <a
+            href={withLocalePrefix("/verify", locale)}
+            class="bg-forest text-paper hover:bg-moss px-7 py-4 text-center text-[11px] font-bold tracking-[0.22em] uppercase transition-colors"
+          >
+            {t("home.verify.fullPageCta", "Full verification guide")}
+          </a>
+          <a
+            href={withLocalePrefix("/real-vs-fake", locale)}
+            class="border-forest/40 hover:bg-forest hover:text-paper border px-7 py-4 text-center text-[11px] font-bold tracking-[0.22em] uppercase transition-colors"
+          >
+            {t("home.verify.realVsFakeCta", "Genuine vs counterfeit")}
+          </a>
+        </div>
+      </Reveal>
+
+      {/* Right: verification form */}
+      <div class="lg:sticky lg:top-24 lg:col-span-5">
+        <Reveal delay={120} class="bg-paper border-forest/20 border p-6 sm:p-8 lg:p-10">
+          <h3 class="mb-2 font-serif text-xl font-bold tracking-tight uppercase sm:text-2xl">
+            {t("home.verify.formTitle", "Enter your scratch code")}
+          </h3>
+          <p class="text-forest/60 mb-6 text-xs leading-relaxed sm:text-sm">
+            {t(
+              "home.verify.formIntro",
+              "Scratch the black panel on the authenticity sticker to reveal your 12 digit code.",
+            )}
+          </p>
+
+          {/* Scratch indication image. The overlay uses physical offsets because it
+              marks a fixed spot on the (unmirrored) sticker photo. */}
+          <figure class="mb-6">
+            <div class="border-forest/20 relative border">
+              <img
+                src="/images/authenticity-sticker-1260.webp"
+                srcset="/images/authenticity-sticker-800.webp 800w, /images/authenticity-sticker-1260.webp 1260w"
+                sizes="(min-width: 1024px) 620px, 100vw"
+                alt={t(
+                  "home.verify.stickerAlt",
+                  "Genuine Green Wealth Neo Hair Lotion holographic authenticity sticker: black scratch-off panel hiding the 12 digit verification code, with the printed public serial number below",
+                )}
+                class="block h-auto w-full"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                width={1260}
+                height={680}
+              />
+              <div
+                class="border-gold pointer-events-none absolute border-2 shadow-[0_0_0_4px_rgba(255,255,255,0.85)]"
+                style="left:5.5%;top:11%;width:84%;height:24%"
+                aria-hidden="true"
+              ></div>
+              <div
+                class="pointer-events-none absolute flex items-center gap-2"
+                style="left:5.5%;top:11%;transform:translateY(-100%)"
+                aria-hidden="true"
+              >
+                <span class="bg-gold text-forest px-3 py-2 text-[10px] font-semibold tracking-[0.2em] whitespace-nowrap uppercase shadow-lg md:text-xs">
+                  {t("home.verify.scratchHere", "Scratch this black area ↓")}
+                </span>
+              </div>
+            </div>
+            <figcaption class="text-forest/60 mt-3 text-[11px] tracking-[0.14em] uppercase">
+              {t(
+                "home.verify.stickerCaption",
+                "The 12 digit verification code is hidden under the black scratch area — the number printed below it is not the code",
+              )}
+            </figcaption>
+          </figure>
+
+          <HomeVerifyForm
+            client:visible
+            i18n={islandI18n(locale, ["verify.", "home.verify.", "header.close"])}
+          />
+
+          <div class="border-forest/10 mt-6 border-t pt-6">
+            <p class="text-forest/50 text-[10px] leading-relaxed tracking-[0.14em] uppercase sm:text-xs">
+              {t(
+                "home.verify.footnote",
+                "Only genuine Green Wealth products carry a verifiable scratch code. Counterfeit bottles will fail this check.",
+              )}
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </div>
+</section>

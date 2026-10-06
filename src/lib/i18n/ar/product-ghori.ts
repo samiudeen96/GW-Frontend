@@ -8,7 +8,8 @@ export const arProductGhori: Record<string, string> = {
   "product.ghori-rosemary-oil.ritualTitle": "خمس دقائق، ثلاث ليالٍ أسبوعيًا.",
   "product.ghori-rosemary-oil.frequency": "3-4 مرات أسبوعيًا، أو يوميًا للدعم المكثف",
   "product.ghori-rosemary-oil.bottleLife": "الزجاجة الواحدة تكفي لما يقارب 45-60 يومًا",
-  "product.ghori-rosemary-oil.bestAppliedTo": "فروة رأس نظيفة وجافة — استخدمي الديرما رولر أولًا لامتصاص أعمق",
+  "product.ghori-rosemary-oil.bestAppliedTo":
+    "فروة رأس نظيفة وجافة — استخدمي الديرما رولر أولًا لامتصاص أعمق",
   "product.ghori-rosemary-oil.texture": "خفيفة جدًا، غير دهنية",
   "product.ghori-rosemary-oil.signature": "إكليل الجبل · النعناع · البيوتين",
   "product.ghori-rosemary-oil.goodToKnow":
@@ -105,7 +106,8 @@ export const arProductGhori: Record<string, string> = {
   "product.ghori-rosemary-oil.active.3.whatItDoes.1": "يدعم صحة فروة الرأس بشكل عام",
   "product.ghori-rosemary-oil.active.3.whatItDoes.2": "يضيف لمعانًا ونعومة طبيعيين",
 
-  "product.ghori-rosemary-oil.usage.0": "استخدمي القطارة لوضع بضع قطرات مباشرة على فروة الرأس، قسمًا تلو الآخر.",
+  "product.ghori-rosemary-oil.usage.0":
+    "استخدمي القطارة لوضع بضع قطرات مباشرة على فروة الرأس، قسمًا تلو الآخر.",
   "product.ghori-rosemary-oil.usage.1": "دلّكي برفق لمدة 2-3 دقائق لتنشيط الدورة الدموية.",
   "product.ghori-rosemary-oil.usage.2": "مشّطي حتى الأطراف ليمتص كل خصلة التركيبة.",
   "product.ghori-rosemary-oil.usage.3": "اتركيه وصفّفي شعرك كالمعتاد — أو ضعيه ليلًا لتغذية أعمق.",
@@ -158,7 +160,8 @@ export const arProductGhori: Record<string, string> = {
   "product.ghori-dermaroller.ritualTitle": "ستون ثانية، مرة أو مرتين أسبوعيًا.",
   "product.ghori-dermaroller.frequency": "1-2 مرة أسبوعيًا — أبدًا على بشرة متضررة أو ملتهبة",
   "product.ghori-dermaroller.bottleLife": "استبدلي الرأس كل 3 أشهر تقريبًا",
-  "product.ghori-dermaroller.bestAppliedTo": "فروة رأس نظيفة وجافة — عقّمي دائمًا قبل الاستخدام وبعده",
+  "product.ghori-dermaroller.bestAppliedTo":
+    "فروة رأس نظيفة وجافة — عقّمي دائمًا قبل الاستخدام وبعده",
   "product.ghori-dermaroller.texture": "إبر دقيقة من التيتانيوم",
   "product.ghori-dermaroller.signature": "معزز الامتصاص",
   "product.ghori-dermaroller.goodToKnow":
@@ -198,7 +201,8 @@ export const arProductGhori: Record<string, string> = {
   "product.ghori-dermaroller.ingredients.1": "مقبض من مادة ABS",
 
   "product.ghori-dermaroller.usage.0": "عقّمي قبل كل استخدام وبعده.",
-  "product.ghori-dermaroller.usage.1": "دحرجي برفق على فروة الرأس في أربعة اتجاهات لمدة 60 ثانية تقريبًا.",
+  "product.ghori-dermaroller.usage.1":
+    "دحرجي برفق على فروة الرأس في أربعة اتجاهات لمدة 60 ثانية تقريبًا.",
   "product.ghori-dermaroller.usage.2": "اتبعي مباشرة بوضع Neo Hair Lotion.",
   "product.ghori-dermaroller.usage.3": "استخدميه 1-2 مرة أسبوعيًا.",
 };

@@ -1,0 +1,27 @@
+---
+/** Hero ledger for small screens, shown below the buy box. */
+import { createT } from "@/lib/i18n";
+
+import LedgerSections from "./LedgerSections.astro";
+import type { LedgerData } from "./product-helpers";
+
+export interface Props {
+  sku: string;
+  data: LedgerData;
+}
+
+const { sku, data } = Astro.props;
+const t = createT(Astro.locals.locale);
+---
+
+<aside class="hairline border-t lg:hidden">
+  <div class="hairline flex items-center justify-between border-b p-5">
+    <span class="text-gold font-mono text-[9.5px] tracking-[0.28em] uppercase">
+      {t("product.route.seriesNo", "Series Nº")}
+    </span>
+    <span class="text-forest font-mono text-[10.5px] tabular-nums">{sku}</span>
+  </div>
+  <div class="space-y-7 p-5">
+    <LedgerSections data={data} variant="mobile" />
+  </div>
+</aside>

@@ -1,0 +1,829 @@
+---
+/**
+ * Official Green Wealth anti-counterfeit field guide: purchase source, security
+ * label, 12-digit code, batch, pack and contents checks before first use.
+ */
+import PageHeader from "@/components/common/PageHeader.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { abs, breadcrumbLd, canonicalFor } from "@/lib/seo";
+
+type Check = { n: string; point: string; authentic: string; warning: string };
+type GuideGroup = { key: string; title: string; items: Check[] };
+
+const GUIDE_GROUPS: GuideGroup[] = [
+  {
+    key: "source",
+    title: "Purchase source & record",
+    items: [
+      {
+        n: "01",
+        point: "Official retail source",
+        authentic:
+          "Purchased on greenwealth.com, the only retail website Green Wealth currently identifies as its official direct purchase source.",
+        warning:
+          "A marketplace, social account, messaging seller, independent storefront, or website using our images without written authorization published by Green Wealth.",
+      },
+      {
+        n: "02",
+        point: "Order record",
+        authentic:
+          "A Green Wealth order confirmation, order number, payment record, and shipment trail that can be matched by our support team.",
+        warning:
+          "A handwritten receipt, cropped payment screenshot, seller-created invoice, or no traceable order record.",
+      },
+      {
+        n: "03",
+        point: "Price & offer",
+        authentic:
+          "The price and promotion match the offer shown on greenwealth.com for the destination and currency at the time of purchase.",
+        warning:
+          "An unexplained extreme discount, bulk deal, or urgency claim. Price is a warning signal, never proof by itself.",
+      },
+      {
+        n: "04",
+        point: "Seller claim",
+        authentic:
+          "The seller identity is Green Wealth on greenwealth.com. Any future authorized seller will be named by us on this website.",
+        warning:
+          "Claims such as “factory stock,” “same supplier,” “original import,” or “authorized” that cannot be confirmed on greenwealth.com.",
+      },
+    ],
+  },
+  {
+    key: "security",
+    title: "Security label & digital check",
+    items: [
+      {
+        n: "05",
+        point: "Label condition",
+        authentic:
+          "The holographic ORIGINAL security label is intact before opening, with a black scratch-off area that has not been disturbed.",
+        warning:
+          "The scratch area is exposed, patched, wrinkled, transferred, cut, or covered by a second label.",
+      },
+      {
+        n: "06",
+        point: "Hidden code",
+        authentic:
+          "Gentle scratching reveals one clear 12-digit verification code beneath the black area. The printed number below is a public serial, not the verification code.",
+        warning:
+          "No hidden code, fewer or extra digits, letters in the hidden code, unreadable printing, or the seller sends a code separately.",
+      },
+      {
+        n: "07",
+        point: "Official result",
+        authentic:
+          "The 12-digit code is entered directly on greenwealth.com/verify and returns a recognized result consistent with the unit.",
+        warning:
+          "A seller asks you to use another site, scan an unfamiliar link, or accept their screenshot as proof.",
+      },
+      {
+        n: "08",
+        point: "Check history",
+        authentic:
+          "A first check is consistent with a newly opened unit. Keep the carton because later checks remain attached to the same code history.",
+        warning:
+          "A supposedly sealed unit reports prior checks you cannot explain. Stop and ask Green Wealth to investigate.",
+      },
+    ],
+  },
+  {
+    key: "pack",
+    title: "Carton, bottle & batch",
+    items: [
+      {
+        n: "09",
+        point: "Carton print",
+        authentic:
+          "Typography, ingredient information, directions, volume, responsible-company details, and marks are sharp and internally consistent.",
+        warning:
+          "Spelling errors, blurred edges, missing information, overprinted text, uneven colour, or labels covering required details.",
+      },
+      {
+        n: "10",
+        point: "Tamper evidence",
+        authentic:
+          "The carton and bottle arrive closed, clean, and without signs of re-gluing, re-wrapping, puncture, leakage, or prior opening.",
+        warning:
+          "Broken closure, glue residue, torn folds, loose cap, leakage, or a bottle that appears refilled.",
+      },
+      {
+        n: "11",
+        point: "Batch match",
+        authentic:
+          "The batch or lot identity on the bottle and carton is legible and agrees where both are printed. Support can inspect it with your order record.",
+        warning:
+          "Missing, scraped, covered, altered, or conflicting batch details. A batch code alone does not prove authenticity.",
+      },
+      {
+        n: "12",
+        point: "Bottle construction",
+        authentic:
+          "Amber glass, label, collar, and atomizer are cleanly assembled; the sprayer sits firmly and delivers an even mist without collar leakage.",
+        warning:
+          "Rough glass, bubbles, crooked or lifting label, mismatched plastics, loose collar, coarse spray, or leakage.",
+      },
+    ],
+  },
+  {
+    key: "contents",
+    title: "Contents, use & response",
+    items: [
+      {
+        n: "13",
+        point: "Appearance",
+        authentic:
+          "The liquid appears uniform for the labelled formula and has no unexplained particles, separation, damaged seal, or contamination signs.",
+        warning:
+          "Unexpected sediment, cloudiness, separation, foreign particles, unusual fill level, or visible contamination.",
+      },
+      {
+        n: "14",
+        point: "Aroma",
+        authentic:
+          "The botanical aroma is consistent with your documented Green Wealth unit, allowing for modest natural variation between botanical batches.",
+        warning:
+          "A sharp solvent, rancid, strongly perfumed, or markedly unfamiliar smell. Smell alone cannot authenticate a product.",
+      },
+      {
+        n: "15",
+        point: "First-use tolerance",
+        authentic:
+          "The product is used only after source and code checks, according to the label, with a patch test when appropriate.",
+        warning:
+          "Burning, swelling, blistering, breathing difficulty, or another unexpected reaction. Stop use and seek appropriate medical help.",
+      },
+      {
+        n: "16",
+        point: "Support review",
+        authentic:
+          "Green Wealth can review the order, code result, batch images, packaging, and purchase trail together.",
+        warning:
+          "A seller refuses a return, blocks questions, discourages verification, or asks you to discard the box.",
+      },
+    ],
+  },
+];
+
+const EVIDENCE = [
+  {
+    n: "01",
+    title: "Direct order record",
+    body: "Strongest purchase evidence. Our support team can match the order number, customer details, payment, destination, and fulfilment trail.",
+  },
+  {
+    n: "02",
+    title: "Official 12-digit code result",
+    body: "Strong product evidence. Enter the hidden code yourself on our domain; never rely on a seller’s screenshot or third-party checker.",
+  },
+  {
+    n: "03",
+    title: "Batch and pack consistency",
+    body: "Supporting evidence. Batch identity, intact packaging, label details, and the bottle should agree with one another.",
+  },
+  {
+    n: "04",
+    title: "Appearance, aroma and price",
+    body: "Screening clues only. Counterfeiters can copy visible details, while genuine packaging and botanical aroma can change between approved runs.",
+  },
+];
+
+const INSPECTION = [
+  [
+    "01",
+    "Confirm where it was bought",
+    "If it was not ordered on greenwealth.com, Green Wealth did not authenticate it at the point of sale.",
+  ],
+  [
+    "02",
+    "Photograph before opening",
+    "Capture all carton faces, security label, batch details, bottle base and seller invoice in clear light.",
+  ],
+  [
+    "03",
+    "Check for interference",
+    "Look for re-gluing, a disturbed scratch area, mismatched codes, leakage, or signs the bottle was opened or refilled.",
+  ],
+  [
+    "04",
+    "Reveal the hidden code",
+    "Scratch the black area gently. Use the hidden 12-digit number, not the public serial printed below it.",
+  ],
+  [
+    "05",
+    "Verify on our domain",
+    "Type greenwealth.com/verify yourself. Do not follow a verification link supplied by an unknown seller.",
+  ],
+  [
+    "06",
+    "Act on the whole record",
+    "If the source, code, package, or contents conflict, do not use it. Preserve the evidence and contact Green Wealth.",
+  ],
+] as const;
+
+const STICKER_PARTS = [
+  [
+    "A",
+    "Holographic label",
+    "Inspect it for disturbance, transfer, cutting, lifting or a second label placed over it.",
+  ],
+  [
+    "B",
+    "Black scratch area",
+    "This removable layer must be intact when a newly supplied carton reaches you.",
+  ],
+  [
+    "C",
+    "Hidden 12-digit code",
+    "Reveal this code and enter it yourself at greenwealth.com/verify.",
+  ],
+  [
+    "D",
+    "Printed public serial",
+    "This remains visible below the scratch area and is not accepted as the hidden verification code.",
+  ],
+] as const;
+
+const REPORT = [
+  [
+    "01",
+    "Seller evidence",
+    "Seller URL, profile name, phone number, listing screenshots and every message claiming authorization.",
+  ],
+  [
+    "02",
+    "Transaction evidence",
+    "Invoice, payment record, order date, delivery country, shipment label and the price paid.",
+  ],
+  [
+    "03",
+    "Product evidence",
+    "Clear photos of all carton sides, label, scratch panel, code result, batch details, bottle and base.",
+  ],
+  [
+    "04",
+    "Condition evidence",
+    "Describe seal condition, leakage, smell, appearance and any reaction. Keep the unit sealed if unused.",
+  ],
+] as const;
+
+const NAV = [
+  ["#inspection", "realVsFake.nav.inspect", "Inspect"],
+  ["#evidence", "realVsFake.nav.evidence", "Evidence"],
+  ["#comparison", "realVsFake.nav.compare", "16 checks"],
+  ["#action", "realVsFake.nav.action", "What to do"],
+  ["#faq", "realVsFake.nav.faq", "FAQ"],
+] as const;
+
+const FAQ = [
+  {
+    q: "Is greenwealth.com the only official place to buy online?",
+    a: "Yes. Greenwealth.com is the only retail website Green Wealth currently identifies as its official direct purchase source. We do not currently authenticate marketplace listings, social-media sellers, messaging sellers, or independent websites at the point of sale. If this policy changes, we will publish the seller by name on greenwealth.com.",
+  },
+  {
+    q: "Does genuine-looking packaging prove a product is authentic?",
+    a: "No. Packaging is a warning screen, not final proof. Visible details can be copied and approved packaging can evolve. The strongest evidence is a direct Green Wealth order record combined with a recognized 12-digit code and consistent batch details.",
+  },
+  {
+    q: "Does a valid code guarantee the way the product was stored?",
+    a: "No. A recognized code supports identity and traceability in our records; it cannot prove every storage condition after the unit left controlled fulfilment. Do not use a leaking, overheated, damaged, opened, contaminated, or otherwise suspicious unit.",
+  },
+  {
+    q: "What if a seller says they are an authorized distributor?",
+    a: "Ask Green Wealth before buying. A seller’s own statement, certificate image, invoice, badge, or chat message is not authorization. Only authorization that Green Wealth publishes or confirms through its official support channels should be relied upon.",
+  },
+  {
+    q: "What should I send when reporting a suspected counterfeit?",
+    a: "Send the seller link and identity, invoice or payment record, order date, country, photos of every carton side, the intact or revealed security label, bottle, base, batch details, and the result shown by our verifier. Do not discard or ship the product until support advises you.",
+  },
+  {
+    q: "Can a low price prove a product is fake?",
+    a: "No. An unexplained extreme discount is a warning signal, not proof. Evaluate the source, order record, security label, official code result, batch consistency, packaging condition, and contents together.",
+  },
+] as const;
+
+const { locale } = Astro.locals;
+const t = createT(locale);
+const isAr = locale === "ar";
+const href = (p: string) => withLocalePrefix(p, locale);
+
+const title = isAr
+  ? "الأصلي مقابل المقلّد | دليل التحقق الرسمي من جرين ولث®"
+  : "Real vs Fake Neo Hair Lotion | Official Green Wealth® Guide";
+const description = isAr
+  ? "الدليل الرسمي المفصّل لفحص مصدر الشراء وملصق الأمان ورمز التحقق المكوّن من 12 رقمًا والدفعة والعبوة قبل استخدام لوشن نيو للشعر®."
+  : "The official detailed guide to checking purchase source, security label, 12-digit verification code, batch and packaging before using Neo Hair Lotion®.";
+
+const faqs = FAQ.map((item, index) => ({
+  q: t(`realVsFake.faq.${index + 1}.q`, item.q),
+  a: t(`realVsFake.faq.${index + 1}.a`, item.a),
+}));
+
+const jsonLd = [
+  breadcrumbLd([
+    { name: isAr ? "الرئيسية" : "Home", path: "/" },
+    { name: isAr ? "الأصلي مقابل المقلّد" : "Real vs Fake", path: "/real-vs-fake" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    mainEntityOfPage: canonicalFor("/real-vs-fake", locale),
+    publisher: { "@type": "Organization", name: "Green Wealth", url: abs("/") },
+    about: [
+      "Neo Hair Lotion authenticity",
+      "counterfeit product identification",
+      "product verification",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+
+const btn = "inline-flex justify-center px-7 py-4 text-xs font-mono uppercase tracking-[0.14em]";
+---
+
+<SiteLayout
+  title={title}
+  description={description}
+  path="/real-vs-fake"
+  type="article"
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow={t("realVsFake.page.eyebrow", "Official authenticity dossier")}
+    title={t("realVsFake.page.title", "Real vs Fake.")}
+    intro={t(
+      "realVsFake.page.intro2",
+      "A source-first, evidence-led inspection guide for Neo Hair Lotion®. Packaging can be copied. Begin with who sold it, then verify the security code, batch identity, pack and contents before first use.",
+    )}
+  />
+
+  <section class="hairline bg-forest text-paper border-b">
+    <div class="container-editorial grid lg:grid-cols-[1.15fr_0.85fr]">
+      <div class="border-brass/30 border-b py-10 md:py-14 lg:border-e lg:border-b-0 lg:pe-14">
+        <p class="text-brass font-mono text-[11px] tracking-[0.16em] uppercase">
+          {t("realVsFake.source.eyebrow", "Official source policy · September 2026")}
+        </p>
+        <h2 class="mt-5 max-w-3xl font-serif text-3xl leading-[1.04] md:text-5xl">
+          {t(
+            "realVsFake.source.title",
+            "Greenwealth.com is our only official direct retail website.",
+          )}
+        </h2>
+        <p class="text-paper/75 mt-5 max-w-2xl text-sm leading-relaxed md:text-base">
+          {t(
+            "realVsFake.source.body",
+            "Green Wealth does not currently identify any marketplace listing, social-media seller, messaging seller, or independent ecommerce website as an official online retail source. A third party may hold genuine stock, but we cannot authenticate that seller or its storage and handling at the point of sale unless we publish or confirm the authorization ourselves.",
+          )}
+        </p>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="border-brass/30 border-e p-6 md:p-8">
+          <div class="text-brass font-serif text-5xl" dir="ltr">
+            01
+          </div>
+          <p class="text-paper/55 mt-4 text-[11px] tracking-[0.14em] uppercase">
+            {t("realVsFake.source.site", "Official retail website")}
+          </p>
+          <p class="text-paper mt-2 font-mono text-sm break-words" dir="ltr">
+            greenwealth.com
+          </p>
+        </div>
+        <div class="p-6 md:p-8">
+          <div class="text-brass font-serif text-5xl" dir="ltr">
+            00
+          </div>
+          <p class="text-paper/55 mt-4 text-[11px] tracking-[0.14em] uppercase">
+            {t("realVsFake.source.marketplaces", "Marketplaces we authenticate at sale")}
+          </p>
+          <p class="text-paper mt-2 text-sm">
+            {t("realVsFake.source.none", "None currently published")}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav
+    aria-label={t("realVsFake.nav.aria", "Authenticity guide sections")}
+    class="hairline bg-paper sticky top-14 z-30 overflow-x-auto border-b md:top-16"
+  >
+    <div class="container-editorial flex min-w-max">
+      {NAV.map(([anchor, key, label], index) => (
+        <a
+          href={anchor}
+          class="hairline text-ink hover:bg-ivory border-e px-4 py-4 font-mono text-[10px] tracking-[0.14em] uppercase md:px-6"
+        >
+          <span class="text-brass me-2" dir="ltr">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          {t(key, label)}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <section id="inspection" class="container-editorial scroll-mt-32 py-12 md:py-20">
+    <div class="grid items-start gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+      <div class="lg:sticky lg:top-36">
+        <p class="eyebrow">{t("realVsFake.inspect.eyebrow", "Six-step inspection")}</p>
+        <h2 class="text-ink mt-4 font-serif text-3xl leading-tight md:text-5xl">
+          {t("realVsFake.inspect.title", "Source first. Code second. Appearance third.")}
+        </h2>
+        <p class="text-ink/70 mt-5 text-sm leading-relaxed">
+          {t(
+            "realVsFake.inspect.body",
+            "This order matters. A polished box can be copied, while a direct order trail and an official verification result are harder to substitute. Complete all six steps before applying the product.",
+          )}
+        </p>
+        <div class="hairline bg-ivory mt-8 border p-5">
+          <p class="text-brass font-mono text-[10px] tracking-[0.15em] uppercase">
+            {t("realVsFake.inspect.ruleLabel", "Decision rule")}
+          </p>
+          <p class="text-ink mt-3 text-sm leading-relaxed">
+            {t(
+              "realVsFake.inspect.rule",
+              "One unexplained conflict is enough to pause. Do not wait for several warning signs before contacting us.",
+            )}
+          </p>
+        </div>
+      </div>
+      <ol class="hairline border-t">
+        {INSPECTION.map(([n, stepTitle, body], index) => (
+          <li class="hairline grid grid-cols-[52px_1fr] gap-4 border-b py-6 md:grid-cols-[76px_0.55fr_1fr] md:gap-8 md:py-8">
+            <span class="text-brass font-serif text-2xl" dir="ltr">
+              {n}
+            </span>
+            <h3 class="text-ink text-base font-semibold">
+              {t(`realVsFake.inspect.${index + 1}.title`, stepTitle)}
+            </h3>
+            <p class="text-ink/70 col-start-2 text-sm leading-relaxed md:col-start-auto">
+              {t(`realVsFake.inspect.${index + 1}.body`, body)}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="hairline bg-ivory border-y">
+    <div class="container-editorial grid lg:grid-cols-2">
+      <figure class="hairline border-b p-6 md:p-10 lg:border-e lg:border-b-0 lg:pe-14">
+        <img
+          src="/images/authenticity-sticker-1260.webp"
+          srcset="/images/authenticity-sticker-800.webp 800w, /images/authenticity-sticker-1260.webp 1260w"
+          sizes="(max-width: 1023px) 90vw, 44vw"
+          width="1260"
+          height="1260"
+          loading="lazy"
+          decoding="async"
+          alt={t(
+            "realVsFake.sticker.alt",
+            "Official Green Wealth Neo Hair Lotion holographic ORIGINAL security label with black scratch area hiding a 12-digit verification code",
+          )}
+          class="bg-paper hairline aspect-square w-full border object-contain"
+        />
+        <figcaption class="text-ink/60 mt-4 text-xs leading-relaxed">
+          {t(
+            "realVsFake.sticker.caption",
+            "Reference: the hidden 12-digit code sits beneath the black scratch area. The visible number printed below it is not the verification code.",
+          )}
+        </figcaption>
+      </figure>
+      <div class="flex flex-col justify-center p-8 md:p-12 lg:p-14">
+        <p class="eyebrow">{t("realVsFake.sticker.eyebrow", "Security label anatomy")}</p>
+        <h2 class="text-ink mt-4 font-serif text-3xl leading-tight md:text-5xl">
+          {t("realVsFake.sticker.title", "Know which number to verify.")}
+        </h2>
+        <div class="hairline mt-8 border-t">
+          {STICKER_PARTS.map(([n, partTitle, body], index) => (
+            <div class="hairline grid grid-cols-[36px_1fr] gap-4 border-b py-5">
+              <span class="text-brass font-mono text-sm" dir="ltr">
+                {n}
+              </span>
+              <div>
+                <h3 class="text-ink text-sm font-semibold">
+                  {t(`realVsFake.sticker.${index + 1}.title`, partTitle)}
+                </h3>
+                <p class="text-ink/65 mt-2 text-sm leading-relaxed">
+                  {t(`realVsFake.sticker.${index + 1}.body`, body)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <a
+          href={href("/verify")}
+          class="bg-forest text-paper hover:bg-forest/90 mt-8 inline-flex w-fit px-7 py-4 font-mono text-xs tracking-[0.14em] uppercase"
+        >
+          {t("realVsFake.cta.verify", "Verify a Scratch Code")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="evidence" class="container-editorial scroll-mt-32 py-12 md:py-20">
+    <div class="max-w-3xl">
+      <p class="eyebrow">{t("realVsFake.evidence.eyebrow", "Evidence hierarchy")}</p>
+      <h2 class="text-ink mt-4 font-serif text-3xl md:text-5xl">
+        {t("realVsFake.evidence.title", "Not every clue carries equal weight.")}
+      </h2>
+      <p class="text-ink/70 mt-5 text-sm leading-relaxed md:text-base">
+        {t(
+          "realVsFake.evidence.body",
+          "Use several independent checks. No colour, smell, barcode, QR image, seller badge, batch code, or packaging detail can establish authenticity on its own.",
+        )}
+      </p>
+    </div>
+    <div class="bg-ink/10 hairline mt-10 grid gap-px border md:grid-cols-2 lg:grid-cols-4">
+      {EVIDENCE.map((item, index) => (
+        <article class="bg-paper flex min-h-[250px] flex-col p-6 md:p-7">
+          <span class="text-brass font-serif text-4xl" dir="ltr">
+            {item.n}
+          </span>
+          <h3 class="text-ink mt-7 text-lg font-semibold">
+            {t(`realVsFake.evidence.${index + 1}.title`, item.title)}
+          </h3>
+          <p class="text-ink/65 mt-3 text-sm leading-relaxed">
+            {t(`realVsFake.evidence.${index + 1}.body`, item.body)}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="comparison" class="hairline bg-ivory scroll-mt-32 border-y">
+    <div class="container-editorial py-12 md:py-20">
+      <div class="mb-12 grid items-end gap-6 md:grid-cols-[1fr_auto]">
+        <div>
+          <p class="eyebrow">{t("realVsFake.compare.eyebrow", "The 16-point field ledger")}</p>
+          <h2 class="text-ink mt-4 font-serif text-3xl md:text-5xl">
+            {t("realVsFake.compare.title", "Compare the complete record.")}
+          </h2>
+        </div>
+        <p class="text-ink/65 max-w-md text-sm leading-relaxed">
+          {t(
+            "realVsFake.compare.body",
+            "“Authentic” describes expected evidence. “Warning” means pause and investigate; it is not, by itself, a final counterfeit determination.",
+          )}
+        </p>
+      </div>
+      {GUIDE_GROUPS.map((group, groupIndex) => (
+        <div class="mb-12 last:mb-0">
+          <div class="border-forest flex items-baseline justify-between border-b pb-3">
+            <h3 class="text-ink font-serif text-xl md:text-2xl">
+              <span class="text-brass me-3" dir="ltr">
+                {String(groupIndex + 1).padStart(2, "0")}
+              </span>
+              {t(`realVsFake.group.${group.key}`, group.title)}
+            </h3>
+            <span class="text-muted-foreground font-mono text-[10px] tracking-[0.14em] uppercase">
+              {t("realVsFake.table.fourChecks", "04 checks")}
+            </span>
+          </div>
+          <div class="hidden md:block">
+            <div class="hairline grid grid-cols-[64px_0.72fr_1.14fr_1.14fr] border-b font-mono text-[10px] tracking-[0.14em] uppercase">
+              <div class="p-3">{t("realVsFake.table.hashLabel", "#")}</div>
+              <div class="p-3">{t("realVsFake.table.checkLabel", "Check")}</div>
+              <div class="hairline bg-authentic text-authentic-foreground border-s p-3">
+                {t("realVsFake.table.authentic", "Expected evidence")}
+              </div>
+              <div class="hairline bg-counterfeit text-counterfeit-foreground border-s p-3">
+                {t("realVsFake.table.counterfeit", "Warning")}
+              </div>
+            </div>
+            {group.items.map((item) => (
+              <div class="hairline grid grid-cols-[64px_0.72fr_1.14fr_1.14fr] border-b">
+                <div class="text-forest p-4 font-serif" dir="ltr">
+                  {item.n}
+                </div>
+                <div class="text-ink p-4 text-sm font-semibold">
+                  {t(`realVsFake.check.${item.n}.point`, item.point)}
+                </div>
+                <div class="hairline bg-authentic text-authentic-foreground border-s p-4 text-sm leading-relaxed">
+                  {t(`realVsFake.check.${item.n}.authentic`, item.authentic)}
+                </div>
+                <div class="hairline bg-counterfeit text-counterfeit-foreground border-s p-4 text-sm leading-relaxed">
+                  {t(`realVsFake.check.${item.n}.warning`, item.warning)}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div class="md:hidden">
+            {group.items.map((item) => (
+              <article class="hairline border-b py-6">
+                <div class="flex items-baseline gap-4">
+                  <span class="text-brass font-serif text-xl" dir="ltr">
+                    {item.n}
+                  </span>
+                  <h4 class="text-ink text-base font-semibold">
+                    {t(`realVsFake.check.${item.n}.point`, item.point)}
+                  </h4>
+                </div>
+                <div class="bg-ink/10 hairline mt-4 grid gap-px border">
+                  <div class="bg-authentic text-authentic-foreground p-4">
+                    <p class="font-mono text-[9px] tracking-[0.14em] uppercase opacity-70">
+                      {t("realVsFake.table.authentic", "Expected evidence")}
+                    </p>
+                    <p class="mt-2 text-sm leading-relaxed">
+                      {t(`realVsFake.check.${item.n}.authentic`, item.authentic)}
+                    </p>
+                  </div>
+                  <div class="bg-counterfeit text-counterfeit-foreground p-4">
+                    <p class="font-mono text-[9px] tracking-[0.14em] uppercase opacity-70">
+                      {t("realVsFake.table.counterfeit", "Warning")}
+                    </p>
+                    <p class="mt-2 text-sm leading-relaxed">
+                      {t(`realVsFake.check.${item.n}.warning`, item.warning)}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="action" class="container-editorial scroll-mt-32 py-12 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+      <div>
+        <p class="eyebrow">{t("realVsFake.action.eyebrow", "If anything conflicts")}</p>
+        <h2 class="text-ink mt-4 font-serif text-3xl md:text-5xl">
+          {t("realVsFake.action.title", "Stop. Preserve. Report.")}
+        </h2>
+        <p class="text-ink/70 mt-5 text-sm leading-relaxed">
+          {t(
+            "realVsFake.action.body",
+            "Do not apply a unit with an unexplained source, failed code, disturbed seal, conflicting batch details, contamination signs, or unusual reaction. Keep the product, carton and purchase record together while we review it.",
+          )}
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href={href("/contact")} class:list={[btn, "bg-forest text-paper hover:bg-forest/90"]}>
+            {t("realVsFake.action.contact", "Report to Green Wealth")}
+          </a>
+          <a
+            href={href("/shop")}
+            class:list={[btn, "border-forest text-ink hover:bg-ivory border"]}
+          >
+            {t("realVsFake.action.shop", "Buy from the official site")}
+          </a>
+        </div>
+      </div>
+      <div class="border-forest border-t">
+        {REPORT.map(([n, reportTitle, body], index) => (
+          <div class="hairline grid grid-cols-[52px_1fr] gap-4 border-b py-6 md:grid-cols-[70px_0.55fr_1fr]">
+            <span class="text-brass font-serif text-2xl" dir="ltr">
+              {n}
+            </span>
+            <h3 class="text-ink text-sm font-semibold">
+              {t(`realVsFake.report.${index + 1}.title`, reportTitle)}
+            </h3>
+            <p class="text-ink/65 col-start-2 text-sm leading-relaxed md:col-start-auto">
+              {t(`realVsFake.report.${index + 1}.body`, body)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-brass bg-forest text-paper border-y">
+    <div class="container-editorial grid items-end gap-8 py-12 md:py-16 lg:grid-cols-[1fr_auto]">
+      <div class="max-w-3xl">
+        <p class="text-brass font-mono text-[10px] tracking-[0.16em] uppercase">
+          {t("realVsFake.safe.eyebrow", "The safest purchase standard")}
+        </p>
+        <h2 class="mt-4 font-serif text-3xl leading-tight md:text-5xl">
+          {t(
+            "realVsFake.safe.title",
+            "Buy on our website. Verify before first use. Keep your order record.",
+          )}
+        </h2>
+        <p class="text-paper/70 mt-5 text-sm leading-relaxed">
+          {t(
+            "realVsFake.safe.body",
+            "This gives Green Wealth the clearest chain from order to fulfilment to product-code review. We cannot provide the same point-of-sale assurance for goods bought through an unlisted third party.",
+          )}
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+        <a
+          href={href("/shop")}
+          class="bg-brass text-forest hover:bg-brass/90 inline-flex justify-center px-8 py-4 font-mono text-xs tracking-[0.14em] uppercase"
+        >
+          {t("realVsFake.action.shop", "Buy from the official site")}
+        </a>
+        <a
+          href={href("/verify")}
+          class="border-brass text-brass hover:bg-paper/5 inline-flex justify-center border px-8 py-4 font-mono text-xs tracking-[0.14em] uppercase"
+        >
+          {t("realVsFake.cta.verify", "Verify a Scratch Code")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="container-editorial scroll-mt-32 py-12 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[0.55fr_1.45fr] lg:gap-16">
+      <div>
+        <p class="eyebrow">{t("realVsFake.faq.eyebrow", "Clear answers")}</p>
+        <h2 class="text-ink mt-4 font-serif text-3xl md:text-5xl">
+          {t("realVsFake.faq.title", "Authenticity questions.")}
+        </h2>
+      </div>
+      <div class="border-forest border-t">
+        {faqs.map((f) => (
+          <details class="group hairline border-b py-5">
+            <summary class="text-ink flex cursor-pointer list-none justify-between gap-5 text-base font-semibold">
+              <span>{f.q}</span>
+              <span
+                class="text-brass font-mono transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <p class="text-ink/70 pe-10 pt-4 text-sm leading-relaxed">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="hairline bg-ivory border-t">
+    <div class="container-editorial grid gap-6 py-10 md:grid-cols-[1fr_1.4fr] md:gap-12 md:py-12">
+      <div>
+        <p class="eyebrow">{t("realVsFake.research.eyebrow", "Research basis")}</p>
+        <h2 class="text-ink mt-3 font-serif text-2xl">
+          {t("realVsFake.research.title", "Why source and evidence matter.")}
+        </h2>
+      </div>
+      <div class="text-ink/65 space-y-4 text-sm leading-relaxed">
+        <p>
+          {t(
+            "realVsFake.research.body",
+            "Consumer-protection authorities consistently advise buying through accountable channels, treating unusually low prices and packaging differences as warning signs, retaining transaction evidence, and reporting suspected counterfeits. These principles inform this guide; Green Wealth’s product-specific code and authorization policy come from our own records.",
+          )}
+        </p>
+        <p class="text-xs">
+          <a
+            class="hover:text-forest underline underline-offset-4"
+            href="https://www.cbp.gov/trade/fakegoodsrealdangers"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t(
+              "realVsFake.research.cbp",
+              "U.S. Customs and Border Protection · The Truth Behind Counterfeits",
+            )}
+          </a>
+          <span class="mx-2">·</span>
+          <a
+            class="hover:text-forest underline underline-offset-4"
+            href="https://dos.ny.gov/fake-cosmetics-and-their-health-risks"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t(
+              "realVsFake.research.ny",
+              "New York Department of State · Fake Cosmetics and Health Risks",
+            )}
+          </a>
+          <span class="mx-2">·</span>
+          <a
+            class="hover:text-forest underline underline-offset-4"
+            href="https://www.oecd.org/en/about/news/press-releases/2025/05/global-trade-in-fake-goods-reached-USD-467-billion-posing-risks-to-consumer-safety-and-compromising-intellectual-property.html"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t("realVsFake.research.oecd", "OECD/EUIPO · Mapping Global Trade in Fakes 2025")}
+          </a>
+        </p>
+        <p class="text-ink/55 text-xs">
+          {t(
+            "realVsFake.research.note",
+            "Important: a recognized code supports identity in Green Wealth’s records. It does not guarantee individual results or prove every storage condition after dispatch. Packaging details may change; when in doubt, contact us before use.",
+          )}
+        </p>
+        <a
+          href={href("/terms")}
+          class="text-forest border-forest inline-flex border-b pb-1 font-mono text-xs tracking-[0.12em] uppercase"
+        >
+          {t("realVsFake.research.terms", "Read purchase and authenticity terms")}
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

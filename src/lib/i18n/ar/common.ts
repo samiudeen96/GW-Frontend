@@ -35,7 +35,8 @@ export const arCommon: Record<string, string> = {
   "footer.support": "الدعم",
   "footer.legal": "الشؤون القانونية",
   "footer.newsletter": "النشرة البريدية",
-  "footer.newsletterCopy": "انضم إلى قائمتنا للحصول على إرشادات الاستخدام وتنبيهات الأصالة والعروض الحصرية.",
+  "footer.newsletterCopy":
+    "انضم إلى قائمتنا للحصول على إرشادات الاستخدام وتنبيهات الأصالة والعروض الحصرية.",
   "footer.emailPlaceholder": "عنوان بريدك الإلكتروني",
   "footer.subscribe": "اشترك",
   "footer.subscribed": "تم الاشتراك بنجاح.",

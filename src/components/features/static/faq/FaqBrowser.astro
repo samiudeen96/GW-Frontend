@@ -1,0 +1,261 @@
+---
+/**
+ * FAQ search, quick answers, category chips and accordion sections.
+ * Fully server-rendered; the inline script only filters the existing markup
+ * (no island needed, no duplicated content in props).
+ */
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface LocalizedFaq {
+  q: string;
+  a: string;
+  related?: { label: string; to: string }[];
+}
+export interface LocalizedFaqSection {
+  id: string;
+  title: string;
+  faqs: LocalizedFaq[];
+}
+
+export interface Props {
+  sections: LocalizedFaqSection[];
+}
+
+const { sections } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+
+const totalCount = sections.reduce((n, s) => n + s.faqs.length, 0);
+const one = t("faq.section.questionsLabel.one", "question");
+const many = t("faq.section.questionsLabel.many", "questions");
+const noResults = {
+  prefix: t("faq.noResults.prefix", "No matches for "),
+  suffix: t("faq.noResults.suffix", ". Try a different keyword or"),
+  contact: t("faq.noResults.contact", "contact us"),
+};
+
+const quick = [
+  { s: "results-timeline", i: 0 },
+  { s: "how-to-use", i: 0 },
+  { s: "authenticity", i: 0 },
+].flatMap((ref) => {
+  const sec = sections.find((x) => x.id === ref.s);
+  const f = sec?.faqs[ref.i];
+  return sec && f ? [{ id: ref.s, sectionTitle: sec.title, f }] : [];
+});
+---
+
+<faq-browser class="contents">
+  {/* Search */}
+  <section class="hairline bg-paper border-b">
+    <div class="container-editorial py-6 md:py-8">
+      <label for="faq-search" class="sr-only">
+        {t("faq.search.srLabel", "Search questions")}
+      </label>
+      <div class="hairline bg-ivory flex items-center gap-3 border px-4 py-3">
+        <span class="text-ink/50 text-[11px] tracking-[0.2em] uppercase">
+          {t("faq.search.label", "Search")}
+        </span>
+        <input
+          id="faq-search"
+          type="search"
+          data-faq-input
+          placeholder={t("faq.search.placeholder", "Search {count}+ answers…").replace(
+            "{count}",
+            String(totalCount),
+          )}
+          class="placeholder:text-ink/40 flex-1 bg-transparent text-sm outline-none md:text-base"
+        />
+        <button
+          type="button"
+          data-faq-clear
+          hidden
+          class="text-ink/60 hover:text-forest text-[11px] tracking-[0.2em] uppercase"
+        >
+          {t("faq.search.clear", "Clear")}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  {/* Quick answers — the three most-asked questions */}
+  <section class="hairline bg-paper border-b" data-faq-idle>
+    <div class="container-editorial py-10 md:py-14">
+      <h2 class="mb-6 font-serif text-2xl md:text-3xl">
+        {t("faq.quick.eyebrow", "Frequently asked")}
+      </h2>
+      <div class="hairline grid gap-0 border md:grid-cols-3">
+        {quick.map((item, idx) => (
+          <div
+            class:list={[
+              "bg-ivory p-6 md:p-8",
+              idx > 0 && "hairline border-t md:border-t-0 md:border-s",
+            ]}
+          >
+            <div class="text-ink/50 mb-3 text-[10px] tracking-[0.2em] uppercase">
+              {item.sectionTitle}
+            </div>
+            <h3 class="text-ink font-serif text-lg leading-snug md:text-xl">{item.f.q}</h3>
+            <p class="text-ink/70 mt-3 line-clamp-4 text-sm leading-relaxed">{item.f.a}</p>
+            <a
+              href={`#${item.id}`}
+              class="text-forest mt-4 inline-block text-[11px] tracking-[0.2em] uppercase hover:underline"
+            >
+              {t("faq.quick.more", "More in section →")}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Sticky category chips */}
+  <nav class="hairline bg-ivory sticky top-14 z-30 border-b md:top-16" data-faq-idle>
+    <div class="container-editorial text-ink/70 flex gap-2 overflow-x-auto py-3 text-[11px] tracking-[0.2em] uppercase">
+      {sections.map((s) => (
+        <a
+          href={`#${s.id}`}
+          class="hairline bg-paper hover:text-forest hover:border-forest border px-3 py-1.5 whitespace-nowrap transition-colors"
+        >
+          {s.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <section class="container-editorial py-16 text-center" data-faq-empty hidden>
+    <!-- prettier-ignore -->
+    <p class="text-muted-foreground text-sm">{noResults.prefix}“<span data-faq-query></span>”{noResults.suffix}{" "}<a href={withLocalePrefix("/contact", locale)} class="text-forest underline">{noResults.contact}</a>.</p>
+  </section>
+
+  {sections.map((section, idx) => (
+    <section
+      id={section.id}
+      data-faq-section
+      class:list={[idx % 2 === 1 && "bg-ivory hairline border-y", "scroll-mt-32"]}
+    >
+      <div class="container-editorial grid gap-8 py-12 md:grid-cols-[280px_1fr] md:gap-14 md:py-16">
+        <div class="md:sticky md:top-32 md:self-start">
+          <h2 class="text-ink font-serif text-3xl leading-tight md:text-4xl">{section.title}</h2>
+          <p class="text-muted-foreground mt-3 text-sm">
+            <span data-faq-count>{section.faqs.length}</span>{" "}
+            <span data-faq-count-label data-one={one} data-many={many}>
+              {section.faqs.length === 1 ? one : many}
+            </span>
+          </p>
+          <div class="bg-forest mt-4 h-1 w-12" />
+        </div>
+        <div class="hairline border">
+          {section.faqs.map((f, i) => (
+            <details
+              open={i === 0}
+              data-faq-item
+              class:list={["group bg-paper", i > 0 && "hairline border-t"]}
+            >
+              <summary class="hover:bg-ivory flex cursor-pointer list-none items-start justify-between gap-4 p-5 transition-colors md:p-6">
+                <h3 class="text-ink pe-2 font-serif text-lg leading-snug md:text-xl" data-faq-q>
+                  {f.q}
+                </h3>
+                <span class="hairline text-forest mt-1 flex h-6 w-6 shrink-0 items-center justify-center border text-lg leading-none transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <div class="-mt-1 px-5 pt-0 pb-6 md:px-6">
+                <p
+                  class="text-ink/80 max-w-2xl text-[15px] leading-relaxed whitespace-pre-line"
+                  data-faq-a
+                >
+                  {f.a}
+                </p>
+                {f.related && f.related.length > 0 && (
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="text-ink/50 self-center text-[10px] tracking-[0.22em] uppercase">
+                      {t("faq.related.label", "Related")}
+                    </span>
+                    {f.related.map((r) => (
+                      <a
+                        href={withLocalePrefix(r.to, locale)}
+                        class="hairline text-ink/80 hover:text-forest hover:border-forest border px-2.5 py-1 text-[11px] tracking-[0.18em] uppercase transition-colors"
+                      >
+                        {r.label} →
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+</faq-browser>
+
+<script>
+  /** Client-side filter over the server-rendered FAQ (mirrors the legacy React search). */
+  class FaqBrowser extends HTMLElement {
+    connectedCallback() {
+      const input = this.querySelector<HTMLInputElement>("[data-faq-input]");
+      const clear = this.querySelector<HTMLButtonElement>("[data-faq-clear]");
+      const empty = this.querySelector<HTMLElement>("[data-faq-empty]");
+      const queryOut = this.querySelector<HTMLElement>("[data-faq-query]");
+      const idle = this.querySelectorAll<HTMLElement>("[data-faq-idle]");
+      const sections = [...this.querySelectorAll<HTMLElement>("[data-faq-section]")].map((el) => ({
+        el,
+        count: el.querySelector<HTMLElement>("[data-faq-count]"),
+        label: el.querySelector<HTMLElement>("[data-faq-count-label]"),
+        items: [...el.querySelectorAll<HTMLDetailsElement>("[data-faq-item]")].map((d) => ({
+          el: d,
+          text: `${d.querySelector("[data-faq-q]")?.textContent ?? ""}\n${
+            d.querySelector("[data-faq-a]")?.textContent ?? ""
+          }`.toLowerCase(),
+        })),
+      }));
+      if (!input) return;
+
+      const apply = () => {
+        const raw = input.value;
+        const q = raw.trim().toLowerCase();
+        if (clear) clear.hidden = raw === "";
+        idle.forEach((el) => (el.hidden = q !== ""));
+
+        let visibleSections = 0;
+        for (const s of sections) {
+          let n = 0;
+          for (const item of s.items) {
+            const match = !q || item.text.includes(q);
+            item.el.hidden = !match;
+            if (!match) continue;
+            item.el.open = !q && n === 0;
+            item.el.classList.toggle("border-t", n > 0);
+            item.el.classList.toggle("hairline", n > 0);
+            n++;
+          }
+          s.el.hidden = n === 0;
+          if (n === 0) continue;
+          const alt = visibleSections % 2 === 1;
+          s.el.classList.toggle("bg-ivory", alt);
+          s.el.classList.toggle("hairline", alt);
+          s.el.classList.toggle("border-y", alt);
+          if (s.count) s.count.textContent = String(n);
+          if (s.label)
+            s.label.textContent = (n === 1 ? s.label.dataset.one : s.label.dataset.many) ?? "";
+          visibleSections++;
+        }
+
+        if (empty) empty.hidden = visibleSections > 0;
+        if (queryOut) queryOut.textContent = raw;
+      };
+
+      input.addEventListener("input", apply);
+      clear?.addEventListener("click", () => {
+        input.value = "";
+        apply();
+        input.focus();
+      });
+      if (input.value) apply();
+    }
+  }
+
+  customElements.define("faq-browser", FaqBrowser);
+</script>

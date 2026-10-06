@@ -53,7 +53,8 @@ export const arMisc: Record<string, string> = {
   "misc.contact.standard.order.title": "مساعدة الطلبات",
   "misc.contact.standard.order.desc": "التتبع والتسليم والجمارك ودعم إعادة الشحن.",
   "misc.contact.standard.authenticity.title": "مكتب التحقق من الأصالة",
-  "misc.contact.standard.authenticity.desc": "تحقق من الأختام الهولوغرامية وأكواد الخدش والبائعين خلال دقائق.",
+  "misc.contact.standard.authenticity.desc":
+    "تحقق من الأختام الهولوغرامية وأكواد الخدش والبائعين خلال دقائق.",
   "misc.contact.standard.wholesale.title": "فريق الجملة",
   "misc.contact.standard.wholesale.desc": "خط مباشر مع مكتب التوزيع والشراكات لدينا.",
   "misc.contact.standard.whatsapp.title": "مساعد واتساب",
@@ -67,9 +68,11 @@ export const arMisc: Record<string, string> = {
   "misc.contact.dept.sales.label": "المبيعات والجملة",
   "misc.contact.dept.sales.for": "الطلبات بالجملة، حسابات التجزئة، انضمام الموزعين.",
   "misc.contact.dept.partnerships.label": "الشراكات",
-  "misc.contact.dept.partnerships.for": "موزعو الدول، حقوق السوق الحصرية، تعاونات العلامة التجارية.",
+  "misc.contact.dept.partnerships.for":
+    "موزعو الدول، حقوق السوق الحصرية، تعاونات العلامة التجارية.",
   "misc.contact.dept.authenticity.label": "الأصالة ومكافحة التقليد",
-  "misc.contact.dept.authenticity.for": "الإبلاغ عن بائع مزيّف، التحقق من رمز، أو الإبلاغ عن عرض في سوق إلكتروني.",
+  "misc.contact.dept.authenticity.for":
+    "الإبلاغ عن بائع مزيّف، التحقق من رمز، أو الإبلاغ عن عرض في سوق إلكتروني.",
   "misc.contact.dept.press.label": "الصحافة والإعلام",
   "misc.contact.dept.press.for": "طلبات المقابلات، الصور التحريرية، ملفات حقائق العلامة التجارية.",
 
@@ -147,7 +150,8 @@ export const arMisc: Record<string, string> = {
   "misc.wholesale.process.eyebrow": "القسم · 01",
   "misc.wholesale.process.title": "الانضمام في خمس خطوات.",
   "misc.wholesale.process.step1.title": "التقديم",
-  "misc.wholesale.process.step1.desc": "أرسل النموذج مع بيانات الشركة وقنوات البيع والأسواق المستهدفة.",
+  "misc.wholesale.process.step1.desc":
+    "أرسل النموذج مع بيانات الشركة وقنوات البيع والأسواق المستهدفة.",
   "misc.wholesale.process.step2.title": "المراجعة",
   "misc.wholesale.process.step2.desc": "يراجع فريق الشراكات لدينا الطلب ويرد خلال 48 ساعة.",
   "misc.wholesale.process.step3.title": "الاستكشاف",
@@ -159,7 +163,8 @@ export const arMisc: Record<string, string> = {
 
   "misc.wholesale.apply.eyebrow": "القسم · 02",
   "misc.wholesale.apply.title": "قدّم طلبك.",
-  "misc.wholesale.apply.desc": "أكمل النموذج. سيرد عليك مسؤول شراكات خلال يومي عمل من ساعات مكتب بانكوك.",
+  "misc.wholesale.apply.desc":
+    "أكمل النموذج. سيرد عليك مسؤول شراكات خلال يومي عمل من ساعات مكتب بانكوك.",
   "misc.wholesale.apply.responseLabel": "الرد",
   "misc.wholesale.apply.responseValue": "خلال 48 ساعة",
   "misc.wholesale.apply.languagesLabel": "اللغات",
@@ -204,7 +209,6 @@ export const arMisc: Record<string, string> = {
   "misc.whatsapp.label": "واتساب",
   "misc.whatsapp.shortLabel": "دردشة",
 
-
   // ===== /countries/$slug — template =====
   "misc.countries.notFound.title": "المنطقة غير متاحة",
   "misc.countries.notFound.headTitle": "المنطقة غير موجودة — جرين ولث",
@@ -228,8 +232,10 @@ export const arMisc: Record<string, string> = {
 
   // ===== country: uae =====
   "misc.countries.uae.name": "الإمارات العربية المتحدة",
-  "misc.countries.uae.heroLine": "موثوق به من آلاف العملاء في جميع أنحاء الإمارات للحصول على منتجات جرين ولث الأصلية للعناية بالشعر.",
-  "misc.countries.uae.shippingNote": "يُشحن عبر شريك التوزيع المعتمد لدينا في الإمارات. شحن مجاني للطلبات فوق 300 درهم.",
+  "misc.countries.uae.heroLine":
+    "موثوق به من آلاف العملاء في جميع أنحاء الإمارات للحصول على منتجات جرين ولث الأصلية للعناية بالشعر.",
+  "misc.countries.uae.shippingNote":
+    "يُشحن عبر شريك التوزيع المعتمد لدينا في الإمارات. شحن مجاني للطلبات فوق 300 درهم.",
   "misc.countries.uae.city.0": "دبي",
   "misc.countries.uae.city.1": "أبوظبي",
   "misc.countries.uae.city.2": "الشارقة",
@@ -240,24 +246,32 @@ export const arMisc: Record<string, string> = {
   "misc.countries.uae.city.7": "العين",
   "misc.countries.uae.testimonial.0.name": "سارة أ.",
   "misc.countries.uae.testimonial.0.city": "مرسى دبي",
-  "misc.countries.uae.testimonial.0.body": "طلبت في الصباح ووصل الطلب في اليوم التالي. تم التحقق من رمز الخدش فورًا — هذا هو لوشن نيو للشعر الأصلي.",
+  "misc.countries.uae.testimonial.0.body":
+    "طلبت في الصباح ووصل الطلب في اليوم التالي. تم التحقق من رمز الخدش فورًا — هذا هو لوشن نيو للشعر الأصلي.",
   "misc.countries.uae.testimonial.1.name": "محمد ر.",
   "misc.countries.uae.testimonial.1.city": "أبوظبي",
-  "misc.countries.uae.testimonial.1.body": "بعد ثلاثة أشهر، أصبح خط شعري أكثر كثافة بشكل ملحوظ. جرين ولث في الإمارات منتج أصلي وموثوق.",
+  "misc.countries.uae.testimonial.1.body":
+    "بعد ثلاثة أشهر، أصبح خط شعري أكثر كثافة بشكل ملحوظ. جرين ولث في الإمارات منتج أصلي وموثوق.",
   "misc.countries.uae.testimonial.2.name": "ليلى هـ.",
   "misc.countries.uae.testimonial.2.city": "الشارقة",
-  "misc.countries.uae.testimonial.2.body": "اشتريت الباقة مع الشامبو وزيت إكليل الجبل — فرق ملحوظ في اللمعان خلال أسابيع.",
+  "misc.countries.uae.testimonial.2.body":
+    "اشتريت الباقة مع الشامبو وزيت إكليل الجبل — فرق ملحوظ في اللمعان خلال أسابيع.",
   "misc.countries.uae.faq.0.q": "هل توصلون داخل جميع أنحاء الإمارات؟",
-  "misc.countries.uae.faq.0.a": "نعم — إلى الإمارات السبع كافة، عادة خلال 1 إلى 3 أيام عمل عبر موزعنا المعتمد.",
+  "misc.countries.uae.faq.0.a":
+    "نعم — إلى الإمارات السبع كافة، عادة خلال 1 إلى 3 أيام عمل عبر موزعنا المعتمد.",
   "misc.countries.uae.faq.1.q": "هل الدفع عند الاستلام متاح؟",
-  "misc.countries.uae.faq.1.a": "نعم، الدفع عند الاستلام متاح لطلبات الإمارات إلى جانب الدفع بالبطاقة وآبل باي.",
+  "misc.countries.uae.faq.1.a":
+    "نعم، الدفع عند الاستلام متاح لطلبات الإمارات إلى جانب الدفع بالبطاقة وآبل باي.",
   "misc.countries.uae.faq.2.q": "كيف أتأكد من أصالة المنتج؟",
-  "misc.countries.uae.faq.2.a": "تحمل كل عبوة رمز خدش فريد. أدخله في صفحة التحقق من الأصالة للتحقق الفوري.",
+  "misc.countries.uae.faq.2.a":
+    "تحمل كل عبوة رمز خدش فريد. أدخله في صفحة التحقق من الأصالة للتحقق الفوري.",
 
   // ===== country: saudi-arabia =====
   "misc.countries.saudi-arabia.name": "المملكة العربية السعودية",
-  "misc.countries.saudi-arabia.heroLine": "منتج لوشن نيو للشعر الأصلي من جرين ولث، يُوصَل إلى جميع أنحاء المملكة.",
-  "misc.countries.saudi-arabia.shippingNote": "يُشحن عبر شريكنا الإقليمي المعتمد. تغطية شاملة لجميع مناطق المملكة.",
+  "misc.countries.saudi-arabia.heroLine":
+    "منتج لوشن نيو للشعر الأصلي من جرين ولث، يُوصَل إلى جميع أنحاء المملكة.",
+  "misc.countries.saudi-arabia.shippingNote":
+    "يُشحن عبر شريكنا الإقليمي المعتمد. تغطية شاملة لجميع مناطق المملكة.",
   "misc.countries.saudi-arabia.city.0": "الرياض",
   "misc.countries.saudi-arabia.city.1": "جدة",
   "misc.countries.saudi-arabia.city.2": "مكة المكرمة",
@@ -268,23 +282,30 @@ export const arMisc: Record<string, string> = {
   "misc.countries.saudi-arabia.city.7": "تبوك",
   "misc.countries.saudi-arabia.testimonial.0.name": "عبدالله ك.",
   "misc.countries.saudi-arabia.testimonial.0.city": "الرياض",
-  "misc.countries.saudi-arabia.testimonial.0.body": "توصيل سريع إلى الرياض والمنتج أصلي من تايلاند. سعيد جدًا بالتجربة.",
+  "misc.countries.saudi-arabia.testimonial.0.body":
+    "توصيل سريع إلى الرياض والمنتج أصلي من تايلاند. سعيد جدًا بالتجربة.",
   "misc.countries.saudi-arabia.testimonial.1.name": "فاطمة م.",
   "misc.countries.saudi-arabia.testimonial.1.city": "جدة",
-  "misc.countries.saudi-arabia.testimonial.1.body": "زيت إكليل الجبل مع لوشن نيو للشعر أعطاني أفضل نتيجة خلال عام كامل.",
+  "misc.countries.saudi-arabia.testimonial.1.body":
+    "زيت إكليل الجبل مع لوشن نيو للشعر أعطاني أفضل نتيجة خلال عام كامل.",
   "misc.countries.saudi-arabia.testimonial.2.name": "عمر س.",
   "misc.countries.saudi-arabia.testimonial.2.city": "الدمام",
-  "misc.countries.saudi-arabia.testimonial.2.body": "اشتريت من جرين ولث بعد تجربة سيئة مع منتجات مقلدة من مواقع أخرى. منتج أصلي، والرمز موثّق.",
+  "misc.countries.saudi-arabia.testimonial.2.body":
+    "اشتريت من جرين ولث بعد تجربة سيئة مع منتجات مقلدة من مواقع أخرى. منتج أصلي، والرمز موثّق.",
   "misc.countries.saudi-arabia.faq.0.q": "هل تشحنون إلى جميع مناطق المملكة؟",
-  "misc.countries.saudi-arabia.faq.0.a": "نعم، نغطي كل المدن الرئيسية ومعظم البلدات في أنحاء المملكة.",
+  "misc.countries.saudi-arabia.faq.0.a":
+    "نعم، نغطي كل المدن الرئيسية ومعظم البلدات في أنحاء المملكة.",
   "misc.countries.saudi-arabia.faq.1.q": "ما طرق الدفع المتاحة في السعودية؟",
-  "misc.countries.saudi-arabia.faq.1.a": "مدى، فيزا، ماستركارد، آبل باي، والدفع عند الاستلام في مدن مختارة.",
+  "misc.countries.saudi-arabia.faq.1.a":
+    "مدى، فيزا، ماستركارد، آبل باي، والدفع عند الاستلام في مدن مختارة.",
   "misc.countries.saudi-arabia.faq.2.q": "هل المنتج هو الأصلي من تايلاند؟",
-  "misc.countries.saudi-arabia.faq.2.a": "نعم — لوشن نيو للشعر الأصلي من جرين ولث® مُصنَّع وفق المواصفات الأصلية، ويُوزَّع بترخيص رسمي.",
+  "misc.countries.saudi-arabia.faq.2.a":
+    "نعم — لوشن نيو للشعر الأصلي من جرين ولث® مُصنَّع وفق المواصفات الأصلية، ويُوزَّع بترخيص رسمي.",
 
   // ===== country: qatar =====
   "misc.countries.qatar.name": "قطر",
-  "misc.countries.qatar.heroLine": "عناية أصيلة بالشعر، موثّقة دفعة بدفعة، تصل إلى باب منزلك في قطر.",
+  "misc.countries.qatar.heroLine":
+    "عناية أصيلة بالشعر، موثّقة دفعة بدفعة، تصل إلى باب منزلك في قطر.",
   "misc.countries.qatar.shippingNote": "يُوصَل إلى جميع أنحاء قطر عبر شريكنا الإقليمي.",
   "misc.countries.qatar.city.0": "الدوحة",
   "misc.countries.qatar.city.1": "الريان",
@@ -293,10 +314,12 @@ export const arMisc: Record<string, string> = {
   "misc.countries.qatar.city.4": "أم صلال",
   "misc.countries.qatar.testimonial.0.name": "أحمد ن.",
   "misc.countries.qatar.testimonial.0.city": "الدوحة",
-  "misc.countries.qatar.testimonial.0.body": "منتج أصلي، تغليف عناية، وتوصيل سريع. سأطلب مرة أخرى بالتأكيد.",
+  "misc.countries.qatar.testimonial.0.body":
+    "منتج أصلي، تغليف عناية، وتوصيل سريع. سأطلب مرة أخرى بالتأكيد.",
   "misc.countries.qatar.testimonial.1.name": "نورة ق.",
   "misc.countries.qatar.testimonial.1.city": "الريان",
-  "misc.countries.qatar.testimonial.1.body": "الشامبو لطيف على الشعر ويتكامل تمامًا مع لوشن نيو للشعر.",
+  "misc.countries.qatar.testimonial.1.body":
+    "الشامبو لطيف على الشعر ويتكامل تمامًا مع لوشن نيو للشعر.",
   "misc.countries.qatar.faq.0.q": "كم يستغرق التوصيل في قطر؟",
   "misc.countries.qatar.faq.0.a": "عادةً من 2 إلى 4 أيام عمل بعد الشحن.",
   "misc.countries.qatar.faq.1.q": "هل تقبلون الدفع بالريال القطري؟",
@@ -304,7 +327,8 @@ export const arMisc: Record<string, string> = {
 
   // ===== country: kuwait =====
   "misc.countries.kuwait.name": "الكويت",
-  "misc.countries.kuwait.heroLine": "مجموعة جرين ولث الأصلية، بالدينار الكويتي، تصل إلى جميع أنحاء الكويت.",
+  "misc.countries.kuwait.heroLine":
+    "مجموعة جرين ولث الأصلية، بالدينار الكويتي، تصل إلى جميع أنحاء الكويت.",
   "misc.countries.kuwait.shippingNote": "توصيل شامل لجميع أنحاء الكويت عبر شريكنا المعتمد.",
   "misc.countries.kuwait.city.0": "مدينة الكويت",
   "misc.countries.kuwait.city.1": "حولي",
@@ -313,17 +337,21 @@ export const arMisc: Record<string, string> = {
   "misc.countries.kuwait.city.4": "الفروانية",
   "misc.countries.kuwait.testimonial.0.name": "يوسف ب.",
   "misc.countries.kuwait.testimonial.0.city": "مدينة الكويت",
-  "misc.countries.kuwait.testimonial.0.body": "توصيل سريع وتم التحقق من رمز الخدش. راضٍ جدًا عن التجربة.",
+  "misc.countries.kuwait.testimonial.0.body":
+    "توصيل سريع وتم التحقق من رمز الخدش. راضٍ جدًا عن التجربة.",
   "misc.countries.kuwait.testimonial.1.name": "مريم أ.",
   "misc.countries.kuwait.testimonial.1.city": "السالمية",
   "misc.countries.kuwait.testimonial.1.body": "دعم عملاء ممتاز باللغة العربية. والمنتج فعّال.",
   "misc.countries.kuwait.faq.0.q": "هل الدفع عند الاستلام متاح؟",
-  "misc.countries.kuwait.faq.0.a": "نعم، الدفع عند الاستلام متاح في الكويت إلى جانب كي-نت والبطاقات.",
+  "misc.countries.kuwait.faq.0.a":
+    "نعم، الدفع عند الاستلام متاح في الكويت إلى جانب كي-نت والبطاقات.",
 
   // ===== country: united-kingdom =====
   "misc.countries.united-kingdom.name": "المملكة المتحدة",
-  "misc.countries.united-kingdom.heroLine": "نجلب طقوس العناية النباتية بالشعر الموثوقة في آسيا إلى المملكة المتحدة.",
-  "misc.countries.united-kingdom.shippingNote": "شحن مع تتبّع إلى إنجلترا واسكتلندا وويلز وأيرلندا الشمالية.",
+  "misc.countries.united-kingdom.heroLine":
+    "نجلب طقوس العناية النباتية بالشعر الموثوقة في آسيا إلى المملكة المتحدة.",
+  "misc.countries.united-kingdom.shippingNote":
+    "شحن مع تتبّع إلى إنجلترا واسكتلندا وويلز وأيرلندا الشمالية.",
   "misc.countries.united-kingdom.city.0": "لندن",
   "misc.countries.united-kingdom.city.1": "مانشستر",
   "misc.countries.united-kingdom.city.2": "برمنغهام",
@@ -334,22 +362,29 @@ export const arMisc: Record<string, string> = {
   "misc.countries.united-kingdom.city.7": "بلفاست",
   "misc.countries.united-kingdom.testimonial.0.name": "جيمس ب.",
   "misc.countries.united-kingdom.testimonial.0.city": "لندن",
-  "misc.countries.united-kingdom.testimonial.0.body": "وصل خلال خمسة أيام، مختوم بإحكام، وتم التحقق من الرمز عبر الإنترنت. تجربة رائعة.",
+  "misc.countries.united-kingdom.testimonial.0.body":
+    "وصل خلال خمسة أيام، مختوم بإحكام، وتم التحقق من الرمز عبر الإنترنت. تجربة رائعة.",
   "misc.countries.united-kingdom.testimonial.1.name": "بريا د.",
   "misc.countries.united-kingdom.testimonial.1.city": "مانشستر",
-  "misc.countries.united-kingdom.testimonial.1.body": "اشتريت لوشن نيو للشعر بعد قراءة المراجعات — بعد عبوة واحدة، أشعر أن شعري أكثر كثافة.",
+  "misc.countries.united-kingdom.testimonial.1.body":
+    "اشتريت لوشن نيو للشعر بعد قراءة المراجعات — بعد عبوة واحدة، أشعر أن شعري أكثر كثافة.",
   "misc.countries.united-kingdom.testimonial.2.name": "عائشة ب.",
   "misc.countries.united-kingdom.testimonial.2.city": "برمنغهام",
-  "misc.countries.united-kingdom.testimonial.2.body": "مخزون في المملكة المتحدة ومنتج أصلي. أمر نادر.",
+  "misc.countries.united-kingdom.testimonial.2.body":
+    "مخزون في المملكة المتحدة ومنتج أصلي. أمر نادر.",
   "misc.countries.united-kingdom.faq.0.q": "هل الأسعار شاملة ضريبة القيمة المضافة البريطانية؟",
-  "misc.countries.united-kingdom.faq.0.a": "نعم، جميع الأسعار في المملكة المتحدة تُعرض شاملة الضرائب المطبّقة.",
+  "misc.countries.united-kingdom.faq.0.a":
+    "نعم، جميع الأسعار في المملكة المتحدة تُعرض شاملة الضرائب المطبّقة.",
   "misc.countries.united-kingdom.faq.1.q": "هل تشحنون إلى أيرلندا الشمالية؟",
-  "misc.countries.united-kingdom.faq.1.a": "نعم، نوصل إلى جميع عناوين المملكة المتحدة بما فيها أيرلندا الشمالية.",
+  "misc.countries.united-kingdom.faq.1.a":
+    "نعم، نوصل إلى جميع عناوين المملكة المتحدة بما فيها أيرلندا الشمالية.",
 
   // ===== country: india =====
   "misc.countries.india.name": "الهند",
-  "misc.countries.india.heroLine": "لوشن نيو للشعر الأصلي من جرين ولث®، يصل إلى باب منزلك في الهند.",
-  "misc.countries.india.shippingNote": "يُشحن دوليًا مع تتبع التوصيل إلى جميع المدن الهندية الكبرى.",
+  "misc.countries.india.heroLine":
+    "لوشن نيو للشعر الأصلي من جرين ولث®، يصل إلى باب منزلك في الهند.",
+  "misc.countries.india.shippingNote":
+    "يُشحن دوليًا مع تتبع التوصيل إلى جميع المدن الهندية الكبرى.",
   "misc.countries.india.city.0": "مومباي",
   "misc.countries.india.city.1": "دلهي",
   "misc.countries.india.city.2": "بنغالورو",
@@ -360,15 +395,20 @@ export const arMisc: Record<string, string> = {
   "misc.countries.india.city.7": "أحمد آباد",
   "misc.countries.india.testimonial.0.name": "روهيت س.",
   "misc.countries.india.testimonial.0.city": "مومباي",
-  "misc.countries.india.testimonial.0.body": "منتج أصلي، مع تتبع كامل. بدأت المناطق الفارغة بالامتلاء بعد ثلاثة أشهر.",
+  "misc.countries.india.testimonial.0.body":
+    "منتج أصلي، مع تتبع كامل. بدأت المناطق الفارغة بالامتلاء بعد ثلاثة أشهر.",
   "misc.countries.india.testimonial.1.name": "أنيتا ر.",
   "misc.countries.india.testimonial.1.city": "بنغالورو",
-  "misc.countries.india.testimonial.1.body": "أفضل بكثير من المنتجات المقلدة المحلية في الأسواق الإلكترونية. هذه هي التركيبة التايلاندية الأصلية.",
+  "misc.countries.india.testimonial.1.body":
+    "أفضل بكثير من المنتجات المقلدة المحلية في الأسواق الإلكترونية. هذه هي التركيبة التايلاندية الأصلية.",
   "misc.countries.india.testimonial.2.name": "فيكرام ج.",
   "misc.countries.india.testimonial.2.city": "دلهي الكبرى",
-  "misc.countries.india.testimonial.2.body": "استغرق التوصيل أسبوعًا لكنه يستحق الانتظار. أوصي به بشدة.",
+  "misc.countries.india.testimonial.2.body":
+    "استغرق التوصيل أسبوعًا لكنه يستحق الانتظار. أوصي به بشدة.",
   "misc.countries.india.faq.0.q": "هل الرسوم الجمركية مشمولة؟",
-  "misc.countries.india.faq.0.a": "تُدار رسوم الاستيراد عند التسليم حيثما ينطبق ذلك؛ ويغطي إجمالي الدفع عند إتمام الطلب المنتج والشحن.",
+  "misc.countries.india.faq.0.a":
+    "تُدار رسوم الاستيراد عند التسليم حيثما ينطبق ذلك؛ ويغطي إجمالي الدفع عند إتمام الطلب المنتج والشحن.",
   "misc.countries.india.faq.1.q": "إلى أي المدن توصلون؟",
-  "misc.countries.india.faq.1.a": "جميع المدن الهندية الرئيسية ومعظم مدن الفئة الثانية عبر شريك الشحن الدولي لدينا.",
+  "misc.countries.india.faq.1.a":
+    "جميع المدن الهندية الرئيسية ومعظم مدن الفئة الثانية عبر شريك الشحن الدولي لدينا.",
 };

@@ -17,7 +17,10 @@ export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "en";
 
-export const LOCALE_META: Record<Locale, { label: string; nativeLabel: string; dir: "ltr" | "rtl"; htmlLang: string }> = {
+export const LOCALE_META: Record<
+  Locale,
+  { label: string; nativeLabel: string; dir: "ltr" | "rtl"; htmlLang: string }
+> = {
   en: { label: "English", nativeLabel: "English", dir: "ltr", htmlLang: "en" },
   ar: { label: "Arabic", nativeLabel: "العربية", dir: "rtl", htmlLang: "ar" },
 };
@@ -47,4 +50,6 @@ export function withLocalePrefix(pathname: string, locale: Locale): string {
 
 /** Mutable, router-instance-scoped locale holder (SSR-safe: one per request). */
 export type LocaleRef = { current: Locale };
-export const createLocaleRef = (initial: Locale = DEFAULT_LOCALE): LocaleRef => ({ current: initial });
+export const createLocaleRef = (initial: Locale = DEFAULT_LOCALE): LocaleRef => ({
+  current: initial,
+});

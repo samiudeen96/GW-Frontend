@@ -1,0 +1,77 @@
+---
+/** Breadcrumb + share / save actions above the PDP hero. */
+import { createT, withLocalePrefix } from "@/lib/i18n";
+
+export interface Props {
+  name: string;
+  /** Title passed to the native share sheet. */
+  shareTitle: string;
+}
+
+const { name, shareTitle } = Astro.props;
+const { locale } = Astro.locals;
+const t = createT(locale);
+const action =
+  "text-forest/70 hover:text-forest inline-flex h-8 items-center gap-1.5 px-3 font-mono text-[10px] tracking-[0.2em] uppercase";
+const saveLabel = t("product.route.save", "Save");
+const savedLabel = t("product.route.saved", "Saved");
+---
+
+<div class="hairline border-b">
+  <div class="container-editorial flex items-center justify-between gap-4 py-3 md:py-4">
+    <nav
+      aria-label={t("product.route.breadcrumb", "Breadcrumb")}
+      class="text-forest/60 flex min-w-0 items-center gap-2 truncate font-mono text-[10px] tracking-[0.18em] uppercase"
+    >
+      <a href={withLocalePrefix("/", locale)} class="hover:text-forest">
+        {t("product.route.home", "Home")}
+      </a>
+      <span>/</span>
+      <a href={withLocalePrefix("/shop", locale)} class="hover:text-forest">
+        {t("product.route.shop", "Shop")}
+      </a>
+      <span>/</span>
+      <span class="text-forest truncate">{name}</span>
+    </nav>
+    <div class="hidden items-center gap-1 md:flex">
+      <button type="button" class={action} data-pdp-share data-title={shareTitle}>
+        {t("product.route.share", "Share")}
+      </button>
+      <button
+        type="button"
+        class={action}
+        aria-pressed="false"
+        data-pdp-save
+        data-label-save={saveLabel}
+        data-label-saved={savedLabel}
+      >
+        {saveLabel}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-pdp-share]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const url = window.location.href;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: btn.dataset.title, url });
+        } catch {
+          /* dismissed */
+        }
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-pdp-save]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const saved = btn.getAttribute("aria-pressed") !== "true";
+      btn.setAttribute("aria-pressed", String(saved));
+      btn.textContent = (saved ? btn.dataset.labelSaved : btn.dataset.labelSave) ?? "";
+    });
+  });
+</script>

@@ -1,0 +1,120 @@
+---
+/** "More from Green Wealth": related product cards + related journal posts. */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { relatedPosts } from "@/data/blog-posts";
+import type { Product } from "@/data/products";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney, getBasePrice } from "@/lib/pricing";
+
+import ProductActions from "./ProductActions";
+
+export interface Props {
+  related: Product[];
+  productSlug: string;
+  productName: string;
+}
+
+const { related, productSlug, productName } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const posts = relatedPosts(productSlug, productName, 3);
+const button =
+  "flex-1 border hairline py-2 text-[10px] uppercase tracking-[0.18em] font-mono text-forest hover:bg-forest hover:text-paper transition-colors disabled:opacity-40";
+---
+
+{(related.length > 0 || posts.length > 0) && (
+  <section class="hairline bg-ivory border-t">
+    <div class="container-editorial py-9 md:py-14">
+      <div class="mb-6 flex items-baseline justify-between md:mb-8">
+        <div>
+          <span class="text-moss font-mono text-[6px] tracking-[0.28em] uppercase">
+            {t("product.route.explore", "Explore")}
+          </span>
+          <h2 class="text-forest mt-2 font-serif text-2xl leading-tight md:text-[2rem]">
+            {t("product.route.moreFromGreenWealth", "More from Green Wealth")}
+          </h2>
+        </div>
+        <a
+          href={withLocalePrefix("/shop", locale)}
+          class="text-forest hover:text-gold font-mono text-[10.5px] tracking-[0.24em] uppercase"
+        >
+          {t("product.route.shopAll", "Shop all")}
+        </a>
+      </div>
+
+      {related.length > 0 && (
+        <div class="mb-6 grid grid-cols-2 gap-3 md:mb-8 md:grid-cols-3 md:gap-5">
+          {related.map((r) => {
+            const rName = t(`product.${r.slug}.name`, r.name);
+            return (
+              <div class="group bg-paper hairline block border">
+                <a href={withLocalePrefix(`/product/${r.slug}`, locale)} class="block">
+                  <div class="bg-ivory aspect-square overflow-hidden">
+                    <ResponsiveImage
+                      src={r.image}
+                      alt={rName}
+                      sizes="(min-width: 1024px) 320px, 45vw"
+                      widths={[200, 400, 640]}
+                      class="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div class="hairline border-t p-3 md:p-4">
+                    <span class="text-moss font-mono text-[9.5px] tracking-[0.24em] uppercase">
+                      {t(`product.category.${r.category}`, r.category)}
+                    </span>
+                    <h3 class="text-forest mt-1 font-serif text-base leading-tight md:text-lg">
+                      {rName}
+                    </h3>
+                    <span
+                      class="text-forest mt-2 block font-mono text-[12px] tabular-nums"
+                      data-ltr
+                    >
+                      {formatMoney(getBasePrice(r.slug, currency), currency)}
+                    </span>
+                  </div>
+                </a>
+                <ProductActions
+                  client:visible
+                  slug={r.slug}
+                  available={r.available}
+                  className="flex items-center gap-2 px-3 pb-3 md:px-4 md:pb-4"
+                  buttonClassName={button}
+                  labels={{
+                    add: t("product.route.add", "Add"),
+                    addAria: `${t("product.route.add", "Add")} ${rName}`,
+                    view: t("product.route.quickView", "Quick view"),
+                    viewAria: `${t("product.route.quickView", "Quick view")} ${rName}`,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {posts.length > 0 && (
+        <div class="bg-ink/10 hairline grid grid-cols-1 gap-px border md:grid-cols-3">
+          {posts.map((post) => (
+            <a
+              href={withLocalePrefix(`/blogs/${post.slug}`, locale)}
+              class="group bg-paper hover:bg-ivory/60 block p-5 transition-colors md:p-6"
+            >
+              <span class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+                {t(`blog.category.${post.category}`, post.category)}
+              </span>
+              <h3 class="text-forest group-hover:text-moss mt-2 font-serif text-base leading-snug transition-colors md:text-lg">
+                {t(`blog.${post.slug}.title`, post.title)}
+              </h3>
+              <p class="text-forest/70 mt-2 line-clamp-2 text-[12.5px] leading-relaxed">
+                {t(`blog.${post.slug}.excerpt`, post.excerpt)}
+              </p>
+              <span class="text-gold mt-3 inline-block font-mono text-[10px] tracking-[0.24em] uppercase">
+                {t("product.route.readArrow", "Read →")}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}

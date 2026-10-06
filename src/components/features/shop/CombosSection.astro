@@ -1,0 +1,140 @@
+---
+/** Curated combos grid on /shop: pre-composed sets with tier-accurate pricing. */
+import ResponsiveImage from "@/components/common/ResponsiveImage.astro";
+import { comboPricing, comboProducts, type Combo } from "@/data/combos";
+import { createT, withLocalePrefix } from "@/lib/i18n";
+import { formatMoney } from "@/lib/pricing";
+
+import AddToBag from "./AddToBag";
+
+export interface Props {
+  combos: Combo[];
+}
+
+const { combos } = Astro.props;
+const { locale, currency } = Astro.locals;
+const t = createT(locale);
+const tiles = combos.map((combo) => ({
+  combo,
+  pricing: comboPricing(combo, currency),
+  lines: comboProducts(combo),
+}));
+---
+
+<section class="container-editorial mt-10 md:mt-16">
+  <div class="mb-4 flex items-end justify-between md:mb-6">
+    <div>
+      <div class="text-moss font-mono text-[9.5px] tracking-[0.32em] uppercase">
+        {t("shop.combo.sets", "Sets")}
+      </div>
+      <h2 class="text-forest mt-2 font-serif text-2xl md:text-3xl">
+        {t("shop.combo.curatedCombos", "Curated Combos")}
+      </h2>
+    </div>
+    <div class="text-forest/60 hidden font-mono text-[10px] tracking-[0.28em] uppercase md:block">
+      {t("shop.combo.preComposed", "Pre-composed · One click to bag")}
+    </div>
+  </div>
+
+  <div class="bg-ink/10 hairline grid grid-cols-1 gap-px border md:grid-cols-2 xl:grid-cols-3">
+    {tiles.map(({ combo, pricing: { total, reference, savings, units }, lines }) => (
+      <article
+        class:list={[
+          "bg-paper flex flex-col p-5 md:p-6",
+          combo.featured && "ring-gold/50 ring-1 ring-inset",
+        ]}
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <div class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+              {t(`shop.combo.${combo.code}.step`, combo.step)}
+            </div>
+            <a
+              href={withLocalePrefix(`/combo/${combo.code.toLowerCase()}`, locale)}
+              class="text-forest hover:text-moss mt-1.5 block font-serif text-lg leading-snug transition-colors md:text-xl"
+            >
+              {t(`shop.combo.${combo.code}.name`, combo.name)}
+            </a>
+          </div>
+          {combo.featured && (
+            <span class="text-forest border-gold border px-2 py-1 font-mono text-[9px] tracking-[0.24em] whitespace-nowrap uppercase">
+              {t("shop.combo.mostChosen", "Most chosen")}
+            </span>
+          )}
+        </div>
+
+        <div class="bg-ink/10 hairline mt-4 flex items-center gap-px border">
+          {lines.map(({ product, qty }) => (
+            <div class="relative aspect-square flex-1 bg-white">
+              <ResponsiveImage
+                src={product.image}
+                alt={t(
+                  `product.${product.slug}.imageAlts.0`,
+                  product.imageAlts?.[0] ?? `${product.name} — ${product.size} product photograph`,
+                )}
+                sizes="(min-width: 1280px) 140px, 30vw"
+                class="h-full w-full object-contain p-2"
+              />
+              {qty > 1 && (
+                <span class="text-forest bg-paper hairline absolute end-1 bottom-1 border px-1.5 font-mono text-[10px]">
+                  ×{qty}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p class="text-forest/75 mt-4 text-[13px] leading-relaxed">
+          {t(`shop.combo.${combo.code}.purpose`, combo.purpose)}
+        </p>
+
+        <ul class="text-forest/70 mt-4 space-y-1.5 font-mono text-[12px]">
+          {lines.map(({ product, qty }) => (
+            <li class="flex justify-between gap-3">
+              <span class="truncate">
+                {qty > 1 ? `${qty} × ` : ""}
+                {t(`product.${product.slug}.name`, product.name)}
+              </span>
+              <a
+                href={withLocalePrefix(`/product/${product.slug}`, locale)}
+                class="text-moss whitespace-nowrap underline underline-offset-2"
+              >
+                {t("shop.combo.view", "View")}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-auto pt-5">
+          <div class="hairline flex items-end justify-between border-t pt-4">
+            <div>
+              <div class="text-moss font-mono text-[9.5px] tracking-[0.28em] uppercase">
+                {units}{" "}
+                {units === 1 ? t("shop.combo.unit", "unit") : t("shop.combo.units", "units")}
+              </div>
+              <div class="mt-1 flex items-baseline gap-2">
+                <span class="text-forest text-xl">{formatMoney(total, currency)}</span>
+                {savings > 0 && (
+                  <span class="text-forest/45 font-mono text-[12px] line-through">
+                    {formatMoney(reference, currency)}
+                  </span>
+                )}
+              </div>
+            </div>
+            {savings > 0 && (
+              <div class="text-moss font-mono text-[10px] tracking-[0.24em] uppercase">
+                {t("shop.combo.saveTogether", "Save")} {formatMoney(savings, currency)}
+              </div>
+            )}
+          </div>
+          <AddToBag
+            client:visible
+            lines={combo.lines}
+            label={t("shop.combo.addComboToBag", "Add combo to bag")}
+            className="mt-4 w-full bg-forest py-3.5 font-mono text-[11px] tracking-[0.28em] text-paper uppercase transition-colors hover:bg-moss"
+          />
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

@@ -30,12 +30,14 @@ export const arProductImageAlts: Record<string, string> = {
   // Neo Hair Shampoo
   "product.neo-hair-shampoo.imageAlts.0":
     "عبوة شامبو نيو للشعر بحجم 250 مل، منظر أمامي يُظهر ملصق جرين ولث الأخضر",
-  "product.neo-hair-shampoo.imageAlts.1": "عبوة شامبو نيو للشعر 250 مل مصوّرة بجانب علبتها المطبوعة",
+  "product.neo-hair-shampoo.imageAlts.1":
+    "عبوة شامبو نيو للشعر 250 مل مصوّرة بجانب علبتها المطبوعة",
   "product.neo-hair-shampoo.imageAlts.2":
     "عبوة شامبو نيو للشعر منسّقة مع جذر الجينسنغ وأغصان الروزماري على سطح فاتح",
   "product.neo-hair-shampoo.imageAlts.3":
     "الملصق الخلفي لشامبو نيو للشعر يُظهر قائمة المكوّنات الكاملة وحجم 250 مل",
-  "product.neo-hair-shampoo.imageAlts.4": "تفصيل مضخّة شامبو نيو للشعر مع قطرة شامبو على طرف الإصبع",
+  "product.neo-hair-shampoo.imageAlts.4":
+    "تفصيل مضخّة شامبو نيو للشعر مع قطرة شامبو على طرف الإصبع",
   "product.neo-hair-shampoo.imageAlts.5":
     "عبوة شامبو نيو للشعر على رفّ الحمّام كجزء من طقس جرين ولث اليومي",
   "product.neo-hair-shampoo.imageAlts.6": "عبوة شامبو نيو للشعر مستلقية على جانبها مع رغوة بجانبها",
