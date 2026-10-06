@@ -17,6 +17,9 @@ const EN = {
   seoTitle: "Cookie Policy — Green Wealth",
   seoDescription:
     "How Green Wealth uses essential, functional, analytics and marketing cookies, how long they last, and how to manage or withdraw consent.",
+  ogTitle: "Cookie Policy — Green Wealth",
+  ogDescription:
+    "Cookie categories, retention periods, third-party providers, and how to control cookies on greenwealth.com.",
 };
 
 const sections = translateLegalSections(t, "cookie", cookieSections);
@@ -31,6 +34,8 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.cookie.seo.title", EN.seoTitle)}
   description={t("legal.cookie.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.cookie.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.cookie.seo.ogDescription", EN.ogDescription)}
   path="/cookie-policy"
   jsonLd={jsonLd}
 >

@@ -50,7 +50,16 @@ const jsonLd = [
 ];
 ---
 
-<SiteLayout title={title} description={description} path="/blogs" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogDescription={t(
+    "blog.head.index.ogDescription",
+    "Protocols, ingredient science and honest timelines for the Green Wealth hair system.",
+  )}
+  path="/blogs"
+  jsonLd={jsonLd}
+>
   {/* Masthead — oversized editorial plate */}
   <header class="hairline bg-forest text-paper relative overflow-hidden border-b">
     <div

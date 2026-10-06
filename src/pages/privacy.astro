@@ -17,6 +17,9 @@ const EN = {
   seoTitle: "Privacy Policy — Green Wealth | Ghori Trading LLC",
   seoDescription:
     "How Ghori Trading LLC collects, uses, shares, retains and protects your personal information on greenwealth.com, and the data rights available to you.",
+  ogTitle: "Privacy Policy — Green Wealth",
+  ogDescription:
+    "Data we collect, why we use it, who we share it with, retention periods, security measures and your rights.",
 };
 
 const sections = translateLegalSections(t, "privacy", privacySections);
@@ -31,10 +34,12 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.privacy.seo.title", EN.seoTitle)}
   description={t("legal.privacy.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.privacy.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.privacy.seo.ogDescription", EN.ogDescription)}
   path="/privacy"
+  noindex
   jsonLd={jsonLd}
 >
-  <meta slot="head" name="robots" content="noindex, follow" />
   <PageHeader
     eyebrow={t("legal.privacy.eyebrow", EN.eyebrow)}
     title={t("legal.privacy.title", EN.title)}

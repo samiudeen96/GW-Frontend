@@ -60,6 +60,7 @@ const jsonLd = entry
 ) : (
   <SiteLayout
     title={`${eName} — ${t("ing.meta.titleSuffix", "Ingredient Guide | Green Wealth")}`}
+    ogTitle={`${eName} — ${t("ing.meta.ogSuffix", "Ingredient Guide")}`}
     description={desc}
     path={path}
     image={entry.image ? imageUrl(entry.image) : undefined}

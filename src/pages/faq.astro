@@ -25,6 +25,9 @@ const EN = {
   seoTitle: "FAQ — Green Wealth Neo Hair Lotion, Shampoo, Derma Roller & Rosemary Oil",
   seoDescription:
     "Answers on Neo Hair Lotion, Neo Hair Shampoo, Derma Roller and Rosemary Oil — ingredients, use, results timeline, safety, authenticity and shipping.",
+  ogTitle: "Green Wealth FAQ — Neo Hair Lotion & More",
+  ogDescription:
+    "Straight answers on ingredients, results, safety and authenticity — for all Green Wealth products.",
 };
 
 const monthLabel = new Date().toLocaleString(locale === "ar" ? "ar" : "en-US", {
@@ -67,16 +70,13 @@ const jsonLd = [
 <SiteLayout
   title={t("faq.seo.title", EN.seoTitle)}
   description={t("faq.seo.description", EN.seoDescription)}
+  ogTitle={t("faq.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("faq.seo.ogDescription", EN.ogDescription)}
   path="/faq"
+  robots="index, follow, max-snippet:-1, max-image-preview:large"
   image={productLotion.src}
   jsonLd={jsonLd}
 >
-  <meta
-    slot="head"
-    name="robots"
-    content="index, follow, max-snippet:-1, max-image-preview:large"
-  />
-
   <PageHeader
     eyebrow={t("faq.hero.eyebrow", EN.eyebrow).replace("{month}", monthLabel)}
     title={t("faq.hero.title", EN.title)}

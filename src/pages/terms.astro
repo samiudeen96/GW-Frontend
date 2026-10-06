@@ -17,6 +17,9 @@ const EN = {
   seoTitle: "Terms of Service — Green Wealth",
   seoDescription:
     "Full terms and conditions for using greenwealth.com and purchasing Green Wealth products: orders, payment, accounts, delivery, liability, intellectual property and governing law.",
+  ogTitle: "Terms of Service — Green Wealth",
+  ogDescription:
+    "Detailed terms and conditions for using greenwealth.com, operated by Ghori Trading LLC.",
 };
 
 const sections = translateLegalSections(t, "terms", termsSections);
@@ -31,10 +34,12 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.terms.seo.title", EN.seoTitle)}
   description={t("legal.terms.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.terms.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.terms.seo.ogDescription", EN.ogDescription)}
   path="/terms"
+  noindex
   jsonLd={jsonLd}
 >
-  <meta slot="head" name="robots" content="noindex, follow" />
   <PageHeader
     eyebrow={t("legal.terms.eyebrow", EN.eyebrow)}
     title={t("legal.terms.title", EN.title)}

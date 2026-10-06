@@ -156,7 +156,18 @@ const FAQ = [
 ];
 ---
 
-<SiteLayout title={title} description={description} path="/contact" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={ar ? "تواصل مع جرين ولث" : "Contact Green Wealth"}
+  ogDescription={
+    ar
+      ? "تحدّث مع فريق دعم جرين ولث الرسمي. المقر الرئيسي في دبي، الإمارات العربية المتحدة. متاح عبر واتساب والبريد الإلكتروني والهاتف."
+      : "Talk to the official Green Wealth support team. Head office in Dubai, UAE. WhatsApp, email and phone available."
+  }
+  path="/contact"
+  jsonLd={jsonLd}
+>
   {/* Hero */}
   <section class="bg-forest text-ivory">
     <div class="container-editorial py-20 text-center md:py-28">

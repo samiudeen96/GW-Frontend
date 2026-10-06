@@ -22,7 +22,17 @@ const jsonLd = [
 ];
 ---
 
-<SiteLayout title={title} description={description} path="/track-order" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogDescription={
+    isAr
+      ? "تحقّق من الحالة اللحظية لطلبك من Green Wealth باستخدام رقم الطلب مع البريد الإلكتروني أو الهاتف."
+      : "Check the live status of your Green Wealth order with your order number and email or phone."
+  }
+  path="/track-order"
+  jsonLd={jsonLd}
+>
   <PageHeader
     eyebrow={t("commerce.trackOrder.eyebrow", "Orders")}
     title={t("commerce.trackOrder.title", "Track your order.")}

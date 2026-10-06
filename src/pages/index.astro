@@ -35,6 +35,14 @@ const description =
   locale === "ar"
     ? "اشترِ لوشن نيو للشعر الأصلي بمستخلص الجينسنغ والسو بالميتو. بخاخ نباتي لإنبات الشعر من جرين ولث. أصالة موثقة وتوصيل لجميع أنحاء العالم."
     : "Buy original Neo Hair Lotion with Ginseng & Saw Palmetto. Botanical hair regrowth spray by Green Wealth. Verified authentic, worldwide delivery.";
+const ogTitle =
+  locale === "ar"
+    ? "لوشن نيو للشعر — الأصلي من جرين ولث"
+    : "Neo Hair Lotion — Original by Green Wealth";
+const ogDescription =
+  locale === "ar"
+    ? "لوشن نيو للشعر الأصلي من جرين ولث — بخاخ نباتي للشعر بمستخلص الجينسنغ والسو بالميتو. تم التحقق من الأصالة عبر الكود، والشحن لجميع أنحاء العالم."
+    : "Original Neo Hair Lotion by Green Wealth — botanical hair spray with Ginseng & Saw Palmetto. Scratch-code verified, shipped worldwide.";
 
 const productLd = products.map((p) => {
   const stat = productStats.find((s) => s.slug === p.slug);
@@ -68,7 +76,15 @@ const productLd = products.map((p) => {
 });
 ---
 
-<SiteLayout title={title} description={description} path="/" type="website" jsonLd={productLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  path="/"
+  type="website"
+  jsonLd={productLd}
+>
   <Fragment slot="head">
     {/* LCP: preload the first banner for the art direction that will render. */}
     <link

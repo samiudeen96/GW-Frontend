@@ -17,6 +17,9 @@ const EN = {
   seoTitle: "Refund Policy — Green Wealth",
   seoDescription:
     "Our detailed 7-day return and refund policy: eligibility, how to start a return, shipping costs, inspection, refund timing, exceptions and authenticity claims.",
+  ogTitle: "Refund Policy — Green Wealth",
+  ogDescription:
+    "7-day return window, refund method and timing, non-returnable items, damage claims and cancellations for greenwealth.com orders.",
 };
 
 const sections = translateLegalSections(t, "refund", refundSections);
@@ -31,10 +34,12 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.refund.seo.title", EN.seoTitle)}
   description={t("legal.refund.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.refund.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.refund.seo.ogDescription", EN.ogDescription)}
   path="/refund-policy"
+  noindex
   jsonLd={jsonLd}
 >
-  <meta slot="head" name="robots" content="noindex, follow" />
   <PageHeader
     eyebrow={t("legal.refund.eyebrow", EN.eyebrow)}
     title={t("legal.refund.title", EN.title)}

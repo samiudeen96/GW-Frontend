@@ -16,8 +16,18 @@ Status: ✅ done · 🚧 in progress · ⏸ waiting on input
 | 5   | Layouts & common components                    | ✅                                       |
 | 6   | Pages                                          | ✅ all pages ported (local data)         |
 | 7   | i18n from API                                  | ⏸                                        |
-| 8   | Remove dead code                               | ⏸                                        |
+| 8   | Remove dead code                               | ✅                                       |
 | 9   | Deploy                                         | ⏸ waiting on server details              |
+
+---
+
+## 2026-10-06 — Phase 8: Cleanup & social tags ✅
+
+- Wired the legacy `og:title` / `og:description` / `robots` onto every page that had separate social copy (home, shop, product, about, contact, faq, reviews, how-to-use, legal pages, blog, ingredients, hair science, verify, track-order, cart, checkout, account, ...). Verified in the rendered HTML (EN + AR). `cart` = `noindex`; checkout/confirmation/account/legal = `noindex, follow`; FAQ = `index, follow, max-snippet…`.
+- Wholesale form now shows "not connected yet" (new `src/lib/api/wholesale.ts` placeholder) instead of a false "Application received".
+- Product page audited section by section against the old page (all sections, 330 translation keys, JSON-LD, 4 products + Arabic render): only the og tags were missing, now fixed. Left out on purpose: the "Voices" block that loaded reviews from Supabase (needs the API) and an unused slider that the old site never rendered.
+- Deleted `legacy/` and its ESLint/Prettier/tsconfig exclusions. The old React version stays in git history on `main` (`111b1d5`).
+- Re-verified: ESLint, Prettier, build, and all key routes (200); type check run on the final tree.
 
 ---
 

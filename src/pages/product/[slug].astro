@@ -163,6 +163,8 @@ const quickItems: Record<string, QuickViewItem> = Object.fromEntries(
 <SiteLayout
   title={`${pName} — ${brand}`}
   description={metaDescription(pOverview || pTagline || "")}
+  ogTitle={`${pName} — ${brand}`}
+  ogDescription={pTagline || undefined}
   path={path}
   type="product"
   image={ogImage}

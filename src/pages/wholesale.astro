@@ -149,6 +149,12 @@ const selectPlaceholder = t("misc.wholesale.select.placeholder", "Select…");
       class="hairline bg-paper border p-6 md:p-8"
       data-submitted-label={t("misc.wholesale.form.submitted", "Application received")}
     >
+      <div
+        id="wholesale-error"
+        role="alert"
+        hidden
+        class="mb-6 border border-red-700/40 bg-red-50 p-4 text-sm text-red-800"
+      ></div>
       <fieldset class="grid gap-5 md:grid-cols-2">
         <legend class="eyebrow text-forest/60 col-span-full mb-4">
           {t("misc.wholesale.legend.company", "Company details")}
@@ -244,14 +250,41 @@ const selectPlaceholder = t("misc.wholesale.select.placeholder", "Select…");
 </SiteLayout>
 
 <script>
-  // Same as the legacy page: the application is not sent anywhere yet, the
-  // button just confirms receipt. TODO(api): submit to the wholesale endpoint.
+  import { submitWholesaleApplication } from "@/lib/api/wholesale";
+
   const form = document.querySelector<HTMLFormElement>("#wholesale-form");
-  form?.addEventListener("submit", (e) => {
+  const errorBox = document.querySelector<HTMLElement>("#wholesale-error");
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
     if (!button) return;
+    const label = button.textContent;
     button.disabled = true;
-    button.textContent = form.dataset.submittedLabel ?? button.textContent;
+    if (errorBox) errorBox.hidden = true;
+
+    const data = new FormData(form);
+    const field = (name: string) => String(data.get(name) ?? "");
+    const result = await submitWholesaleApplication({
+      name: field("name"),
+      company: field("company"),
+      email: field("email"),
+      phone: field("phone"),
+      country: field("country"),
+      website: field("website"),
+      tier: field("tier"),
+      volume: field("volume"),
+      channels: field("channels"),
+      message: field("message"),
+    });
+
+    if (result.ok) {
+      button.textContent = form.dataset.submittedLabel ?? label;
+      return;
+    }
+    button.disabled = false;
+    if (errorBox) {
+      errorBox.textContent = result.error;
+      errorBox.hidden = false;
+    }
   });
 </script>

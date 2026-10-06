@@ -187,7 +187,13 @@ const regions = [
 ];
 ---
 
-<SiteLayout title={title} description={description} path="/about" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={ar ? "عن جرين ولث" : "About Green Wealth"}
+  path="/about"
+  jsonLd={jsonLd}
+>
   {/* Hero */}
   <section class="bg-forest text-ivory">
     <div class="container-editorial py-20 text-center md:py-32">

@@ -2,6 +2,17 @@
 
 Goal: rebuild GW-Frontend in **Astro** (v7) as a frontend-only app. All content (products, banners, images, blogs, reviews, translations) comes from the backend API, which also handles auth. Pages render on the server, components are reusable, the layout is responsive, and all backend code is removed.
 
+## Current status (2026-10-06)
+
+Phases 0–3, 5, 6 and 8 are done: every page is ported to Astro with local content behind `src/lib/api/`, and the old React code is deleted. Outstanding:
+
+- **Phase 4 – real API**: replace the `TODO(api)` placeholders in `src/lib/api/` (catalog reads, verify, orders/track, payments, auth/account/profile, contact, newsletter, wholesale, review submit) once the Swagger/Postman spec is available. Review photos and the authenticity sticker crop also need supplying.
+- **Phase 7 – i18n from API**: the Arabic dictionary is still local (`src/lib/i18n/ar`).
+- **Phase 9 – deploy**: method and Node version on the server still to be decided (`npm run build` → `node dist/server/entry.mjs`, Node ≥ 22.12).
+- Visual review of every page against the old site.
+
+The structure section below shows the original target; `CLAUDE.md` has the current layout.
+
 ## Decisions
 
 | Topic                  | Decision                                                                                                |

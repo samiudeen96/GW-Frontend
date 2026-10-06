@@ -17,6 +17,9 @@ const EN = {
   seoTitle: "Shipping Policy — Green Wealth",
   seoDescription:
     "Green Wealth shipping costs, dispatch and transit times, tracking, customs duties, damaged or lost parcel claims, and the return process for orders worldwide.",
+  ogTitle: "Shipping Policy — Green Wealth",
+  ogDescription:
+    "Dispatch times, delivery estimates, tracking, duties and taxes, damage and loss claims for greenwealth.com orders.",
 };
 
 const sections = translateLegalSections(t, "shipping", shippingSections);
@@ -31,10 +34,12 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.shipping.seo.title", EN.seoTitle)}
   description={t("legal.shipping.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.shipping.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.shipping.seo.ogDescription", EN.ogDescription)}
   path="/shipping-returns"
+  noindex
   jsonLd={jsonLd}
 >
-  <meta slot="head" name="robots" content="noindex, follow" />
   <PageHeader
     eyebrow={t("legal.shipping.eyebrow", EN.eyebrow)}
     title={t("legal.shipping.title", EN.title)}

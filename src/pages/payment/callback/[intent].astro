@@ -14,7 +14,7 @@ const intent = Astro.params.intent ?? "";
   title="Payment status — Green Wealth"
   description="Confirming your Green Wealth payment."
   path="/payment/callback"
-  noindex
+  robots="noindex, nofollow"
 >
   <PageHeader
     eyebrow={t("commerce.payment.eyebrow", "Secure Payment")}

@@ -18,7 +18,7 @@ const order = Astro.url.searchParams.get("order");
       : "Thank you for your Green Wealth order. Your Neo Hair Lotion is on its way."
   }
   path="/order-confirmation"
-  noindex
+  robots="noindex, follow"
 >
   <PageHeader
     eyebrow={t("commerce.confirmation.eyebrow", "Thank you")}

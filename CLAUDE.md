@@ -6,7 +6,7 @@ Guidance for Claude Code (and developers) working in this repo.
 
 GW-Frontend is the storefront for Green Wealth hair-care products, built with **Astro 7** as a **frontend-only** app. The backend is a separate service that will provide data and handle auth; until it is connected, content comes from local files in `src/data/` behind the `src/lib/api/` layer.
 
-`legacy/` holds the old TanStack/React code **for reference only** while pages are ported. It is excluded from the build, type check and lint. Never import from it; it is deleted once every page is ported.
+The old TanStack/React version is preserved on the `main` branch (commit `111b1d5`) if you need to look at how something used to work.
 
 - Roadmap and decisions: [PLAN.md](PLAN.md)
 - Progress and change history: [LOG.md](LOG.md)

@@ -64,6 +64,9 @@ const EN = {
   seoTitle: "Legal Notice — Green Wealth | Ghori Trading LLC",
   seoDescription:
     "Legal notice, intellectual property, trademark, copyright, anti-counterfeiting enforcement, and data protection for greenwealth.com.",
+  ogTitle: "Legal Notice — Green Wealth",
+  ogDescription:
+    "Intellectual property, trademark, copyright, and data protection information for greenwealth.com.",
   hubHeading: "Related Legal Pages",
   tocHeading: "On this page",
   bodyIntro:
@@ -104,11 +107,12 @@ const jsonLd = [
 <SiteLayout
   title={t("legal.notice.seo.title", EN.seoTitle)}
   description={t("legal.notice.seo.description", EN.seoDescription)}
+  ogTitle={t("legal.notice.seo.ogTitle", EN.ogTitle)}
+  ogDescription={t("legal.notice.seo.ogDescription", EN.ogDescription)}
   path="/legal"
+  noindex
   jsonLd={jsonLd}
 >
-  <meta slot="head" name="robots" content="noindex, follow" />
-
   <PageHeader
     eyebrow={t("legal.notice.eyebrow", EN.eyebrow)}
     title={t("legal.notice.title", EN.title)}

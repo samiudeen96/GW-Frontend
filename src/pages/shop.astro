@@ -46,6 +46,10 @@ const title = isAr
 const description = isAr
   ? "المجموعة الكاملة من جرين ولث وغوري: لوشن نيو للشعر، شامبو نيو للشعر، زيت إكليل الجبل والديرمارولر. ابنِ روتينك، قارن، واطلب مع ضمان أصالة موثق."
   : "The full Green Wealth & Ghori collection: Neo Hair Lotion, Neo Hair Shampoo, Rosemary Oil and Dermaroller — verified authentic, shipped worldwide.";
+const ogTitle = isAr ? "المتجر — جرين ولث" : "Shop — Green Wealth";
+const ogDescription = isAr
+  ? "أربعة أساسيات نباتية. بروتوكول واحد. توصيل عالمي من موزع معتمد."
+  : "Four botanical essentials. One protocol. Worldwide delivery from authorized distribution.";
 
 const jsonLd = [
   {
@@ -66,7 +70,14 @@ const jsonLd = [
 ];
 ---
 
-<SiteLayout title={title} description={description} path="/shop" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  path="/shop"
+  jsonLd={jsonLd}
+>
   {/* Editorial hero */}
   <header class="container-editorial pt-20 pb-16 text-center md:pt-32 md:pb-24">
     <div class="eyebrow mb-8">{t("shop.hero.eyebrowPrefix", "The Green Wealth collection")}</div>

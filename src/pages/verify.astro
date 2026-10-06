@@ -281,7 +281,22 @@ const stickerAlt = t(
 );
 ---
 
-<SiteLayout title={title} description={description} path="/verify" jsonLd={jsonLd}>
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle={
+    isAr
+      ? "تحقّق من أصالة لوشن نيو للشعر الأصلي | جرين ولث"
+      : "Verify Original Neo Hair Lotion | Green Wealth"
+  }
+  ogDescription={
+    isAr
+      ? "أدخل رمز الخدش الخاص بمنتج لوشن نيو للشعر للتأكد من أن منتجك من جرين ولث أصلي وسارٍ ومن مصدر معتمد."
+      : "Enter your Neo Hair Lotion scratch code to confirm your Green Wealth product is genuine, in date, and from an authorized source."
+  }
+  path="/verify"
+  jsonLd={jsonLd}
+>
   <PageHeader
     eyebrow={t("verify.page.eyebrow", "Authenticity Check")}
     title={t("verify.page.title", "Verify your original Neo Hair Lotion online.")}

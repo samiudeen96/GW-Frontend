@@ -19,7 +19,7 @@ const imageTitles = Object.fromEntries(
 const title = locale === "ar" ? "حقيبتك — Green Wealth" : "Your Bag — Green Wealth";
 ---
 
-<SiteLayout title={title} path="/cart" noindex>
+<SiteLayout title={title} path="/cart" robots="noindex">
   <CartView
     client:load
     catalog={catalog}
